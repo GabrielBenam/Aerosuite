@@ -18,11 +18,21 @@ def main() -> None:
     select.add_argument("--max-thickness", type=float, default=.18)
     select.add_argument("--max-camber", type=float, default=.05)
     select.add_argument("--out", type=Path, default=Path("results/shortlist.json"))
+    comp = sub.add_parser("compare", help="Compare existing verified polar CSVs")
+    comp.add_argument("profiles", nargs="+")
+    comp.add_argument("--polars", type=Path, required=True)
+    comp.add_argument("--out", type=Path, default=Path("results/comparison"))
+    comp.add_argument("--uiuc-zip", type=Path)
+    comp.add_argument("--no-charts", action="store_true")
     args = parser.parse_args()
     if args.command == "generate":
         write_csv(args.code, args.out/f"naca{args.code}.csv", args.points)
         write_dat(args.code, args.out/f"naca{args.code}.dat", args.points)
         print(f"Generated NACA {args.code}: {args.out.resolve()}")
+    elif args.command == "compare":
+        from .batch_compare import Comparison, compare
+        result = compare(Comparison(tuple(args.profiles), args.polars, args.out, args.uiuc_zip), charts=not args.no_charts)
+        print(json.dumps(result, indent=2))
     else:
         req = Requirements(args.min_thickness, args.max_thickness, args.max_camber)
         result = {"analysis_type":"GEOMETRY_CONSTRAINTS_ONLY", "requirements":vars(req), "results":evaluate_naca4(args.codes,req)}
