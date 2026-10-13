@@ -1,0 +1,28 @@
+name: AeroSuite integration source package
+on:
+  push:
+    branches:
+      - feat/airfoil-end-to-end
+  workflow_dispatch:
+jobs:
+  verified-source:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Build source archive
+        shell: pwsh
+        run: |
+          git archive --format=zip --output=AeroSuite-integration-source.zip HEAD
+          if (-not (Test-Path AeroSuite-integration-source.zip)) { throw 'Package creation failed' }
+      - name: Publish artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AeroSuite-integration-source
+          path: AeroSuite-integration-source.zip
+          if-no-files-found: error
+          retention-days: 30
