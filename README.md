@@ -2,17 +2,29 @@
 
 Suite modular de diseño y análisis aeronáutico en fase inicial.
 
-## Estado
-Se ha creado la estructura documental del proyecto. **Todavía no se ha integrado ni compilado flow5 y no existen resultados aerodinámicos verificados.**
+## Implementado (prototipo Python)
+- Generador geométrico de perfiles NACA de cuatro dígitos.
+- Exportación de coordenadas normalizadas a CSV y DAT.
+- Preselección de perfiles únicamente por criterios geométricos.
+- Cinco pruebas unitarias y workflow de GitHub Actions.
 
-## Referencia técnica
-- flow5 v7.57: https://github.com/techwinder/flow5/tree/v7.57
-- Ejemplo de API: https://github.com/techwinder/flow5/tree/v7.57/API_examples/XFoilBatchRun
+**No se ha integrado ni compilado flow5. No hay cálculos aerodinámicos reales en esta versión.**
 
-## Próximos pasos
-1. Incorporar el prototipo independiente AeroSuite Starter v0.1.0 (generación NACA y filtros geométricos).
-2. Ejecutar las pruebas unitarias y configurar CI.
-3. Compilar upstream flow5 en Windows.
-4. Diseñar e implementar adaptador para análisis automáticos de perfiles.
+## Primeros comandos
 
-Consulta docs/ROADMAP.md, docs/FLOW5-INTEGRATION.md y docs/CLAUDE-HANDOFF.md.
+Requiere Python 3.10+.
+
+```powershell
+python -m unittest discover -s tests -v
+python -m aerosuite generate 2412 --out results
+python -m aerosuite shortlist 0012 2412 4415 0020 --min-thickness 0.10 --max-thickness 0.18 --max-camber 0.04
+```
+
+## Motor upstream
+- [flow5 v7.57](https://github.com/techwinder/flow5/tree/v7.57)
+- [Ejemplo XFoilBatchRun](https://github.com/techwinder/flow5/tree/v7.57/API_examples/XFoilBatchRun)
+
+Consultar [roadmap](docs/ROADMAP.md), [integración con flow5](docs/FLOW5-INTEGRATION.md) y [transferencia a Claude](docs/CLAUDE-HANDOFF.md).
+
+## Licencias
+Este repositorio no incorpora código fuente de flow5. Al vincular sus bibliotecas o redistribuir derivados, evaluar las obligaciones de la GPLv3 y las licencias de otros componentes antes de publicar.
