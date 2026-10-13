@@ -1,0 +1,32 @@
+name: AeroSuite downloadable source ZIP
+
+on:
+  push:
+    branches:
+      - feat/flow5-batch-adapter
+  workflow_dispatch:
+
+jobs:
+  package-source:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout AeroSuite
+        uses: actions/checkout@v4
+      - name: Configure Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test Python modules
+        run: python -m unittest discover -s tests -v
+      - name: Package repository source
+        shell: pwsh
+        run: |
+          git archive --format=zip --output=AeroSuite-source-v0.2.0.zip HEAD
+          if (-not (Test-Path AeroSuite-source-v0.2.0.zip)) { throw 'Package not created' }
+      - name: Publish downloadable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: AeroSuite-source-v0.2.0
+          path: AeroSuite-source-v0.2.0.zip
+          if-no-files-found: error
+          retention-days: 30
