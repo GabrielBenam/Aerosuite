@@ -1,3 +1,5 @@
+> **Histórico (2026-10-14):** sustituido por `CLAUDE_HANDOFF.md` en la raíz del proyecto. Se conserva como registro.
+
 # AeroSuite — traspaso de motores originales a Claude Cowork
 
 ## Objetivo

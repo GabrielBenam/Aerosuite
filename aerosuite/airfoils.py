@@ -8,11 +8,22 @@ def naca4(code: str, n: int = 81, closed_te: bool = True) -> list[tuple[float, f
     """Puntos TE superior -> LE -> TE inferior; 2*n-1 coordenadas normalizadas."""
     if len(code) != 4 or not code.isascii() or not code.isdigit():
         raise ValueError("NACA code must contain exactly four ASCII digits")
-    if n < 5:
-        raise ValueError("n must be >= 5")
     m, p, t = int(code[0]) / 100, int(code[1]) / 10, int(code[2:]) / 100
     if (m == 0 and p != 0) or (m > 0 and p == 0) or t <= 0:
         raise ValueError("Invalid NACA designation")
+    return naca4_mpt(m, p, t, n, closed_te)
+
+
+def naca4_mpt(m: float, p: float, t: float, n: int = 81, closed_te: bool = True) -> list[tuple[float, float]]:
+    """NACA 4-digit family with continuous parameters (max camber m, its position p, thickness t; fractions of chord).
+
+    Same thickness and camber-line equations as naca4(); used by the 2D optimizer so that
+    m, p, t can vary continuously. Reference: Sobester & Forrester, Ch. 6 (NACA four-digit section).
+    """
+    if n < 5:
+        raise ValueError("n must be >= 5")
+    if not (0 <= m < 0.2 and 0 < t < 0.5) or (m > 0 and not 0 < p < 1):
+        raise ValueError("Invalid NACA parameters")
     upper, lower = [], []
     a4 = -0.1036 if closed_te else -0.1015
     for i in range(n):
@@ -30,6 +41,7 @@ def naca4(code: str, n: int = 81, closed_te: bool = True) -> list[tuple[float, f
         upper.append((x-yt*math.sin(theta), yc+yt*math.cos(theta)))
         lower.append((x+yt*math.sin(theta), yc-yt*math.cos(theta)))
     return list(reversed(upper)) + lower[1:]
+
 
 def write_csv(code: str, output: Path, n: int = 81) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)

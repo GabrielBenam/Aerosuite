@@ -1,3 +1,5 @@
+> **Histórico (2026-10-14):** sustituido por `CLAUDE_HANDOFF.md` en la raíz del proyecto. Se conserva como registro.
+
 # Transferencia a Claude Cowork
 
 Proyecto: AeroSuite, repositorio privado GabrielBenam/Aerosuite. Objetivo: suite aeronáutica modular apoyada en flow5 v7.57.

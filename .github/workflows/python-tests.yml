@@ -2,13 +2,53 @@ name: AeroSuite Python tests
 on:
   push:
   pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   unittest:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
+      - name: Install pinned scientific stack and the unmodified ADRpy submodule
+        shell: pwsh
+        run: |
+          python -m pip install -r requirements-core.txt
+          if ($LASTEXITCODE -ne 0) { throw 'requirements-core failed' }
+          if (Test-Path vendor/ADRpy/setup.py) {
+            python -m pip install --no-deps ./vendor/ADRpy
+            if ($LASTEXITCODE -ne 0) { throw 'ADRpy install failed' }
+          } else { Write-Host 'ADRpy submodule missing: ADRpy tests will be skipped' }
+      - name: Download MIT XFOIL 6.99 for the real-solver test
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          $zip = Join-Path $env:RUNNER_TEMP 'XFOIL6.99.zip'
+          Invoke-WebRequest -Uri 'https://web.mit.edu/drela/Public/web/xfoil/XFOIL6.99.zip' -OutFile $zip
+          Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $env:RUNNER_TEMP 'xfoil') -Force
+          $exe = Get-ChildItem (Join-Path $env:RUNNER_TEMP 'xfoil') -Recurse -Filter xfoil.exe | Select-Object -First 1
+          if ($exe) { "AEROSUITE_XFOIL=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8 }
+      - name: Unit, integration and validation tests
+        shell: pwsh
+        run: |
+          python -m unittest discover -s tests -v
+          if ($LASTEXITCODE -ne 0) { throw 'tests failed' }
+          python -m aerosuite status
+          python -m aerosuite validate --out results/validation.json
+          if ($LASTEXITCODE -ne 0) { throw 'validation failed' }
+      - name: Publish validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aerosuite-validation
+          path: results/
+          if-no-files-found: warn
+          retention-days: 14

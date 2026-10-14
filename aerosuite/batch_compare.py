@@ -20,8 +20,9 @@ class Comparison:
     polars_dir: Path
     output_dir: Path
     uiuc_zip: Path | None = None
+    allow_partial: bool = False
 
-def _conditions(path: Path) -> dict:
+def _conditions(path: Path, allow_partial: bool = False) -> dict:
     metadata = json.loads(path.read_text(encoding="utf-8"))
     missing = [key for key in REQUIRED_CONDITIONS if key not in metadata]
     if missing:
@@ -36,8 +37,9 @@ def _conditions(path: Path) -> dict:
         raise ValueError(f"{path}: invalid transition location")
     if metadata["ncrit"] <= 0:
         raise ValueError(f"{path}: invalid Ncrit")
-    if metadata.get("converged") is False:
-        raise ValueError(f"{path}: solver indicates nonconvergence")
+    if metadata.get("converged") is False and not allow_partial:
+        raise ValueError(f"{path}: incomplete sweep (missing_alpha={metadata.get('missing_alpha')}); "
+                         "rerun or use --allow-partial to compare only converged points")
     return metadata
 
 def compare(job: Comparison, charts: bool = True) -> dict:
@@ -54,7 +56,7 @@ def compare(job: Comparison, charts: bool = True) -> dict:
     conditions = {}
     for ident in job.profiles:
         polars[ident] = read_polar_csv(job.polars_dir / f"{ident}.csv")
-        conditions[ident] = _conditions(job.polars_dir / f"{ident}.json")
+        conditions[ident] = _conditions(job.polars_dir / f"{ident}.json", job.allow_partial)
     signature = tuple(conditions[job.profiles[0]][k] for k in REQUIRED_CONDITIONS)
     for ident in job.profiles[1:]:
         if tuple(conditions[ident][k] for k in REQUIRED_CONDITIONS) != signature:
@@ -66,7 +68,15 @@ def compare(job: Comparison, charts: bool = True) -> dict:
             metrics.append({"profile": ident, "best_ld": None, "alpha_at_best_ld": None, "num_points": len(rows)})
             continue
         best = max(positive, key=lambda r:r["cl"]/r["cd"])
-        metrics.append({"profile":ident,"best_ld":best["cl"]/best["cd"],"alpha_at_best_ld":best["alpha"],"num_points":len(rows)})
+        clmax = max(rows, key=lambda r:r["cl"])
+        cdmin = min(rows, key=lambda r:r["cd"])
+        metrics.append({"profile":ident,"best_ld":best["cl"]/best["cd"],"alpha_at_best_ld":best["alpha"],
+                        "cl_at_best_ld":best["cl"],"cm_at_best_ld":best["cm"],
+                        "cl_max_observed":clmax["cl"],"alpha_at_cl_max_observed":clmax["alpha"],
+                        "cd_min_observed":cdmin["cd"],"alpha_at_cd_min_observed":cdmin["alpha"],
+                        "num_points":len(rows),
+                        "missing_alpha":conditions[ident].get("missing_alpha",[]),
+                        "cl_max_is_bounded_by_sweep": clmax["alpha"] >= max(r["alpha"] for r in rows)})
     metrics.sort(key=lambda item: (item["best_ld"] is None, -(item["best_ld"] or 0), item["profile"]))
     # Create no output until validation completed.
     job.output_dir.mkdir(parents=True, exist_ok=True)
@@ -80,6 +90,8 @@ def compare(job: Comparison, charts: bool = True) -> dict:
             plot_geometry([library[key.lower()] for key in job.profiles], job.output_dir / "plots" / "geometry.png")
     result = {"status":"COMPARISON_OF_SUPPLIED_POLARS","conditions":dict(zip(REQUIRED_CONDITIONS,signature)),
               "ranking_scope":"highest CL/CD over sampled positive-lift points only; not validated design selection",
+              "partial_sweeps_allowed":job.allow_partial,
+              "observed_values_note":"cl_max/cd_min are the extremes among converged sampled points, not interpolated true maxima; if cl_max_is_bounded_by_sweep is true, stall was not reached in the sweep",
               "ranking":metrics,"provenance":{ident:{"polar":str((job.polars_dir / f"{ident}.csv").resolve()),
                                                 "metadata":str((job.polars_dir / f"{ident}.json").resolve()),
                                                 "solver":conditions[ident].get("solver","unspecified")}

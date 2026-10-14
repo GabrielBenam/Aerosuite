@@ -1,0 +1,18 @@
+{
+  "name": "2D: NACA 4-digit section of maximum L/D at Re 3e6 (XFOIL)",
+  "notes": ["Example limits chosen by the user of AeroSuite, not derived from a mission: t/c >= 0.12 (spar depth) and Cm at best L/D >= -0.08 (trim drag).",
+            "Objective and constraints use only converged XFOIL points; incomplete sweeps are counted as failed evaluations."],
+  "level": "aero2d",
+  "engine": "xfoil",
+  "base": {"reynolds": 3000000, "mach": 0.15, "ncrit": 9, "alpha_start": -2, "alpha_end": 10, "alpha_step": 1,
+           "iterations": 200, "from_zero": true},
+  "variables": [{"name": "m", "lower": 0.0, "upper": 0.05},
+                {"name": "p", "lower": 0.2, "upper": 0.6},
+                {"name": "t", "lower": 0.10, "upper": 0.16}],
+  "objective": {"metric": "best_ld", "sense": "maximize"},
+  "constraints": [{"metric": "t", "type": ">=", "value": 0.12},
+                  {"metric": "cm_at_best_ld", "type": ">=", "value": -0.08}],
+  "method": "differential_evolution",
+  "settings": {"seed": 7, "maxiter": 6, "popsize": 4, "tol": 1e-4, "polish": false},
+  "ranking": {"top": 10}
+}
