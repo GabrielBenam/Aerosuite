@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import queue
 import threading
+import uuid
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
