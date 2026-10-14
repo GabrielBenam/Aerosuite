@@ -98,7 +98,12 @@ def evaluate(doc: dict, ws: float, aspectratio: float | None = None) -> dict:
         raise ValueError("wingloading_pa must be positive")
     concept, _ = _aircraft(doc, aspectratio)
     methods=_constrained_methods(doc)
-    values={name:_tw(concept,method,ws) for name,method in methods.items()}
+    values = {}
+    for name, method in methods.items():
+        try:
+            values[name] = _tw(concept, method, ws)
+        except Exception as exc:
+            raise ValueError(f"ADRpy constraint {name}/{method} failed: {exc}") from exc
     return {"wingloading_pa":float(ws),
             "aspectratio":float(aspectratio if aspectratio is not None else doc["designdefinition"]["aspectratio"]),
             "required_tw":max(values.values()),"by_constraint":values}
