@@ -1,0 +1,46 @@
+{
+  "name": "Concepto demostrativo aeronave ligera",
+  "notes": "Solo ejemplo numérico; no validar aeronave con este archivo",
+  "designbrief": {
+    "rwyelevation_m": 1000,
+    "groundrun_m": 1200,
+    "cruisealt_m": 1500,
+    "cruisespeed_ktas": 105,
+    "climbalt_m": 500,
+    "climbspeed_kias": 80,
+    "climbrate_fpm": 500,
+    "vstallclean_kcas": 55
+  },
+  "designdefinition": {
+    "aspectratio": 8,
+    "bpr": -1,
+    "tr": 1.05
+  },
+  "designperformance": {
+    "CDTO": 0.04,
+    "CLTO": 0.9,
+    "CLmaxTO": 1.6,
+    "CDminclean": 0.03,
+    "mu_R": 0.02
+  },
+  "atmosphere": {
+    "offset_deg": 0
+  },
+  "wingloading_pa": {
+    "min": 500,
+    "max": 2600,
+    "samples": 36
+  },
+  "optimizer": {
+    "aspectratio": {
+      "min": 6,
+      "max": 12
+    },
+    "wingloading_pa": {
+      "min": 500,
+      "max": 2600
+    },
+    "seed": 42,
+    "maxiter": 40
+  }
+}
