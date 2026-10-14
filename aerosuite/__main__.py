@@ -64,6 +64,8 @@ def main() -> None:
             if not location_file.is_file():
                 raise SystemExit("Official flow5 not installed. Run scripts/setup-engines.ps1 or supply --exe.")
             exe = Path(location_file.read_text(encoding="utf-8-sig").strip())
+        if not exe.is_absolute():
+            exe = Path(__file__).resolve().parents[1] / exe
         if not exe.is_file():
             raise SystemExit(f"flow5.exe not found: {exe}")
         subprocess.Popen([str(exe.resolve())], cwd=exe.resolve().parent)
