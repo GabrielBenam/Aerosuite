@@ -30,7 +30,7 @@ jobs:
       - name: Build Windows EXE
         shell: pwsh
         run: |
-          python -m PyInstaller --noconfirm --clean --windowed --onedir --name AeroSuite-Airfoil-Lab --paths . aerosuite/desktop.py
+          python -m PyInstaller --noconfirm --clean --windowed --onedir --name AeroSuite-Airfoil-Lab --paths . airfoil_lab.py
           if ($LASTEXITCODE -ne 0) { throw "EXE packaging failed" }
           if (-not (Test-Path dist/AeroSuite-Airfoil-Lab/AeroSuite-Airfoil-Lab.exe)) { throw "EXE missing" }
       - name: Publish EXE package
