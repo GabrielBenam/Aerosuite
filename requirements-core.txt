@@ -1,5 +1,7 @@
-# Python 3.11 recommended. Pinned libraries for reproducible baseline.
-ADRpy==0.2.6
-scipy>=1.11,<2
+# Vendor ADRpy v0.2.6 via scripts/setup-engines.ps1 or checkout --recurse-submodules.
+# Install scientific dependencies separately to avoid ADRpy upstream developer tool packages.
 numpy>=1.26,<3
+scipy>=1.11,<2
+pandas>=2,<3
+cycler>=0.12,<1
 matplotlib>=3.8,<4
