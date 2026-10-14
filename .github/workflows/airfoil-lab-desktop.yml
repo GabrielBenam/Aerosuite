@@ -1,0 +1,84 @@
+name: AeroSuite Airfoil Lab Desktop
+on:
+  push:
+    branches:
+      - feat/airfoil-lab-desktop-v1
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install matplotlib Pillow pyinstaller
+          if ($LASTEXITCODE -ne 0) { throw "dependency installation failed" }
+      - name: Test modules
+        shell: pwsh
+        run: |
+          python -m unittest discover -s tests -v
+          if ($LASTEXITCODE -ne 0) { throw "unit tests failed" }
+          python -m compileall -q aerosuite
+          if ($LASTEXITCODE -ne 0) { throw "compile validation failed" }
+      - name: Build Windows EXE
+        shell: pwsh
+        run: |
+          python -m PyInstaller --noconfirm --clean --windowed --onedir --name AeroSuite-Airfoil-Lab --paths . aerosuite/desktop.py
+          if ($LASTEXITCODE -ne 0) { throw "EXE packaging failed" }
+          if (-not (Test-Path dist/AeroSuite-Airfoil-Lab/AeroSuite-Airfoil-Lab.exe)) { throw "EXE missing" }
+      - name: Publish EXE package
+        uses: actions/upload-artifact@v4
+        with:
+          name: AeroSuite-Airfoil-Lab-Windows
+          path: dist/AeroSuite-Airfoil-Lab/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Download real MIT XFOIL
+        shell: pwsh
+        run: |
+          $ProgressPreference = "SilentlyContinue"
+          $zip=Join-Path $env:RUNNER_TEMP "XFOIL6.99.zip"
+          $dir=Join-Path $env:RUNNER_TEMP "XFOIL6.99"
+          Invoke-WebRequest -Uri https://web.mit.edu/drela/Public/web/xfoil/XFOIL6.99.zip -OutFile $zip
+          Expand-Archive $zip $dir -Force
+          $exe=Get-ChildItem $dir -Recurse -File -Filter xfoil.exe | Select-Object -First 1
+          if (-not $exe) { throw "XFOIL not found" }
+          "XFOIL_EXE=$($exe.FullName)" >> $env:GITHUB_ENV
+      - name: Real NACA and UIUC batch smoke
+        shell: pwsh
+        run: |
+          @'
+          import os
+          from pathlib import Path
+          from aerosuite.airfoil_lab_core import BatchRequest,run_batch,download_uiuc,uiuc_ids
+          from aerosuite.xfoil_cli import XFoilCase
+          exe=Path(os.environ["XFOIL_EXE"])
+          r=run_batch(BatchRequest(("naca2412","naca0012"),None,exe,
+                      XFoilCase(alpha_start=-5,alpha_end=15,alpha_step=1),
+                      Path("results/naca"),workers=2))
+          print(r)
+          assert Path("results/naca/plots/geometry.png").is_file()
+          archive=download_uiuc()
+          assert {"ag03","ag04"}.issubset(set(uiuc_ids(archive)))
+          result=run_batch(BatchRequest(("ag03","ag04"),archive,exe,
+                           XFoilCase(reynolds=150000,alpha_start=-2,alpha_end=8,alpha_step=2),
+                           Path("results/uiuc"),workers=2))
+          print(result)
+          assert Path("results/uiuc/plots/geometry.png").is_file()
+          '@ | python -
+          if ($LASTEXITCODE -ne 0) { throw "batch smoke failed" }
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: AeroSuite-Airfoil-Lab-XFOIL-Results
+          path: results/
+          retention-days: 14
+          if-no-files-found: warn
