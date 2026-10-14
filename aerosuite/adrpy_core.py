@@ -120,7 +120,7 @@ def size(doc: dict) -> dict:
         except (ValueError,ArithmeticError,OverflowError,ZeroDivisionError) as exc:
             failures.append({"wingloading_pa":float(ws),"error":str(exc)})
     if not samples:
-        raise ValueError("No valid ADRpy evaluations found")
+        raise ValueError("No valid ADRpy evaluations found. First failures: "+str(failures[:3]))
     best=min(samples,key=lambda x:x["required_tw"])
     return {"engine":"ADRpy v0.2.6","analysis":"conceptual constraint sizing",
             "units":{"wingloading_pa":"N/m^2","required_tw":"dimensionless"},
