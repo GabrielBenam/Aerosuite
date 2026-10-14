@@ -1,0 +1,107 @@
+name: AeroSuite pristine upstream engines + ADRpy and optimizer
+on:
+  push:
+    branches:
+      - feat/upstream-engines-claude-handoff
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  python-core:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify complete unmodified upstream sources
+        shell: pwsh
+        run: |
+          if (-not (Test-Path vendor/flow5/flow5.pro)) { throw 'Flow5 source not checked out' }
+          if (-not (Test-Path vendor/ADRpy/ADRpy/constraintanalysis.py)) { throw 'ADRpy source not checked out' }
+          git submodule status
+      - name: Install source-based ADRpy and math dependencies
+        shell: pwsh
+        run: |
+          python -m pip install -r requirements-core.txt
+          if ($LASTEXITCODE -ne 0) { throw 'pip scientific requirements failed' }
+          python -m pip install --no-deps ./vendor/ADRpy
+          if ($LASTEXITCODE -ne 0) { throw 'ADRpy source package failed' }
+      - name: Run AeroSuite unit tests
+        shell: pwsh
+        run: |
+          python -m unittest discover -s tests -v
+          if ($LASTEXITCODE -ne 0) { throw 'unit tests failed' }
+      - name: Real ADRpy conceptual sizing and SciPy optimizer
+        shell: pwsh
+        run: |
+          python -m aerosuite status
+          if ($LASTEXITCODE -ne 0) { throw 'status failed' }
+          python -m aerosuite size --config examples/aircraft-concept.json --out results/adrpy-size.json
+          if ($LASTEXITCODE -ne 0) { throw 'ADRpy sizing failed' }
+          python -m aerosuite optimize --config examples/aircraft-concept.json --out results/adrpy-optimizer.json
+          if ($LASTEXITCODE -ne 0) { throw 'SciPy optimization failed' }
+          @'
+          import json
+          from pathlib import Path
+          size=json.loads(Path("results/adrpy-size.json").read_text())
+          opt=json.loads(Path("results/adrpy-optimizer.json").read_text())
+          assert len(size["samples"]) > 2
+          assert 0 < size["best_sample"]["required_tw"] < 50
+          assert 0 < opt["optimum"]["required_tw"] < 50
+          print("Verified real ADRpy calculations + SciPy optimization")
+          '@ | python -
+          if ($LASTEXITCODE -ne 0) { throw 'ADRpy output validation failed' }
+      - name: Upload numeric results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: AeroSuite-ADRpy-SciPy-results
+          path: results/
+          retention-days: 14
+          if-no-files-found: warn
+  package-pristine:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - name: Download official flow5 Windows release
+        shell: pwsh
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          $zip = Join-Path $env:RUNNER_TEMP 'flow5_v7.57_win64.zip'
+          Invoke-WebRequest -Uri 'https://github.com/techwinder/flow5/releases/download/v7.57/flow5_v7.57_win64.zip' -OutFile $zip
+          New-Item -ItemType Directory -Force -Path runtime/flow5 | Out-Null
+          Expand-Archive -LiteralPath $zip -DestinationPath runtime/flow5 -Force
+          $exe = Get-ChildItem runtime/flow5 -Recurse -File -Filter 'flow5.exe' | Select-Object -First 1
+          if (-not $exe) { throw 'Original flow5.exe was not found in upstream package' }
+          $exeName = $exe.FullName.Substring((Get-Location).Path.Length + 1)
+          [System.IO.File]::WriteAllText((Join-Path (Get-Location).Path 'runtime/flow5-location.txt'),$exeName,[System.Text.Encoding]::UTF8)
+          Write-Host "Official flow5 executable packaged: $exeName"
+      - name: Prepare complete source and native release bundle
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path bundle | Out-Null
+          foreach ($entry in @('aerosuite','vendor','scripts','docs','examples','integrations','tests','runtime','.github')) {
+            if (Test-Path $entry) { Copy-Item $entry -Destination bundle -Recurse -Force }
+          }
+          foreach ($name in @('README.md','requirements-core.txt','requirements-desktop.txt','airfoil_lab.py','.gitmodules')) {
+            if (Test-Path $name) { Copy-Item $name -Destination bundle -Force }
+          }
+          if (-not (Test-Path bundle/vendor/flow5/flow5.pro)) { throw 'Complete flow5 sources missing' }
+          if (-not (Test-Path bundle/vendor/ADRpy/LICENSE.md)) { throw 'ADRpy licence/source missing' }
+          Write-Host "Complete upstream source trees, attribution, and untouched flow5 Windows app included."
+      - name: Publish source + flow5 binary (with licenses)
+        uses: actions/upload-artifact@v4
+        with:
+          name: AeroSuite-Original-Engines-Source-And-Flow5-Windows
+          path: bundle/
+          retention-days: 30
+          if-no-files-found: error
