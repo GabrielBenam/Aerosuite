@@ -1,0 +1,28 @@
+name: AeroSuite real XFOIL integration source
+on:
+  push:
+    branches:
+      - feat/real-xfoil-uiuc-pipeline
+  workflow_dispatch:
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run Python tests
+        run: python -m unittest discover -s tests -v
+      - name: Create ZIP
+        shell: pwsh
+        run: |
+          git archive --format=zip --output=AeroSuite-XFOIL-integration-source.zip HEAD
+          if (-not (Test-Path AeroSuite-XFOIL-integration-source.zip)) { throw "ZIP not generated" }
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AeroSuite-XFOIL-integration-source
+          path: AeroSuite-XFOIL-integration-source.zip
+          if-no-files-found: error
+          retention-days: 30
