@@ -51,13 +51,21 @@ if (-not $SkipXFoil) {
 if (-not $SkipPython) {
     $python = $null
     $pyArgs = @()
-    if (Get-Command py -ErrorAction SilentlyContinue) {
-        & py -3.11 -c "import sys; print(sys.version)" 2>$null
-        if ($LASTEXITCODE -eq 0) { $python = "py"; $pyArgs = @("-3.11") }
-    }
-    if (-not $python -and (Get-Command python -ErrorAction SilentlyContinue)) {
-        & python -c "import sys; sys.exit(0 if (3, 10) <= sys.version_info[:2] <= (3, 12) else 1)" 2>$null
-        if ($LASTEXITCODE -eq 0) { $python = "python" }
+    # On Windows PowerShell 5.1, native stderr can be promoted to a terminating
+    # error under Stop even if the caller intends to check only LASTEXITCODE.
+    $priorPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        if (Get-Command py -ErrorAction SilentlyContinue) {
+            & py -3.11 -c "import sys; print(sys.version)" 2>$null
+            if ($LASTEXITCODE -eq 0) { $python = "py"; $pyArgs = @("-3.11") }
+        }
+        if (-not $python -and (Get-Command python -ErrorAction SilentlyContinue)) {
+            & python -c "import sys; sys.exit(0 if (3, 10) <= sys.version_info[:2] <= (3, 12) else 1)" 2>$null
+            if ($LASTEXITCODE -eq 0) { $python = "python" }
+        }
+    } finally {
+        $ErrorActionPreference = $priorPreference
     }
     if (-not $python) { throw "Install Python 3.11 from python.org (3.15 is not ADRpy validated) and rerun." }
     Write-Host "Creating isolated .venv for ADRpy, SciPy and NumPy..." -ForegroundColor Cyan
@@ -69,10 +77,9 @@ if (-not $SkipPython) {
     & $venvPython -m pip install -r requirements-core.txt pandas cycler
     if ($LASTEXITCODE -ne 0) { throw "Scientific Python dependencies failed to install" }
     $vendoredADRpy = Join-Path $root "vendor\ADRpy\setup.py"
-    if (Test-Path $vendoredADRpy) {
-        & $venvPython -m pip install --no-deps (Join-Path $root "vendor\ADRpy")
-        if ($LASTEXITCODE -ne 0) { throw "Pinned ADRpy local installation failed" }
-    }
+    if (-not (Test-Path $vendoredADRpy)) { throw "Complete ADRpy submodule missing; use recursive git clone or full GitHub Actions bundle." }
+    & $venvPython -m pip install --no-deps (Join-Path $root "vendor\ADRpy")
+    if ($LASTEXITCODE -ne 0) { throw "Pinned ADRpy local installation failed" }
     & $venvPython -m unittest discover -s tests -v
     if ($LASTEXITCODE -ne 0) { throw "AeroSuite Python unit tests failed" }
     & $venvPython -m aerosuite size --config examples\aircraft-concept.json --out results\conceptual-sizing.json
