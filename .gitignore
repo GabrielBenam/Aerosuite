@@ -10,3 +10,7 @@ results/
 .vs/
 .idea/
 *.user
+
+# Locally downloaded multi-GB vendor executables, caches, engine output
+runtime/
+*.zip

@@ -1,0 +1,6 @@
+[submodule "vendor/flow5"]
+	path = vendor/flow5
+	url = https://github.com/techwinder/flow5.git
+[submodule "vendor/ADRpy"]
+	path = vendor/ADRpy
+	url = https://github.com/sobester/ADRpy.git

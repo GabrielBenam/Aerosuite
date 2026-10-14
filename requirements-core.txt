@@ -1,0 +1,7 @@
+# ADRpy 0.2.6 is from 2024; NumPy 2 breaks its scalar-array assignments.
+# Pin NumPy 1.26 to retain the unmodified official upstream source.
+numpy==1.26.4
+scipy>=1.11,<1.15
+pandas>=2,<3
+cycler>=0.12,<1
+matplotlib>=3.8,<4
