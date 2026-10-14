@@ -23,12 +23,24 @@ Write-Host "AeroSuite demonstration: Python tests" -ForegroundColor Cyan
 if ($LASTEXITCODE -ne 0) { throw "Unit tests failed" }
 
 Write-Host "Checking matplotlib..." -ForegroundColor Cyan
-& $python @pythonArgs -c "import matplotlib" 2>$null
+# Check the package WITHOUT importing it: a missing import prints to stderr,
+# which Windows PowerShell 5.1 can treat as a terminating NativeCommandError.
+& $python @pythonArgs -c "import importlib.util, sys; sys.exit(0 if importlib.util.find_spec('matplotlib') else 1)"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Installing matplotlib (requires internet on first use)..." -ForegroundColor Yellow
-    & $python @pythonArgs -m pip install matplotlib
-    if ($LASTEXITCODE -ne 0) { throw "Could not install matplotlib" }
+    # pip may print diagnostics to stderr even during a successful install.
+    # Temporarily allow native diagnostics and assess the process exit code.
+    $savedPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        & $python @pythonArgs -m pip install --upgrade matplotlib
+        $installExitCode = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $savedPreference
+    }
+    if ($installExitCode -ne 0) { throw "Matplotlib install failed. Run python -m pip install -U matplotlib and review the error above." }
 }
+Write-Host "Matplotlib package found." -ForegroundColor Green
 
 Write-Host "Generating SYNTHETIC demonstration data..." -ForegroundColor Yellow
 $generator = @'
