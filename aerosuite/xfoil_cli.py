@@ -27,13 +27,19 @@ class XFoilCase:
     alpha_end: float = 8.0
     alpha_step: float = 2.0
     iterations: int = 150
+    xtr_top: float = 1.0
+    xtr_bottom: float = 1.0
+    from_zero: bool = False
 
     def validate(self) -> None:
-        numbers = (self.reynolds,self.mach,self.ncrit,self.alpha_start,self.alpha_end,self.alpha_step)
+        numbers = (self.reynolds,self.mach,self.ncrit,self.alpha_start,self.alpha_end,
+                   self.alpha_step,self.xtr_top,self.xtr_bottom)
         if not all(math.isfinite(x) for x in numbers):
             raise ValueError("Non-finite XFOIL operating condition")
         if self.reynolds <= 0 or not 0 <= self.mach < 1 or not 0 < self.ncrit <= 20:
             raise ValueError("Invalid Reynolds, Mach or Ncrit")
+        if not (0 <= self.xtr_top <= 1 and 0 <= self.xtr_bottom <= 1):
+            raise ValueError("Forced transition Xtr/c must be within [0,1]")
         if not 0 < self.alpha_step <= 10 or self.alpha_end < self.alpha_start:
             raise ValueError("Invalid alpha range")
         if (self.alpha_end-self.alpha_start)/self.alpha_step > 150:
@@ -44,7 +50,17 @@ class XFoilCase:
     def angles(self) -> list[float]:
         self.validate()
         n = int(math.floor((self.alpha_end-self.alpha_start)/self.alpha_step+1e-8))+1
-        return [self.alpha_start+i*self.alpha_step for i in range(n)]
+        return [round(self.alpha_start+i*self.alpha_step, 10) for i in range(n)]
+
+    def branches(self) -> list[tuple[float,float,float]]:
+        """ASEQ sweeps. With from_zero, two independent XFOIL runs start at 0 deg
+        (0 -> alpha_end and -step -> alpha_start), which normally improves
+        convergence of the viscous solution near stall in both directions."""
+        self.validate()
+        if self.from_zero and self.alpha_start < 0 < self.alpha_end:
+            return [(0.0, self.alpha_end, self.alpha_step),
+                    (-self.alpha_step, self.alpha_start, -self.alpha_step)]
+        return [(self.alpha_start, self.alpha_end, self.alpha_step)]
 
 
 def load_uiuc_selected(archive: Path, names: list[str]) -> list[tuple[str,Airfoil]]:
@@ -79,15 +95,16 @@ def load_naca_selected(codes: list[str]) -> list[tuple[str,Airfoil]]:
     return [("naca"+c,Airfoil("NACA "+c,"naca"+c+".dat",tuple(naca4(c)))) for c in codes]
 
 
-def make_script(case: XFoilCase) -> str:
-    """Command stream for original XFOIL in headless mode."""
+def make_script(case: XFoilCase, sweep: tuple[float,float,float] | None = None) -> str:
+    """Command stream for original XFOIL in headless mode (graphics disabled)."""
     case.validate()
+    a0,a1,da = sweep if sweep is not None else case.branches()[0]
     return "\n".join([
         "PLOP","G","", "LOAD foil.dat","PANE","OPER",
         f"VISC {case.reynolds:.12g}", f"MACH {case.mach:.12g}",
-        "VPAR", f"N {case.ncrit:.12g}","",
+        "VPAR", f"N {case.ncrit:.12g}", f"XTR {case.xtr_top:.12g} {case.xtr_bottom:.12g}","",
         f"ITER {case.iterations}","PACC","polar.txt","",
-        f"ASEQ {case.alpha_start:.12g} {case.alpha_end:.12g} {case.alpha_step:.12g}",
+        f"ASEQ {a0:.12g} {a1:.12g} {da:.12g}",
         "PACC","","QUIT",""
     ])
 
@@ -102,7 +119,7 @@ def parse_polar(data: str) -> list[dict[str,float]]:
                 header = True
             continue
         fields = line.split()
-        if len(fields) != 7:
+        if len(fields) not in (7, 9):
             continue
         try:
             row = [float(v) for v in fields]
@@ -110,7 +127,8 @@ def parse_polar(data: str) -> list[dict[str,float]]:
             continue
         if not all(math.isfinite(v) for v in row) or row[2] <= 0:
             continue
-        values.append({"alpha":row[0],"cl":row[1],"cd":row[2],"cm":row[4]})
+        values.append({"alpha":row[0],"cl":row[1],"cd":row[2],"cm":row[4],
+                       "cdp":row[3],"xtr_top":row[5],"xtr_bottom":row[6]})
     if not header or not values:
         raise ValueError("XFOIL output has no recognizable usable polar")
     if len({row["alpha"] for row in values})!=len(values):
@@ -118,17 +136,53 @@ def parse_polar(data: str) -> list[dict[str,float]]:
     return sorted(values,key=lambda r:r["alpha"])
 
 
+def missing_angles(rows: list[dict[str,float]], case: XFoilCase) -> list[float]:
+    """Requested angles for which XFOIL returned no converged point."""
+    actual = [r["alpha"] for r in rows]
+    return [a for a in case.angles() if not any(abs(a-b)<=0.001 for b in actual)]
+
+
+VERSION_LINE = re.compile(r"XFOIL\s+Version\s+([0-9.]+)")
+
+
+def solver_version(log: str) -> str | None:
+    match = VERSION_LINE.search(log or "")
+    return match.group(1) if match else None
+
+
 def all_angles_present(rows: list[dict[str,float]], case: XFoilCase) -> bool:
     actual = [r["alpha"] for r in rows]
     return all(any(abs(a-b)<=0.001 for b in actual) for a in case.angles())
+
+
+def _run_branch(exe: Path, dat: bytes, case: XFoilCase, sweep, timeout: int) -> tuple[int,str,str|None]:
+    """One XFOIL process for one ASEQ branch; returns (returncode, log, polar text)."""
+    with TemporaryDirectory(prefix="aerosuite-xfoil-") as tmp:
+        work = Path(tmp)
+        (work/"foil.dat").write_bytes(dat)
+        try:
+            proc = subprocess.run([str(exe.resolve())],input=make_script(case,sweep),cwd=work,
+                                  text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
+                                  timeout=timeout,errors="replace")
+        except subprocess.TimeoutExpired as exc:
+            log = exc.stdout if isinstance(exc.stdout,str) else ""
+            polar_file = work/"polar.txt"
+            polar = polar_file.read_text(encoding="utf-8",errors="replace") if polar_file.is_file() else None
+            return -9, (log or "")+"\n[AeroSuite] TIMEOUT after %d s\n" % timeout, polar
+        polar_file = work/"polar.txt"
+        polar = polar_file.read_text(encoding="utf-8",errors="replace") if polar_file.is_file() else None
+        return proc.returncode, proc.stdout or "", polar
 
 
 def run_profile(exe: Path, identifier: str, foil: Airfoil,
                 case: XFoilCase, out: Path, timeout: int = 180) -> dict:
     """Execute real XFOIL and write actual CSV + provenance JSON.
 
-    Incomplete sweeps are marked converged=False, and the AeroSuite comparator
-    rejects them. Physical accuracy still requires independent validation.
+    Only points that XFOIL itself converged and wrote to its polar file are kept.
+    Requested angles without a converged point are listed in ``missing_alpha``.
+    ``converged`` is True only for a complete sweep (backward compatible); the
+    comparator rejects incomplete sweeps unless partial comparison is requested.
+    Physical accuracy still requires independent validation.
     """
     case.validate()
     if not PROFILE_ID.fullmatch(identifier):
@@ -141,42 +195,54 @@ def run_profile(exe: Path, identifier: str, foil: Airfoil,
     paths = {ext:out/(identifier+"."+ext) for ext in ("csv","json","polar","log")}
     if any(path.exists() for path in paths.values()):
         raise FileExistsError("Result already exists for "+identifier)
-    with TemporaryDirectory(prefix="aerosuite-xfoil-") as tmp:
-        work = Path(tmp)
-        dat = ("AeroSuite\n"+"".join(f"{x:.9f} {y:.9f}\n" for x,y in foil.coordinates)).encode("ascii")
-        (work/"foil.dat").write_bytes(dat)
+    dat = ("AeroSuite\n"+"".join(f"{x:.9f} {y:.9f}\n" for x,y in foil.coordinates)).encode("ascii")
+    logs, polars, codes = [], [], []
+    for sweep in case.branches():
+        code, log, polar = _run_branch(exe, dat, case, sweep, timeout)
+        codes.append(code)
+        logs.append(f"===== AeroSuite branch ASEQ {sweep[0]:g} {sweep[1]:g} {sweep[2]:g} | return code {code}\n"+log)
+        if polar:
+            polars.append(polar)
+    paths["log"].write_text("\n".join(logs)[-500000:],encoding="utf-8")
+    rows_by_alpha: dict[float,dict] = {}
+    for polar in polars:
         try:
-            proc = subprocess.run([str(exe.resolve())],input=make_script(case),cwd=work,
-                                  text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
-                                  timeout=timeout,errors="replace")
-        except subprocess.TimeoutExpired as exc:
-            raise RuntimeError("XFOIL timed out for "+identifier) from exc
-        paths["log"].write_text((proc.stdout or "")[-250000:],encoding="utf-8")
-        polar_file = work/"polar.txt"
-        if proc.returncode!=0 or not polar_file.is_file():
-            raise RuntimeError("XFOIL did not create a polar; see "+str(paths["log"]))
-        polar = polar_file.read_text(encoding="utf-8",errors="replace")
-        rows = parse_polar(polar)
-        paths["polar"].write_text(polar,encoding="utf-8")
-        with paths["csv"].open("w",newline="",encoding="utf-8") as output:
-            writer = csv.DictWriter(output,fieldnames=("alpha","cl","cd","cm"))
-            writer.writeheader()
-            writer.writerows(rows)
-        complete = all_angles_present(rows,case)
-        metadata = {
-            "solver":"External XFOIL executable (binary version unverified)",
-            "solver_source":SOURCE_URL,
-            "solver_sha256":hashlib.sha256(exe.read_bytes()).hexdigest(),
-            "geometry_sha256":hashlib.sha256(dat).hexdigest(),
-            "geometry_source":foil.source_file,
-            "reynolds":case.reynolds, "mach":case.mach, "ncrit":case.ncrit,
-            "xtr_top":1.0, "xtr_bottom":1.0,
-            "alpha_start":case.alpha_start,"alpha_end":case.alpha_end,
-            "alpha_step":case.alpha_step,"iterations":case.iterations,
-            "points_requested":len(case.angles()),"points_returned":len(rows),
-            "converged":complete,
-            "note":("Requested angles recorded; not independent physical validation"
-                    if complete else "Some angles missing; excluded from comparison")
-        }
-        paths["json"].write_text(json.dumps(metadata,indent=2),encoding="utf-8")
-        return metadata
+            for row in parse_polar(polar):
+                rows_by_alpha.setdefault(round(row["alpha"],6), row)
+        except ValueError:
+            continue
+    if not rows_by_alpha:
+        raise RuntimeError("XFOIL produced no converged polar point; see "+str(paths["log"]))
+    rows = sorted(rows_by_alpha.values(), key=lambda r:r["alpha"])
+    paths["polar"].write_text("\n\n".join(polars),encoding="utf-8")
+    with paths["csv"].open("w",newline="",encoding="utf-8") as output:
+        writer = csv.DictWriter(output,fieldnames=("alpha","cl","cd","cm","cdp","xtr_top","xtr_bottom"))
+        writer.writeheader()
+        writer.writerows(rows)
+    missing = missing_angles(rows,case)
+    complete = not missing
+    version = solver_version("\n".join(logs))
+    metadata = {
+        "solver":"XFOIL " + (version or "(version not reported)") + " external executable",
+        "solver_version_reported":version,
+        "solver_source":SOURCE_URL,
+        "solver_path":str(exe.resolve()),
+        "solver_sha256":hashlib.sha256(exe.read_bytes()).hexdigest(),
+        "solver_return_codes":codes,
+        "geometry_sha256":hashlib.sha256(dat).hexdigest(),
+        "geometry_source":foil.source_file,
+        "geometry_points":len(foil.coordinates),
+        "reynolds":case.reynolds, "mach":case.mach, "ncrit":case.ncrit,
+        "xtr_top":case.xtr_top, "xtr_bottom":case.xtr_bottom,
+        "alpha_start":case.alpha_start,"alpha_end":case.alpha_end,
+        "alpha_step":case.alpha_step,"iterations":case.iterations,
+        "sweep_branches":[list(b) for b in case.branches()],
+        "points_requested":len(case.angles()),"points_returned":len(rows),
+        "missing_alpha":missing,
+        "converged":complete,
+        "note":("All requested angles converged; not independent physical validation"
+                if complete else "Some requested angles did not converge (missing_alpha); "
+                "only converged points are stored")
+    }
+    paths["json"].write_text(json.dumps(metadata,indent=2),encoding="utf-8")
+    return metadata

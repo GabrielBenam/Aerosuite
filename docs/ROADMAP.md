@@ -1,3 +1,5 @@
+> **Histórico (2026-10-14):** sustituido por `ROADMAP.md` en la raíz del proyecto. Se conserva como registro.
+
 # AeroSuite — roadmap
 
 ## Etapa 1

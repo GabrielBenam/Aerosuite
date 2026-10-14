@@ -1,0 +1,14 @@
+{
+  "name": "Conceptual: minimum T/W wing loading for the Gudmundsson Ex. 3-1 brief",
+  "notes": ["Single variable W/S; the stall limit (ADRpy wsmaxcleanstall_pa from vstallclean_kcas and CLmaxclean) is an explicit constraint.",
+            "Aspect ratio is NOT a variable: without a wing-weight model ADRpy constraints always favour the largest AR (see DECISIONS.md D-07)."],
+  "level": "conceptual",
+  "engine": "adrpy",
+  "base": "gudmundsson-ex3-1-c162.json",
+  "variables": [{"name": "wingloading_pa", "lower": 239.4, "upper": 1675.8}],
+  "objective": {"metric": "required_tw", "sense": "minimize"},
+  "constraints": [{"metric": "wingloading_pa", "type": "<=", "value_metric": "stall_limit_wingloading_pa"}],
+  "method": "differential_evolution",
+  "settings": {"seed": 42, "maxiter": 60, "popsize": 12, "tol": 1e-8},
+  "ranking": {"top": 10}
+}
