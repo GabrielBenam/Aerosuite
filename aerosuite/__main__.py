@@ -1,6 +1,7 @@
 """CLI de prototipo AeroSuite."""
 import argparse
 import json
+import subprocess
 from pathlib import Path
 from .airfoils import write_csv, write_dat
 from .preselection import Requirements, evaluate_naca4
@@ -36,11 +37,47 @@ def main() -> None:
     xf.add_argument("--alpha-step", type=float, default=2.0)
     xf.add_argument("--iterations", type=int, default=150)
     xf.add_argument("--out", type=Path, default=Path("results/xfoil"))
+    sizing = sub.add_parser("size", help="ADRpy aircraft conceptual constraints")
+    sizing.add_argument("--config", type=Path, required=True)
+    sizing.add_argument("--out", type=Path, default=Path("results/conceptual-sizing.json"))
+    opt = sub.add_parser("optimize", help="ADRpy+SciPy conceptual T/W optimizer")
+    opt.add_argument("--config", type=Path, required=True)
+    opt.add_argument("--out", type=Path, default=Path("results/conceptual-optimum.json"))
+    flow = sub.add_parser("flow5", help="Open official unmodified flow5 Windows application")
+    flow.add_argument("--exe", type=Path, help="Path to official flow5.exe")
+    sub.add_parser("status", help="Report available engine source and executable locations")
     args = parser.parse_args()
     if args.command == "generate":
         write_csv(args.code, args.out/f"naca{args.code}.csv", args.points)
         write_dat(args.code, args.out/f"naca{args.code}.dat", args.points)
         print(f"Generated NACA {args.code}: {args.out.resolve()}")
+    elif args.command in ("size", "optimize"):
+        from .adrpy_core import load_concept, size, optimize, export_result
+        concept = load_concept(args.config)
+        result = size(concept) if args.command == "size" else optimize(concept)
+        export_result(result, args.out)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    elif args.command == "flow5":
+        exe = args.exe
+        if exe is None:
+            location_file = Path(__file__).resolve().parents[1] / "runtime" / "flow5-location.txt"
+            if not location_file.is_file():
+                raise SystemExit("Official flow5 not installed. Run scripts/setup-engines.ps1 or supply --exe.")
+            exe = Path(location_file.read_text(encoding="utf-8-sig").strip())
+        if not exe.is_file():
+            raise SystemExit(f"flow5.exe not found: {exe}")
+        subprocess.Popen([str(exe.resolve())], cwd=exe.resolve().parent)
+        print("Official upstream flow5 started (no AeroSuite modifications).")
+    elif args.command == "status":
+        root = Path(__file__).resolve().parents[1]
+        upstream = root / "vendor"
+        print(json.dumps({"flow5_source":(upstream/"flow5"/"flow5.pro").is_file(),
+                          "adrpy_source":(upstream/"ADRpy"/"ADRpy"/"constraintanalysis.py").is_file(),
+                          "flow5_launch_path":(root/"runtime"/"flow5-location.txt").read_text(encoding="utf-8-sig").strip()
+                          if (root/"runtime"/"flow5-location.txt").is_file() else None,
+                          "xfoil":"python -m aerosuite xfoil --help",
+                          "sizing":"python -m aerosuite size --help",
+                          "optimization":"python -m aerosuite optimize --help"},indent=2))
     elif args.command == "xfoil":
         from .xfoil_cli import XFoilCase, load_naca_selected, load_uiuc_selected, run_profile
         case = XFoilCase(args.reynolds, args.mach, args.ncrit, args.alpha_start,
