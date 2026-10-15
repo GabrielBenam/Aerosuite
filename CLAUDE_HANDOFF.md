@@ -73,3 +73,10 @@ Completar `TEST_RESULTS.md` §6 con `evidence/windows-*` (resultado de `VALIDAR-
 .\.venv\Scripts\python.exe -m aerosuite project-status --project results\c162\project.json
 ```
 Cada `mXX` lee `inputs.mXX` y escribe `outputs.mXX` con su registro de corrida. Estado y bitácora: `PROJECT_STATE.md` §7 y `AUTONOMOUS_RUN.md` §6.
+
+### Módulos F1–F2 disponibles (M01–M04, M06)
+```
+python -m aerosuite m01|m02|m03|m04|m06 --project <project.json>     # lee inputs.mXX, escribe outputs.mXX
+python -m aerosuite project-status --project <project.json>          # salidas y módulos desactualizados
+```
+Entradas de ejemplo: `examples/projects/c162-inputs.json` (M01, M02, M04, M06; Ejemplo 3-1), `gud-example-2-cost.json` (M03; Ejemplos 2-1 a 2-5), `gud-example-6-4-mission.json` (M06 Método 3; Ejemplo 6-4). Cadena de dependencias: M02 → M06 (`ratios_from_m02`) y M06 → M04 (`tow_from_m06`). Pendientes de la fase y verificaciones humanas: cuerpo del PR `[FASE COMPLETA] F1-F2`, DECISIONS D-17 a D-21. Siguiente en ARCHITECTURE §8: M08 cola inicial, M09b ala, M10 geometría, M24 CAD.
