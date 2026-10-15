@@ -11,5 +11,76 @@
   },
   "m02": {
     "database": "gud_table_6_1_lsa"
+  },
+  "m04": {
+    "_source": "Gudmundsson Example 3-1, PDF 109-111. Landing (requirement 6): 1369 ft over a 50 ft obstacle at S-L, CLmax0 = 2.029, CL_LDG 0.5, CD_LDG 0.07, mu 0.3, Tgr/W 0, tau 1 s.",
+    "concept": {
+      "name": "Gudmundsson Example 3-1 (Cessna 162 Skycatcher) — ADRpy input",
+      "source": "Gudmundsson, General Aviation Aircraft Design, 2nd ed., Example 3-1, Sec. 3.2.2, PDF p.109-111 (printed p.64-66). Inputs converted to SI/ADRpy units; see notes.",
+      "notes": [
+        "AR=8, S=120 ft^2, W0=1320 lbf, CDmin=0.0333, CLmaxTO=1.756, CLTO=0.5, CDTO=0.038, mu=0.04 as given in the example.",
+        "Ground run 640 ft = 195.07 m; climb 880 fpm at VY=66.04 KCAS at S-L; turn n=1.155 at 108 KTAS and 8000 ft = 2438.4 m; cruise 108 KTAS at 8000 ft.",
+        "Service ceiling: the brief states 15,000 ft but STEP 7 evaluates the density ratio at 17,000 ft (5181.6 m). 17,000 ft is used here to reproduce STEP 7; the inconsistency is in the source.",
+        "CLmaxclean=1.68 (actual C-162 clean value quoted in STEP 3); vstallclean 45 KCAS = LSA limit shown in Fig. 3-3.",
+        "Propeller efficiencies 0.60 take-off, 0.65 climb, 0.75 cruise (given); turn 0.75 and service ceiling 0.65 are assumptions of this file, not of the example.",
+        "Gudmundsson uses e=0.8106 (k=0.04909); ADRpy computes its own induced-drag factor, so values are expected to differ."
+      ],
+      "designbrief": {
+        "rwyelevation_m": 0,
+        "groundrun_m": 195.072,
+        "climbalt_m": 0,
+        "climbspeed_kias": 66.04,
+        "climbrate_fpm": 880,
+        "turnalt_m": 2438.4,
+        "turnspeed_ktas": 108,
+        "stloadfactor": 1.155,
+        "cruisealt_m": 2438.4,
+        "cruisespeed_ktas": 108,
+        "servceil_m": 5181.6,
+        "secclimbspd_kias": 66.04,
+        "vstallclean_kcas": 45
+      },
+      "designdefinition": {
+        "aspectratio": 8,
+        "bpr": -1
+      },
+      "designperformance": {
+        "CDTO": 0.038,
+        "CLTO": 0.5,
+        "CLmaxTO": 1.756,
+        "CLmaxclean": 1.68,
+        "CDminclean": 0.0333,
+        "mu_R": 0.04,
+        "etaprop": {
+          "take-off": 0.6,
+          "climb": 0.65,
+          "cruise": 0.75,
+          "turn": 0.75,
+          "servceil": 0.65
+        }
+      },
+      "propulsion": "piston",
+      "tow_kg": 598.74,
+      "atmosphere": {
+        "offset_deg": 0
+      },
+      "wingloading_pa": {
+        "min": 239.4,
+        "max": 1675.8,
+        "samples": 61
+      }
+    },
+    "landing": {
+      "kind": "total",
+      "distance_m": 417.2712,
+      "obstacle_m": 15.24,
+      "altitude_m": 0,
+      "clmax_land": 2.029,
+      "cl_ldg": 0.5,
+      "cd_ldg": 0.07,
+      "mu_brake": 0.3,
+      "thrust_ratio_gr": 0.0,
+      "free_roll_s": 1.0
+    }
   }
 }
