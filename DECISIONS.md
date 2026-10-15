@@ -48,3 +48,6 @@ Gudmundsson confirmado como marco rector. Cuando la sesión tiene acceso a la co
 
 **D-16 · 2026-10-14 · Repositorio.**
 El trabajo de esta etapa vive en la rama `feat/gudmundsson-base` sobre `main` (commit dfc43b7). `CLAUDE.md` en la raíz fija las reglas para Claude Code.
+
+**D-17 · 2026-10-14 · M01: celdas fusionadas de la Tabla 1-2.**
+La conversión a Markdown de la Tabla 1-2 conserva solo dos valores de peso máximo (19 000 y 12 500 lbf) y de ocupantes (19 y 9) para cuatro columnas. Se asigna 19 000/19 a Commuter y 12 500/9 a Normal, Utility y Aerobatic (celdas fusionadas). Alternativa descartada: pedir el dato al usuario (corrida sin preguntas). Los factores de carga de Commuter no se leen de la tabla y M01 informa error en vez de inventarlos. Verificar contra la figura de la tabla en el PDF original.

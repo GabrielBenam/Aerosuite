@@ -12,6 +12,10 @@ Actualizado 2026-10-14. Sustituye a `docs/ROADMAP.md`.
 - [ ] Validación Windows completa (`VALIDAR-WINDOWS.cmd`), incluida la ejecución de `flow5 -s` y la comprobación de M-F5R con salidas reales
 - [ ] Biblioteca UIUC real (C-6)
 
+## Fase F1–F2 (corrida autónoma, `auto/f1-f2`)
+- [x] M01 Requisitos y base regulatoria
+- [ ] M02 Referencias · [ ] M03 Costos · [ ] M04 Restricciones (+ aterrizaje) · [ ] M06 Peso inicial
+
 ## Etapa 2 — Conexiones entre motores (prioridad en este orden)
 1. C-3 lector de resultados flow5 → 2. C-2 dimensionamiento ADRpy → ala flow5 → 3. C-5 CD0/k calculados → 4. C-1 polares XFOIL → flow5 → 5. C-4 optimización 3D con flow5 → 6. C-7 envolvente V-n → 7. C-8 derivadas de estabilidad.
 

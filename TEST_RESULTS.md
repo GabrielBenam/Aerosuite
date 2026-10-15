@@ -89,3 +89,10 @@ Python 3.13, numpy 2.2.6, scipy 1.15.3, ADRpy 0.2.6, XFOIL 6.99 Debian (mismo SH
 ## 6. Validación en Windows
 
 Pendiente: se ejecuta con `VALIDAR-WINDOWS.cmd` (crea `evidence/windows-<fecha>/`). Esta sección se completará con sus resultados.
+
+## 8. Corrida autónoma F1–F2 (rama `auto/f1-f2`)
+
+Entorno: Windows 11, `.venv` Python 3.11, NumPy 1.26.4, ADRpy 0.2.6. Línea base antes de la corrida: 50 pruebas OK (1 omitida).
+
+### 8.1 M01 (N + U)
+`tests/test_m01_requirements.py`, 5 pruebas. Contra el libro (GUD PDF 58): Cessna 172 → Nivel 2/bajo, Eclipse 550 → Nivel 3/alto (coinciden). Fronteras de asientos de la Tabla 1-3 y límites de la Tabla 1-2 comprobados. Suite completa: 55 OK (1 omitida). `aerosuite validate` sin cambios.

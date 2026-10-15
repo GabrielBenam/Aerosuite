@@ -65,3 +65,11 @@ Rama `feat/gudmundsson-base` sobre `main` de GitHub (dfc43b7). Reglas para Claud
 
 ## 6. Pendiente inmediato
 Completar `TEST_RESULTS.md` §6 con `evidence/windows-*` (resultado de `VALIDAR-WINDOWS.cmd`), en especial la ejecución real de `flow5 -s` y el formato de sus CSV. Comparar las polares MIT de Windows con las de Debian (§3.3). En la máquina existe además flow5 v7.55 en `C:\Users\oscar\Documents\flow5_v7.55_win64`; AeroSuite usa v7.57 en `runtime/`.
+
+## 7. Módulos del algoritmo (rama `auto/f1-f2`)
+```
+.\.venv\Scripts\python.exe -m aerosuite project-init --project results\c162\project.json --name c162 --from-inputs examples\projects\c162-inputs.json
+.\.venv\Scripts\python.exe -m aerosuite m01 --project results\c162\project.json
+.\.venv\Scripts\python.exe -m aerosuite project-status --project results\c162\project.json
+```
+Cada `mXX` lee `inputs.mXX` y escribe `outputs.mXX` con su registro de corrida. Estado y bitácora: `PROJECT_STATE.md` §7 y `AUTONOMOUS_RUN.md` §6.

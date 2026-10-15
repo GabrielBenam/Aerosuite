@@ -1,0 +1,12 @@
+{
+  "m01": {
+    "_source": "Gudmundsson Example 3-1 (Cessna 162 Skycatcher), PDF p.109; category LSA-like limits are not in Table 1-2, so the Part 23 'normal' category is evaluated.",
+    "category": "normal",
+    "mtow_kg": 598.74,
+    "occupants": 2,
+    "engines": 1,
+    "vno_kcas": 108,
+    "mmo": 0.2,
+    "vso_kcas_max": 45
+  }
+}

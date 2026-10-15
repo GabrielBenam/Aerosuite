@@ -74,3 +74,13 @@ Houghton & Carpenter, *Aerodynamics for Engineering Students*; Torenbeek, *Synth
 1. Las conversiones a Markdown contienen ecuaciones marcadas "[verificar fórmula]"; cualquier ecuación que se use para validar debe contrastarse con el PDF original o el anexo de figuras.
 2. Hay dos copias de Gudmundsson en BIBLIOGRAFIA (`... Procedu` y `... Procedu (5aca4cf0)`); se usó la segunda. La numeración de páginas PDF corresponde al mismo PDF fuente (1146 páginas).
 3. Las páginas impresas de Anderson no se calcularon; usar sección + página PDF.
+
+## 7. Módulos del algoritmo F1–F2 (corrida autónoma)
+
+Verificado el 2026-10-14 contra `General Aviation Aircraft Design ... - COMPLETO.md` (marcas `[p. N]` = página PDF; impresa = PDF − 45).
+
+| Módulo | Contenido | Referencia comprobada |
+|---|---|---|
+| M01 | Límites de peso, ocupantes y factores de carga por categoría (Commuter/Normal/Utility/Aerobatic) | GUD Tabla 1-2, PDF 58 / impr. 13. Las celdas fusionadas (12 500 lbf, 9 ocupantes) se aplican a Normal, Utility y Aerobatic (DECISIONS D-17). n⁺ Normal = 2.1 + 24000/(W+10000) acotado a 3.8 (base 14 CFR §23.337 citada por el libro) |
+| M01 | Niveles de certificación por asientos y nivel de desempeño (V_NO/V_MO > 250 KCAS o M_MO > 0.6) | GUD Tabla 1-3, PDF 58 / impr. 13; casos resueltos del texto (Cessna 172 = Nivel 2 bajo; Eclipse 550 = Nivel 3 alto), PDF 58 |
+| M01 | V_SO ≤ 61 KCAS monomotores y multimotores ≤ 6000 lbf | GUD cita §23.2110(c), PDF 57 / impr. 12 |
