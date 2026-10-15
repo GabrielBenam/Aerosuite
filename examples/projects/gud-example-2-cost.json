@@ -1,0 +1,20 @@
+{
+  "m03": {
+    "_source": "Gudmundsson 2nd ed., Examples 2-1 to 2-5 (composite 4-6 seat piston airplane, PDF 85-97). Airframe 1100 lbf = 498.95 kg.",
+    "airframe_mass_kg": 498.9516,
+    "vh_ktas": 185,
+    "units_5y": 1000,
+    "prototypes": 4,
+    "certification": "part23",
+    "f_comp": 1.0,
+    "cpi_2012": 1.10,
+    "rates": {"r_engr": 92, "r_tool": 61, "r_mfg": 53},
+    "vsc_usd": {"fixed_gear_discount": -17500, "avionics": 35000, "propeller": 14000},
+    "piston_engine": {"n_engines": 1, "n_cylinders": 6, "bhp": 310, "cpi_2019": 1.0},
+    "target_price_usd": 350000,
+    "insurance_fraction": 0.15,
+    "operation": {"flight_hours_per_year": 300, "mechanic_rate_usd_h": 60, "ifr_radios": true, "integral_tanks": true,
+                  "storage_usd_month": 250, "fuel_flow_gal_h": 16, "fuel_price_usd_gal": 5, "aircraft_price_usd": 350000,
+                  "n_engines": 1, "loan_apr": 0.09, "loan_years": 15}
+  }
+}

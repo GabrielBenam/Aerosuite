@@ -99,3 +99,6 @@ Entorno: Windows 11, `.venv` Python 3.11, NumPy 1.26.4, ADRpy 0.2.6. Línea base
 
 ### 8.2 M02 (N + U)
 `tests/test_m02_references.py`, 5 pruebas. Contra el libro (Tabla 6-1, PDF 196): n = 17; medias We/W0 = 0.5353, Wu/W0 = 0.4647, Wf/W0 = 0.0930 y desviaciones 0.0602, 0.0602, 0.0336 frente a 0.535, 0.465, 0.093 y 0.060, 0.060, 0.034 (tolerancia ±0.0006 = media unidad de la última cifra impresa). Fila Cessna C-162: We/W0 0.632 y Wf/W0 0.109 coinciden. El ajuste logarítmico se prueba con un fixture de algoritmo (recta de la Ec. 6-18, no son datos aerodinámicos) y reproduce el paso kg→lbf del libro (1.4343 → 1.5451). Suite completa: 60 OK (1 omitida).
+
+### 8.3 M03 (N + U)
+`tests/test_m03_costs.py`, 8 pruebas contra los Ejemplos 2-1 a 2-5 de Gudmundsson (PDF 85–97; Tabla 2-3 en PDF 90). Horas de trabajo: 205 670 / 190 300 / 1 366 628 (diferencia < 1 h). Costo fijo $36 444 233 (diferencia relativa < 1·10⁻⁶; el libro redondea las horas a 5 cifras); motor $102 526; QDF 0.5998; costo variable $250 311 sin QDF y $196 672 con QDF; precio mínimo $339 255 y $285 617; equilibrio 366 y 238 aviones; costo operativo anual $83 649 (préstamo $42 599). Suite completa: 68 OK (1 omitida).

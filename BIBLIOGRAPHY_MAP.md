@@ -86,3 +86,6 @@ Verificado el 2026-10-14 contra `General Aviation Aircraft Design ... - COMPLETO
 | M01 | V_SO ≤ 61 KCAS monomotores y multimotores ≤ 6000 lbf | GUD cita §23.2110(c), PDF 57 / impr. 12 |
 | M02 | Base de referencia de 17 LSA con We, W0, Qf, Wf y sus razones; promedios y desviaciones | GUD Tabla 6-1, PDF 196 / impr. 151 (datos leídos de la imagen de la tabla; el libro advierte que provienen de sitios de fabricantes y pueden tener pesos erróneos) |
 | M02 | Forma de regresión We/W0 = A + B ln W0 y principio de no mezclar clases/propulsión | GUD Sec. 6.2.1 guía y Sec. 6.2.2, PDF 195–198 / impr. 150–153. Coeficientes publicados (kg) 1.4343/−0.1402 y (lbf) 1.5451/−0.1402 de la Ec. 6-18 coinciden con el desplazamiento B·ln(0.45359237) |
+| M03 | Modelo de costo de desarrollo de Eastlake (QDF, CER 1–10) y fijo/variable | GUD Sec. 2.2.1, Ecs. 2-7 a 2-20, PDF 84–88 / impr. 39–43; tarifas de 2012 ($92/$61/$53 por h), PDF 86 |
+| M03 | Costo de motor de pistón (Ec. 2-21), descuento de tren fijo ($17 500), precio de hélices e aviónica como datos | GUD PDF 88–90 / impr. 43–45; Tabla 2-2 de aviónica es un rango de precios (dato de entrada) |
+| M03 | Costo operativo directo de aeronave privada | GUD Sec. 2.3.1, Ecs. 2-38 a 2-47, PDF 95–97 / impr. 50–52 |
