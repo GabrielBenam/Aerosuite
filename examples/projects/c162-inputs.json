@@ -8,5 +8,8 @@
     "vno_kcas": 108,
     "mmo": 0.2,
     "vso_kcas_max": 45
+  },
+  "m02": {
+    "database": "gud_table_6_1_lsa"
   }
 }

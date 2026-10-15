@@ -51,3 +51,6 @@ El trabajo de esta etapa vive en la rama `feat/gudmundsson-base` sobre `main` (c
 
 **D-17 · 2026-10-14 · M01: celdas fusionadas de la Tabla 1-2.**
 La conversión a Markdown de la Tabla 1-2 conserva solo dos valores de peso máximo (19 000 y 12 500 lbf) y de ocupantes (19 y 9) para cuatro columnas. Se asigna 19 000/19 a Commuter y 12 500/9 a Normal, Utility y Aerobatic (celdas fusionadas). Alternativa descartada: pedir el dato al usuario (corrida sin preguntas). Los factores de carga de Commuter no se leen de la tabla y M01 informa error en vez de inventarlos. Verificar contra la figura de la tabla en el PDF original.
+
+**D-18 · 2026-10-14 · M02: alcance de la base de referencia.**
+M02 incluye solo la base de datos que el libro publica de forma legible (Tabla 6-1, LSA). Las bases de los Caps. 16.6, 18.4, 19.4 y 23.3 que cita ARCHITECTURE §2 no se cargaron: el usuario puede aportar su propia base JSON (formato de `aerosuite/data/`). Un ajuste logarítmico con pesos brutos dentro de 10 % se declara degenerado (los 17 LSA están a 1320 lbf ± 0.4 %: la regresión sería ruido de redondeo). La desviación estándar es muestral (ddof = 1), que reproduce las cifras de la tabla. Alternativa descartada: ajustar de todos modos y mostrar R².

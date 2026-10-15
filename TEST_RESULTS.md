@@ -96,3 +96,6 @@ Entorno: Windows 11, `.venv` Python 3.11, NumPy 1.26.4, ADRpy 0.2.6. Línea base
 
 ### 8.1 M01 (N + U)
 `tests/test_m01_requirements.py`, 5 pruebas. Contra el libro (GUD PDF 58): Cessna 172 → Nivel 2/bajo, Eclipse 550 → Nivel 3/alto (coinciden). Fronteras de asientos de la Tabla 1-3 y límites de la Tabla 1-2 comprobados. Suite completa: 55 OK (1 omitida). `aerosuite validate` sin cambios.
+
+### 8.2 M02 (N + U)
+`tests/test_m02_references.py`, 5 pruebas. Contra el libro (Tabla 6-1, PDF 196): n = 17; medias We/W0 = 0.5353, Wu/W0 = 0.4647, Wf/W0 = 0.0930 y desviaciones 0.0602, 0.0602, 0.0336 frente a 0.535, 0.465, 0.093 y 0.060, 0.060, 0.034 (tolerancia ±0.0006 = media unidad de la última cifra impresa). Fila Cessna C-162: We/W0 0.632 y Wf/W0 0.109 coinciden. El ajuste logarítmico se prueba con un fixture de algoritmo (recta de la Ec. 6-18, no son datos aerodinámicos) y reproduce el paso kg→lbf del libro (1.4343 → 1.5451). Suite completa: 60 OK (1 omitida).

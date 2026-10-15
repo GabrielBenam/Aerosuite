@@ -67,3 +67,4 @@ Núcleo: `aerosuite/project.py` (`project.json` con `inputs`, `outputs` + regist
 | Módulo | Comando | Nivel | Estado |
 |---|---|---|---|
 | M01 Requisitos y base regulatoria | `m01` | conceptual | FUNCIONAL: clasificación Tabla 1-3 validada con los dos casos del libro (Cessna 172, Eclipse 550); límites de la Tabla 1-2 y §23.2110(c) verificados por pruebas unitarias. Categoría Commuter sin factores de carga (celda ilegible en la fuente). |
+| M02 Referencias y regresiones | `m02` | conceptual | FUNCIONAL: base `aerosuite/data/gud_table_6_1_lsa.json` (17 LSA de la Tabla 6-1, leída de la figura del libro); medias y desviaciones reproducen la tabla (We/W0 0.535 ± 0.060, Wu/W0 0.465 ± 0.060, Wf/W0 0.093 ± 0.034). Ajuste We/W0 = A + B ln W0 con detección de caso degenerado. Solo esa base; las de los Caps. 16, 18, 19 y 23 no se han cargado (D-18). |
