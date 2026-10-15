@@ -45,6 +45,7 @@ La corrida puede reiniciarse varias veces (límites de uso). Al empezar, lee est
 - 2026-10-14 | M02 | TERMINADO | 527bc5f | Tabla 6-1 (17 LSA) reproduce medias y desviaciones del libro; regresión A+B·ln W0
 - 2026-10-14 | M03 | TERMINADO | 05f01d3 | Ejemplos 2-1 a 2-5 y Tabla 2-3 reproducidos (MSP 285 617 USD, equilibrio 238); sin aviones de negocio ni hélices
 - 2026-10-14 | M04 | TERMINADO | c8a1a3f | ADRpy + aterrizaje Ec. 3-13/3-14 (W/S máx 11.37 lbf/ft² del Ej. 3-1 reproducido) + Ec. 3-1; D-20
+- 2026-10-15 | M06 | TERMINADO | 34bb815 | Ejemplos 6-2, 6-3 y 6-4 reproducidos (W0 44 566 vs 44 556 lbf); enlace M06→M04; D-21
 
 ## 7. Cierre (dispara el correo)
 Cuando la fase esté terminada según §2:
