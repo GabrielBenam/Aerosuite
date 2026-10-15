@@ -41,6 +41,7 @@ La corrida puede reiniciarse varias veces (límites de uso). Al empezar, lee est
 `- AAAA-MM-DD HH:MM | Mxx | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 <!-- BITACORA -->
+- 2026-10-14 | M01 | TERMINADO | 670c267 | project.json + CLI m01; Tablas 1-2/1-3 verificadas con casos del libro
 
 ## 7. Cierre (dispara el correo)
 Cuando la fase esté terminada según §2:
