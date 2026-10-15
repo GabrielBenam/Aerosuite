@@ -98,7 +98,12 @@ def _landing_block(doc_landing: dict, rho_kgm3: float) -> dict:
 
 def run(project: dict) -> dict:
     d = prj.need_inputs(project, "m04", ["concept"])
-    doc = d["concept"]
+    doc, depends = dict(d["concept"]), []
+    if d.get("tow_from_m06"):
+        if "m06" not in project["outputs"]:
+            raise SystemExit("inputs.m04.tow_from_m06 is set but outputs.m06 is missing: run m06 first")
+        doc["tow_kg"] = project["outputs"]["m06"]["result"]["w0_kg"]
+        depends = ["m06"]
     result = adrpy_core.size(doc, map2sl=not d.get("local_tw", False))
     atmospheres, _ca, _np = adrpy_core._libraries()
     offset = float(doc.get("atmosphere", {}).get("offset_deg", 0.0))
@@ -126,5 +131,5 @@ def run(project: dict) -> dict:
              "tw_local": takeoff_tw_book(s["wingloading_pa"] / PA_PER_LBF_FT2, rho, perf["CLmaxTO"], perf["CLTO"],
                                          perf["CDTO"], perf["mu_R"], brief["groundrun_m"] * FT_PER_M),
              "adrpy_tw_sea_level": s["by_constraint"].get("takeoff")} for s in result["samples"]]
-    prj.record(project, "m04", result, "conceptual", REFERENCES)
+    prj.record(project, "m04", result, "conceptual", REFERENCES, depends)
     return result

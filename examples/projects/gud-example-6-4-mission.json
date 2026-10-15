@@ -1,0 +1,93 @@
+{
+  "m06": {
+    "_source": "Gudmundsson Example 6-4 (business jet, 4000 nm + 200 nm alternate), PDF 202-204 / impr. 157-159. Weights in kg (1845 lbf crew+payload = 836.9 kg); regression class business_jet (Eq. 6-24, kg form). Units of SFC, nm, KTAS, ft, fpm as in the book.",
+    "method": "mission",
+    "class": "business_jet",
+    "crew_kg": 278.9,
+    "payload_kg": 557.9,
+    "segments": [
+      {
+        "name": "0-1 taxi/take-off",
+        "type": "taxi_takeoff",
+        "typical": true,
+        "engine": "jet",
+        "sfc": 0.55
+      },
+      {
+        "name": "1-2 climb",
+        "type": "climb",
+        "engine": "jet",
+        "sfc": 0.55,
+        "delta_h_ft": 36000,
+        "roc_fpm": 1500,
+        "r": 0.3
+      },
+      {
+        "name": "2-3 cruise 4000 nm",
+        "type": "cruise",
+        "engine": "jet",
+        "sfc": 0.55,
+        "range_nm": 4000,
+        "v_ktas": 487.56,
+        "ld": 14
+      },
+      {
+        "name": "3-4 descent",
+        "type": "descent",
+        "engine": "jet",
+        "sfc": 0.55,
+        "delta_h_ft": -31000,
+        "rod_fpm": -2000,
+        "r": 0.1
+      },
+      {
+        "name": "4-5 hold 5 min",
+        "type": "loiter",
+        "engine": "jet",
+        "sfc": 0.55,
+        "time_h": 0.083333,
+        "ld": 10
+      },
+      {
+        "name": "5-6 climb to alternate",
+        "type": "climb",
+        "engine": "jet",
+        "sfc": 0.55,
+        "delta_h_ft": 15000,
+        "roc_fpm": 2000,
+        "r": 0.5
+      },
+      {
+        "name": "6-7 cruise 200 nm",
+        "type": "cruise",
+        "engine": "jet",
+        "sfc": 0.55,
+        "range_nm": 200,
+        "v_ktas": 429.87,
+        "ld": 14
+      },
+      {
+        "name": "7-8 descent",
+        "type": "descent",
+        "engine": "jet",
+        "sfc": 0.55,
+        "delta_h_ft": -20000,
+        "rod_fpm": -2000,
+        "r": 0.1
+      },
+      {
+        "name": "8-9 reserve 30 min",
+        "type": "reserve",
+        "engine": "jet",
+        "sfc": 0.55,
+        "time_h": 0.5,
+        "ld": 14
+      },
+      {
+        "name": "9-10 landing",
+        "type": "fixed",
+        "ratio": 1.0
+      }
+    ]
+  }
+}

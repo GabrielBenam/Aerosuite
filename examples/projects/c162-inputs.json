@@ -81,6 +81,13 @@
       "mu_brake": 0.3,
       "thrust_ratio_gr": 0.0,
       "free_roll_s": 1.0
-    }
+    },
+    "tow_from_m06": true
+  },
+  "m06": {
+    "_source": "LSA with fixed gross weight 1320 lbf (598.74 kg): Method 2, Eq. 6-18/6-19 (GUD PDF 198). M04 reads this W0 (tow_from_m06).",
+    "method": "empty_fraction",
+    "class": "lsa_land",
+    "w0_kg": 598.74
   }
 }

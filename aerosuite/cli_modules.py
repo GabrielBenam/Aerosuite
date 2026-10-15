@@ -10,6 +10,7 @@ MODULES = {
     "m02": ("m02", "m02_references", "M02 reference aircraft database, weight ratios and regressions (step 2)"),
     "m03": ("m03", "m03_costs", "M03 development and operating costs, Eastlake model (step 3)"),
     "m04": ("m04", "m04_constraints", "M04 constraint diagram, stall and landing limits (steps 4, 5, 7)"),
+    "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
 

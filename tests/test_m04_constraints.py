@@ -49,11 +49,21 @@ class LandingTests(unittest.TestCase):
         self.assertAlmostEqual(takeoff_tw_book(10.0, RHO_BOOK, 1.756, 0.5, 0.038, 0.04, 640.0), 0.1869, delta=0.0001)
 
 
+def standalone_inputs(tmp: Path) -> Path:
+    """Example inputs without the M06 link (M04 alone, MTOW taken from the concept)."""
+    data = json.loads(EXAMPLES.read_text(encoding="utf-8"))
+    data["m04"]["tow_from_m06"] = False
+    out = tmp / "inputs.json"
+    out.write_text(json.dumps(data), encoding="utf-8")
+    return out
+
+
 class M04ProjectTests(unittest.TestCase):
     def test_cli_example_3_1_with_landing_limit(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "p.json"
-            main(["project-init", "--project", str(path), "--name", "c162", "--from-inputs", str(EXAMPLES)])
+            main(["project-init", "--project", str(path), "--name", "c162", "--from-inputs",
+                  str(standalone_inputs(Path(tmp)))])
             main(["m04", "--project", str(path)])
             r = prj.load(path)["outputs"]["m04"]["result"]
         # Stall limit (45 KCAS, CLmax 1.68) 551.5 Pa; landing limit 11.37 lbf/ft^2 = 544 Pa (ISA rho 1.225 vs 1.2255 book)
@@ -79,6 +89,7 @@ class M04ProjectTests(unittest.TestCase):
 
     def test_missing_landing_keys(self):
         data = json.loads(EXAMPLES.read_text(encoding="utf-8"))
+        data["m04"]["tow_from_m06"] = False
         data["m04"]["landing"].pop("cd_ldg")
         p = prj.new_project("x")
         p["inputs"] = data
@@ -89,3 +100,4 @@ class M04ProjectTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
