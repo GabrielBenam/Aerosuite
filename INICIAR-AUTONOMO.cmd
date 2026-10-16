@@ -14,7 +14,7 @@ if not exist .venv (
   .venv\Scripts\python -m pip install --no-deps ./vendor/ADRpy
 )
 set MAX=12
-set PLAN=AUTONOMOUS_RUN_F4.md
+set PLAN=AUTONOMOUS_RUN_F5.md
 if exist FASE_COMPLETA.flag del FASE_COMPLETA.flag
 for /L %%i in (1,1,%MAX%) do (
   if exist FASE_COMPLETA.flag goto fin
