@@ -72,6 +72,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 `- AAAA-MM-DD HH:MM | Mxx | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 <!-- BITACORA -->
+- 2026-10-15 | M13 | TERMINADO | feat(M13) | Ejemplos 6-8, 6-9, 6-10 reproducidos; inercias con mecánica clásica; límites de CG son dato (M16); D-30
 - 2026-10-15 | M12 | TERMINADO | feat(M12) | Ejemplos 6-5, 6-6, 6-7 reproducidos; resto transcrito sin ejemplo; Cessna VT sospechosa; D-29
 - 2026-10-15 | M11 | TERMINADO | feat(M11) | pistón + hélice; Ejemplos 7-2, 7-3, 15-2, 15-3; errata Ec. 15-30; D-28
 - 2026-10-15 | M10 | TERMINADO | feat(M10) | OML aerosuite-oml/1; invariantes geométricos; sin ejemplo del libro; D-27

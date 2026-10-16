@@ -16,6 +16,7 @@ MODULES = {
     "m10": ("m10", "m10_geometry", "M10 parametric OML: wing + tail + fuselage assembly (step 10)"),
     "m11": ("m11", "m11_powerplant", "M11 piston powerplant and propeller sizing (step 11)"),
     "m12": ("m12", "m12_weights", "M12 detailed component weights, statistical and direct (step 12)"),
+    "m13": ("m13", "m13_cg", "M13 center of gravity, inertias and CG envelope (steps 13-14)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 

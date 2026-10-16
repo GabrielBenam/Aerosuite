@@ -94,6 +94,11 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M12 | Ecs. 6-48 a 6-105 (colas, fuselaje, tren, planta motriz, sistemas), Ec. 6-106 | GUD Sec. 6.4.1-6.4.2, PDF 206-210 / impr. 161-165 | transcritas, sin ejemplo; 6-52 sospechosa (D-29) |
 | M12 | Ecs. 6-109 a 6-127, Ejemplos 6-6 y 6-7 (cajón directo, variación con AR) | GUD Sec. 6.5, PDF 212-221 / impr. 167-176 | reproducidos |
 | M12 | Sec. 6.3 (pesos conocidos, promedio de métodos, factores de escala) | GUD PDF 204-205 / impr. 159-160 | reglas de uso |
+| M13 | Ecs. 6-128 a 6-137, Ejemplos 6-8 y 6-9 (CG, % c_MGC) | GUD Sec. 6.6.3-6.6.5, PDF 222-225 / impr. 177-180 | reproducidos |
+| M13 | Ecs. 6-138 y 6-139 (pesaje) | GUD Sec. 6.6.6, PDF 225 / impr. 180 | consistencia estática |
+| M13 | Ecs. 6-140 a 6-151 (inercias, ejes paralelos, principales) | GUD Sec. 6.6.7-6.6.10, PDF 225-228 / impr. 180-183 | sin ejemplo; 6-150 con signo reconstruido (D-30) |
+| M13 | Sec. 6.7, Tabla 6-6, Figs. 6-26 a 6-31 (envolvente, nube de cargas) | GUD PDF 228-236 / impr. 183-191 | límites son dato (M16) |
+| M13 | Ecs. 6-152 a 6-157, Ejemplo 6-10 (tolerancias) | GUD Sec. 6.7.6, PDF 237-239 / impr. 192-194 | reproducido |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)
