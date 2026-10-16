@@ -67,6 +67,10 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M08 | Ec. 11-28 (Método 3), Ejemplo 11-3 | GUD Sec. 11.4.6, PDF 557 / impr. 512 | reproducido |
 | M08 | Ecs. 11-29 a 11-35 (Método 4), Ejemplo 11-5 | GUD Sec. 11.4.7, PDF 558-560 / impr. 513-515 | solo prueba de algoritmo (Ej. 11-5 es una figura de hoja de cálculo) |
 | M08 | Ecs. 9-3, 9-8 a 9-13, 9-28, 9-29 (planta trapezoidal) | GUD Sec. 9.2.2 y 9.2.5, PDF 369-371 / impr. 324-326 | los títulos del Cap. 9 de ARCHITECTURE §2 coinciden |
+| M09a | Sec. 8.3.9, criterios (1)-(11), matriz y ejemplo de prorrateo | GUD PDF 355-361 / impr. 310-316 | ejemplo reproducido (t/c) |
+| M09a | Tabla 8-12 (clases de perfil) | GUD PDF 356-357 / impr. 311-312 | figura; solo se registra la clase elegida |
+| M09a | Sec. 8.1.4 definiciones (Cl_max, Cl_α = 2π máx., α_ZL, Cl_max/Cd_min) | GUD PDF 305-306 / impr. 260-261 | |
+| M09a | Ec. 8-64 (M_crit de Shevell) y 8-67 (Korn) | GUD PDF 355-356 | 8-64 garbleada: no usada (D-25) |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)

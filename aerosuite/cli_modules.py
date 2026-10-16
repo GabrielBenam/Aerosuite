@@ -11,6 +11,7 @@ MODULES = {
     "m03": ("m03", "m03_costs", "M03 development and operating costs, Eastlake model (step 3)"),
     "m04": ("m04", "m04_constraints", "M04 constraint diagram, stall and landing limits (steps 4, 5, 7)"),
     "m08": ("m08", "m08_tail", "M08 initial tail sizing, VHT/VVT and tail arm (step 8)"),
+    "m09a": ("m09a", "m09a_airfoils", "M09a airfoil analysis (XFOIL) and decision matrix (step 9)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 

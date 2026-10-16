@@ -1,0 +1,10 @@
+{
+  "m09a": {
+    "_source": "Ejemplo de uso de la matriz de decision de GUD Sec. 8.3.9 con perfiles NACA 4 digitos y XFOIL real. Las condiciones son del usuario; no provienen de un ejemplo resuelto del libro.",
+    "airfoil_class": "conventional",
+    "candidates": {"naca4": ["2412", "4412", "4415", "0012"]},
+    "conditions": {"reynolds": 3000000, "mach": 0.0, "ncrit": 9, "alpha_start": -4, "alpha_end": 20, "alpha_step": 1, "from_zero": true},
+    "targets": {"cl_cruise": 0.3},
+    "out_dir": "results/m09a_xfoil_example"
+  }
+}

@@ -17,3 +17,4 @@ runtime/
 FASE_COMPLETA.flag
 autonomo.log
 .venv/
+tools/
