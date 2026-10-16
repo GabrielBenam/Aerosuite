@@ -120,5 +120,43 @@ class ProjectTests(unittest.TestCase):
             self.assertIn("spiral", r)
 
 
+FLOW5_OUT = Path(__file__).resolve().parents[1] / "evidence" / "flow5-7.55-win" / "run2-custom-ref" / "output"
+
+
+@unittest.skipUnless(FLOW5_OUT.is_dir(), "flow5 7.55 evidence not present")
+class Flow5ContrastTests(unittest.TestCase):
+    """Static longitudinal contrast with REAL flow5 7.55 output (wing + elevator + fin, no fuselage, VLM2, CG at x = 0.40 m, MAC 1.181 m,
+    flow5 neutral point XNP 0.66 m and static margin 21.6 % in its log). M16 inputs are computed from the geometry of examples/flow5-c162-like.json
+    with the book formulas (Helmbold lift slopes, momentum-theory downwash); nothing is tuned to flow5."""
+
+    def test_neutral_point_and_cm_alpha_against_flow5(self):
+        from aerosuite.flow5_results import collect
+        from aerosuite.m09b_wing import cl_alpha_helmbold
+        s, b, mac, cr, ct = 11.139, 9.44, 1.181, 1.25, 1.11
+        ar = b * b / s
+        lam = ct / cr
+        x_le_w = 0.035 * (b / 6.0 * (1 + 2 * lam) / (1 + lam)) / 4.72
+        x_ac_w = x_le_w + 0.25 * mac
+        hr, htp, bh = 0.8, 0.6, 2.8
+        s_h = 0.5 * (hr + htp) * bh
+        lam_h = htp / hr
+        cmg_h = 2.0 / 3.0 * hr * (1 + lam_h + lam_h ** 2) / (1 + lam_h)
+        x_ac_h = 4.6 + 0.10 * (bh / 6.0 * (1 + 2 * lam_h) / (1 + lam_h)) / 1.4 + 0.25 * cmg_h
+        v_h = s_h * (x_ac_h - x_ac_w) / (s * mac)
+        a_w, a_h = cl_alpha_helmbold(ar), cl_alpha_helmbold(bh * bh / s_h)
+        npt = m.neutral_point(a_w, a_h, ar, v_h)
+        x_np = x_le_w + npt["h_n"] * mac
+        h_cg = (0.40 - x_le_w) / mac
+        cma = m.cm_alpha(a_w, a_h, ar, v_h, h_cg)
+        rows = collect(FLOW5_OUT)["polars"][0]["rows"]
+        al = np.radians([r["alpha_deg"] for r in rows])
+        sel = (np.degrees(al) >= -4) & (np.degrees(al) <= 8)
+        flow5_cma = np.polyfit(al[sel], np.array([r["Cm"] for r in rows])[sel], 1)[0]
+        self.assertAlmostEqual(flow5_cma, -1.097, delta=0.005)                      # recorded value of the real run
+        self.assertAlmostEqual(x_np, 0.695, delta=0.005)                            # M16 value for this geometry
+        self.assertLess(abs(x_np - 0.66) / 0.66, 0.08)                              # +5.3 % against the flow5 XNP of its log
+        self.assertLess(abs(cma - flow5_cma) / abs(flow5_cma), 0.15)                # -1.227 against -1.097 1/rad (+11.8 %)
+
+
 if __name__ == "__main__":
     unittest.main()
