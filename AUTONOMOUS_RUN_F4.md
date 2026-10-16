@@ -70,3 +70,4 @@ Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:
 2. Escribe `PR_F4.md` (no lo incluyas en git) con: qué se implementó, qué se validó con cifras contra el libro, qué se validó con flow5 y XFOIL reales (con la versión 7.55 declarada), qué quedó como supuesto, qué quedó pendiente y la lista de elementos que el usuario debe verificar.
 3. `gh pr create --base main --head auto/f4 --title "[FASE COMPLETA] V-F5 + F4: M16-M21" --body-file PR_F4.md`. Si todo lo pendiente quedó BLOQUEADO, el título es `[BLOQUEADO] V-F5 + F4`.
 4. Crea el archivo `FASE_COMPLETA.flag` en la raíz (ignorado por git).
+- 2026-10-15 21:00 | M16 estabilidad | TERMINADO | feat(M16) | D-34 a D-36; B747 de Etkin reproducido; flow5 tipo 7 pendiente
