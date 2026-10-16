@@ -1,9 +1,10 @@
 """M16 tests. Dynamics: Etkin's Boeing 747 (Sec. 6.2 / 6.7, flight condition 2: M = 0.8, 40 000 ft) in English units, since the
 matrix builders accept any coherent unit system. Statics: Gudmundsson Eqs. 24-91/24-132 and consistency identities.
-The longitudinal Table 6.1 values are those of the converted text, except CZ_u = -1.416 (recovered from the printed A(2,1) = -0.09055;
-the text shows 'CZ_u' unreadable) and CZ_alpha_dot = +5.896, the sign that reproduces the printed A(2,3) = 773.98 (the sign is not
-legible in the converted text). The lateral Table 6.6 values are not in the converted text: they are checked because they reproduce the
-printed eigenvalues. These are validation fixtures of published data, not aerodynamic results from AeroSuite."""
+Both tables were checked against the printed page images (F5, C-2; BIBLIOGRAFIA/dynamics_of_flight_by_etkins, imagenes 0175 and 0196,
+PDF 178 and 199): Table 6.1 prints CZ_u = -0.1060, which is C_zu without the 2 C_z0 term (C_z0 = -0.654): -0.1060 - 2 (0.654) = -1.414,
+the -1.416 used here reproduces the printed A(2,1) = -0.09055; CZ_alpha_dot = +5.896 is printed positive. Table 6.6 (CY_b -0.8771, Cl_b -0.2797,
+Cn_b 0.1946, Cl_p -0.3295, Cn_p -0.04073, Cl_r 0.304, Cn_r -0.2737) matches the values used, and the printed matrix of Eq. 6.7,2 is checked below.
+These are validation fixtures of published data, not aerodynamic results from AeroSuite."""
 import json
 import math
 import tempfile
@@ -36,6 +37,11 @@ class EtkinB747Tests(unittest.TestCase):
         self.assertAlmostEqual(c["phugoid"]["eigenvalue"][1], 0.067231, delta=1e-4)
         self.assertAlmostEqual(c["short_period"]["eigenvalue"][0], -0.3719, delta=2e-3)  # book -0.3719 +- 0.8875 i
         self.assertAlmostEqual(c["short_period"]["eigenvalue"][1], 0.8875, delta=2e-3)
+
+    def test_lateral_matrix_printed_in_eq_6_7_2(self):
+        a = m.lateral_matrix(B747_LAT)
+        printed = np.array([[-0.0558, 0, -774, 32.2], [-0.003865, -0.4342, 0.4136, 0], [0.001086, -0.006112, -0.1458, 0], [0, 1, 0, 0]])
+        np.testing.assert_allclose(a, printed, rtol=0.01, atol=2e-5)      # printed to 4 digits; g = 32.174 vs 32.2
 
     def test_lateral_eigenvalues(self):
         c = m.classify_lateral(np.linalg.eigvals(m.lateral_matrix(B747_LAT)))

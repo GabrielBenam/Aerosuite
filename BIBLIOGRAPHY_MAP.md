@@ -164,4 +164,6 @@ Convención: PDF = marcador `[p. N]` del texto convertido (`COMPLETO.md`) de cad
 ## Fase F5
 | Módulo | Tema | Fuente |
 |---|---|---|
+| M16 | Tablas 6.1 y 6.6 del B747 (coeficientes) verificadas contra la imagen de la página | Etkin y Reid, *Dynamics of Flight*, PDF 178 (Tabla 6.1) y PDF 199 (Tabla 6.6 y Ec. 6.7,2), imágenes 0175 y 0196 |
+| M18a | Ejemplo 13-3 (brazos x_M = 1.3, x_TW = 10 ft; reacción dinámica a 40 KTAS) | Gudmundsson Cap. 13, Ejemplo 13-3, PDF 614-616 |
 | M16 | Fuselaje, Munk-Multhopp: Ecs. 24-100, 24-103 a 24-108, Figs. 24-29/24-30, Ejemplos 24-3 y 24-4 | Gudmundsson, *General Aviation Aircraft Design* 2.ª ed., Sec. 24.2.6, PDF 993-996 (marcadores [p. 994]-[p. 996]); verificado contra las figuras de la Tabla 24-4 (imágenes 1353-1356 de la carpeta BIBLIOGRAFIA) |
