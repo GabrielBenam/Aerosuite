@@ -72,6 +72,8 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 `- AAAA-MM-DD HH:MM | Mxx | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 <!-- BITACORA -->
+- 2026-10-15 | Ajuste A (D-22) | TERMINADO | feat(M04) | despegue Ec. 3-1 principal; punto de diseño 526.7 Pa / T/W 0.2113
+- 2026-10-15 | Ajuste B (D-23) | TERMINADO | 589d478 | nota_costos 2012 en M03 y project-status
 
 ## 9. Cierre (dispara el correo)
 Cuando todos los pasos de §1 estén TERMINADOS o BLOQUEADOS:
