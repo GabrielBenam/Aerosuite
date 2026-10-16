@@ -1,0 +1,11 @@
+{
+  "m08": {
+    "_source": "Gudmundsson Examples 11-1 a 11-3 (Cessna 172 Skyhawk), PDF 556-557 / impr. 511-512. Valores en SI convertidos de pies: S = 174 ft2, b = 36.0 ft, cMGC = 4.83 ft, R1 = 2.0 ft, R2 = 0.5 ft.",
+    "wing": {"area_m2": 16.1651, "span_m": 10.9728, "cmgc_m": 1.47218},
+    "volumes": {"vht": 0.761, "vvt": 0.0419},
+    "fuselage": {"r1_m": 0.6096, "r2_m": 0.1524},
+    "method": 3,
+    "ar_ht": 3.0,
+    "ar_vt": 1.35
+  }
+}

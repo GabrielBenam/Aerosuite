@@ -54,6 +54,21 @@ Métodos declarados en el código original (`flow5-lib/api/enums_objects.h`): `L
 | Ejes y transformaciones | Ejes cuerpo/estabilidad/viento, ángulos de Euler | DRE Sec. 6.2 y 9.2 impr. 124 y 201; Apéndice F impr. 265. DIS Cap. 2 Platform Kinematics: Euler Angles PDF 56 / impr. 37 | Intercambio de resultados con convención de signos explícita | Verificar convención de flow5 al exportar |
 | Compresibilidad en 3D | Prandtl-Glauert | DRE Sec. 8.6 impr. 173 | Corrección subsónica | — |
 
+## 3b. Módulos del algoritmo F3 (corrida F3, comprobado contra `BIBLIOGRAFIA` local)
+
+Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; impr. = PDF − 45 (coincide con el índice del Cap. 11: 11.4 en impr. 505).
+
+| Módulo | Ecuación / dato | Referencia comprobada | Nota |
+|---|---|---|---|
+| M08 | Ecs. 11-5 y 11-6, volúmenes de cola | GUD Sec. 11.2.2, PDF 530 / impr. 485 | |
+| M08 | Tabla 11-4, V_HT y V_VT por clase | GUD Sec. 11.4.1, PDF 550 / impr. 505 | leída de la figura (imagen 680) |
+| M08 | Ecs. 11-14 a 11-26 (Método 1), Ejemplo 11-1 | GUD Sec. 11.4.3-11.4.4, PDF 555-556 / impr. 510-511 | Ejemplo reproducido |
+| M08 | Ec. 11-27 (Método 2), Ejemplo 11-2 | GUD PDF 556 / impr. 511 | reproducido |
+| M08 | Ec. 11-28 (Método 3), Ejemplo 11-3 | GUD Sec. 11.4.6, PDF 557 / impr. 512 | reproducido |
+| M08 | Ecs. 11-29 a 11-35 (Método 4), Ejemplo 11-5 | GUD Sec. 11.4.7, PDF 558-560 / impr. 513-515 | solo prueba de algoritmo (Ej. 11-5 es una figura de hoja de cálculo) |
+| M08 | Ecs. 9-3, 9-8 a 9-13, 9-28, 9-29 (planta trapezoidal) | GUD Sec. 9.2.2 y 9.2.5, PDF 369-371 / impr. 324-326 | los títulos del Cap. 9 de ARCHITECTURE §2 coinciden |
+| M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
+
 ## 4. Optimizador (SciPy)
 
 | Elemento | Referencia comprobada | Aplicación | Limitaciones |
