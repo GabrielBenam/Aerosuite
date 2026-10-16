@@ -22,6 +22,7 @@ MODULES = {
     "m18a": ("m18a", "m18a_gear", "M18a landing gear: layout, static/dynamic loads, overturn, tires, brakes (step 18)"),
     "m18b": ("m18b", "m18b_controls", "M18b controls: hinge moments, stick forces, free-elevator effect (step 18)"),
     "m18c": ("m18c", "m18c_highlift", "M18c high-lift and flaps: wing partition method, XFOIL flapped section (step 18)"),
+    "m19": ("m19", "m19_stall", "M19 benign spanwise stall: lifting line, C_l vs C_lmax, washout study (step 19)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
