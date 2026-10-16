@@ -87,6 +87,7 @@ Nadie responde durante la corrida: no hagas preguntas. Ante una duda técnica el
 La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retoma donde quedó. Al terminar cada tarea o al detenerte añade una línea:
 `- AAAA-MM-DD HH:MM | tarea | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
+- 2026-10-16 05:48 | C-1 | TERMINADO | 1da3531 | Munk-Multhopp verificado con Ej. 24-3; flow5 sin fuselaje: diferencia de D-43 permanece (D-44)
 <!-- BITACORA -->
 
 ## 13. Cierre (dispara el correo)
