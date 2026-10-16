@@ -43,6 +43,7 @@ Diseñar la interfaz propia sobre los contratos JSON ya probados. No antes de ce
 ## Fase F5 (corrida autónoma, `auto/f5`)
 - [x] C-1 M16: aporte del fuselaje (Munk-Multhopp)
 - [x] C-2 validaciones circulares de F4 verificadas
+- [x] V-1 `VERIFICAR.md` (guía de verificación para el usuario)
 - [x] M24 exportación STEP de la OML con CadQuery (`requirements-cad.txt`; sin abrir en Ansys)
 - [x] M22 optimizador multinivel (motor `project`; 3D opt-in)
 - [x] M23 verificación de requisitos (14 CFR 23.2110/2120/2130 leídos; el resto `no evaluable`)

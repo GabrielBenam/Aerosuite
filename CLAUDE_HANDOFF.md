@@ -108,3 +108,6 @@ Motor `project`: variables = entradas del proyecto, métricas = salidas de módu
 .\.venv\Scripts\python.exe -m aerosuite export --project results\c172\project.json --module m24 --out results\c172\m24.json
 ```
 Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49.
+
+### Guía de verificación (F5)
+`VERIFICAR.md` (raíz): estado de validación por módulo, comprobaciones por módulo con página impresa (±1), supuestos y erratas, pasos en Windows.
