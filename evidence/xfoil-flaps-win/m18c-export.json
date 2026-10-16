@@ -1,0 +1,892 @@
+{
+  "schema": "aerosuite-export/1",
+  "project": "h",
+  "module": "m18c",
+  "units": "SI",
+  "stale": false,
+  "run": {
+    "module": "m18c",
+    "timestamp": "2026-10-16T05:14:22+00:00",
+    "inputs_sha256": "4abac728c1fcbfa8001d5de05c76d6214c4d6a5449384b262cb707714a5c8d1b",
+    "depends_on": {
+      "m09b": "6c91f034c0c117a50ae056ef9bda219a1781828198242e9019c683b9ae1cc738"
+    },
+    "level": "conceptual",
+    "references": [
+      "GUD Sec. 10.3.2 y Ec. 10-1 (flap simple: C_lmax en funcion de c_f/c = 0.1, 0.2 y delta_f), PDF 486-487",
+      "GUD Sec. 10.3.9 (1)-(3) y Ejemplo 10-2 (prorrateo de dC_lmax de la Tabla 10-5; resultado 3.01), PDF 500-501",
+      "GUD Sec. 10.4.2, Ecs. 10-2 y 10-3 (metodo de particion del ala) y Ejemplo 10-3 (SR22: C_Lmax = 1.936 frente a 1.99 del POH), PDF 503-505",
+      "GUD Sec. 8.1 (Ecs. 8-11 y 8-12: C_l = C_l0 + C_l_alpha alpha, usadas en el Ejemplo 10-3 para los segmentos sin flap)",
+      "XFOIL 6.99, comando GDES/FLAP (Drela): flap de charnela articulada aplicado a la geometria del perfil"
+    ]
+  },
+  "result": {
+    "level": "conceptual (3D wing partition method; 2D flap increments as declared per source)",
+    "units": "SI",
+    "assumptions": [],
+    "configurations": {
+      "takeoff": {
+        "segments": [
+          {
+            "id": "root",
+            "y_in": 0.0,
+            "y_out": 0.12,
+            "area_m2": 1.1205266964705882,
+            "chord_in_m": 1.6723426992713628,
+            "chord_out_m": 1.6121383620975938,
+            "clmax_clean": 1.58,
+            "flapped": false,
+            "cl_unflapped_at_stall": 1.58
+          },
+          {
+            "id": "flap",
+            "y_in": 0.12,
+            "y_out": 0.62,
+            "area_m2": 4.226698205882353,
+            "chord_in_m": 1.6121383620975938,
+            "chord_out_m": 1.3612869572068893,
+            "clmax_clean": 1.58,
+            "flapped": true,
+            "clmax_i": 1.784,
+            "section": {
+              "source": "XFOIL 2D (GDES/FLAP), viscous",
+              "clmax": 1.784,
+              "d_clmax": 0.1169,
+              "alpha_at_clmax_deg": 17.0,
+              "stall_captured": true,
+              "alpha0l_deg": null,
+              "points": 26,
+              "polar": [
+                {
+                  "alpha": -4.0,
+                  "cl": 0.532,
+                  "cd": 0.00516,
+                  "cm": -0.1609,
+                  "cdp": 0.00111,
+                  "xtr_top": 0.7511,
+                  "xtr_bottom": 0.2724
+                },
+                {
+                  "alpha": -3.0,
+                  "cl": 0.643,
+                  "cd": 0.00488,
+                  "cm": -0.1605,
+                  "cdp": 0.00102,
+                  "xtr_top": 0.745,
+                  "xtr_bottom": 0.3492
+                },
+                {
+                  "alpha": -2.0,
+                  "cl": 0.7525,
+                  "cd": 0.00454,
+                  "cm": -0.1597,
+                  "cdp": 0.00093,
+                  "xtr_top": 0.7323,
+                  "xtr_bottom": 0.4375
+                },
+                {
+                  "alpha": -1.0,
+                  "cl": 0.8016,
+                  "cd": 0.00593,
+                  "cm": -0.1462,
+                  "cdp": 0.00167,
+                  "xtr_top": 0.5153,
+                  "xtr_bottom": 0.5128
+                },
+                {
+                  "alpha": 0.0,
+                  "cl": 0.8542,
+                  "cd": 0.00669,
+                  "cm": -0.1334,
+                  "cdp": 0.00222,
+                  "xtr_top": 0.4293,
+                  "xtr_bottom": 0.5657
+                },
+                {
+                  "alpha": 1.0,
+                  "cl": 0.9087,
+                  "cd": 0.00771,
+                  "cm": -0.1214,
+                  "cdp": 0.00301,
+                  "xtr_top": 0.3519,
+                  "xtr_bottom": 0.6031
+                },
+                {
+                  "alpha": 2.0,
+                  "cl": 0.9636,
+                  "cd": 0.0091,
+                  "cm": -0.1102,
+                  "cdp": 0.00407,
+                  "xtr_top": 0.261,
+                  "xtr_bottom": 0.6304
+                },
+                {
+                  "alpha": 3.0,
+                  "cl": 1.0269,
+                  "cd": 0.01068,
+                  "cm": -0.1013,
+                  "cdp": 0.00526,
+                  "xtr_top": 0.1698,
+                  "xtr_bottom": 0.6498
+                },
+                {
+                  "alpha": 4.0,
+                  "cl": 1.0994,
+                  "cd": 0.01224,
+                  "cm": -0.0944,
+                  "cdp": 0.00647,
+                  "xtr_top": 0.0997,
+                  "xtr_bottom": 0.664
+                },
+                {
+                  "alpha": 5.0,
+                  "cl": 1.1768,
+                  "cd": 0.01374,
+                  "cm": -0.0886,
+                  "cdp": 0.00774,
+                  "xtr_top": 0.0585,
+                  "xtr_bottom": 0.6755
+                },
+                {
+                  "alpha": 6.0,
+                  "cl": 1.256,
+                  "cd": 0.01519,
+                  "cm": -0.0833,
+                  "cdp": 0.00908,
+                  "xtr_top": 0.0393,
+                  "xtr_bottom": 0.6832
+                },
+                {
+                  "alpha": 7.0,
+                  "cl": 1.3322,
+                  "cd": 0.01677,
+                  "cm": -0.0779,
+                  "cdp": 0.01061,
+                  "xtr_top": 0.028,
+                  "xtr_bottom": 0.6879
+                },
+                {
+                  "alpha": 8.0,
+                  "cl": 1.4068,
+                  "cd": 0.01844,
+                  "cm": -0.0724,
+                  "cdp": 0.01227,
+                  "xtr_top": 0.0224,
+                  "xtr_bottom": 0.6929
+                },
+                {
+                  "alpha": 9.0,
+                  "cl": 1.4765,
+                  "cd": 0.02033,
+                  "cm": -0.0666,
+                  "cdp": 0.0142,
+                  "xtr_top": 0.0181,
+                  "xtr_bottom": 0.6972
+                },
+                {
+                  "alpha": 10.0,
+                  "cl": 1.5418,
+                  "cd": 0.02256,
+                  "cm": -0.0605,
+                  "cdp": 0.01647,
+                  "xtr_top": 0.0152,
+                  "xtr_bottom": 0.7012
+                },
+                {
+                  "alpha": 11.0,
+                  "cl": 1.5992,
+                  "cd": 0.02522,
+                  "cm": -0.0538,
+                  "cdp": 0.01922,
+                  "xtr_top": 0.0128,
+                  "xtr_bottom": 0.7053
+                },
+                {
+                  "alpha": 12.0,
+                  "cl": 1.6531,
+                  "cd": 0.02821,
+                  "cm": -0.0473,
+                  "cdp": 0.02233,
+                  "xtr_top": 0.0115,
+                  "xtr_bottom": 0.7088
+                },
+                {
+                  "alpha": 13.0,
+                  "cl": 1.6968,
+                  "cd": 0.03211,
+                  "cm": -0.0404,
+                  "cdp": 0.02638,
+                  "xtr_top": 0.0102,
+                  "xtr_bottom": 0.7123
+                },
+                {
+                  "alpha": 14.0,
+                  "cl": 1.7373,
+                  "cd": 0.0365,
+                  "cm": -0.0341,
+                  "cdp": 0.03094,
+                  "xtr_top": 0.0095,
+                  "xtr_bottom": 0.7156
+                },
+                {
+                  "alpha": 15.0,
+                  "cl": 1.7631,
+                  "cd": 0.04251,
+                  "cm": -0.0278,
+                  "cdp": 0.03713,
+                  "xtr_top": 0.0085,
+                  "xtr_bottom": 0.7187
+                },
+                {
+                  "alpha": 16.0,
+                  "cl": 1.7778,
+                  "cd": 0.0503,
+                  "cm": -0.0227,
+                  "cdp": 0.04517,
+                  "xtr_top": 0.008,
+                  "xtr_bottom": 0.7219
+                },
+                {
+                  "alpha": 17.0,
+                  "cl": 1.784,
+                  "cd": 0.06032,
+                  "cm": -0.0203,
+                  "cdp": 0.05547,
+                  "xtr_top": 0.0076,
+                  "xtr_bottom": 0.7267
+                },
+                {
+                  "alpha": 19.0,
+                  "cl": 1.7643,
+                  "cd": 0.09339,
+                  "cm": -0.0325,
+                  "cdp": 0.08972,
+                  "xtr_top": 0.0069,
+                  "xtr_bottom": 0.998
+                },
+                {
+                  "alpha": 20.0,
+                  "cl": 1.7028,
+                  "cd": 0.11706,
+                  "cm": -0.0424,
+                  "cdp": 0.11381,
+                  "xtr_top": 0.0066,
+                  "xtr_bottom": 1.0
+                },
+                {
+                  "alpha": 21.0,
+                  "cl": 1.6151,
+                  "cd": 0.14547,
+                  "cm": -0.0574,
+                  "cdp": 0.1427,
+                  "xtr_top": 0.0063,
+                  "xtr_bottom": 1.0
+                },
+                {
+                  "alpha": 22.0,
+                  "cl": 1.5248,
+                  "cd": 0.17708,
+                  "cm": -0.0787,
+                  "cdp": 0.17478,
+                  "xtr_top": 0.0062,
+                  "xtr_bottom": 1.0
+                }
+              ],
+              "caution": "XFOIL does not model slot flow or massive separation: indicator, not a certification value"
+            },
+            "hinge_sweep_deg": 0.0
+          },
+          {
+            "id": "aileron",
+            "y_in": 0.62,
+            "y_out": 0.95,
+            "area_m2": 2.398948384411764,
+            "chord_in_m": 1.3612869572068893,
+            "chord_out_m": 1.1957250299790243,
+            "clmax_clean": 1.58,
+            "flapped": false,
+            "cl_unflapped_at_stall": 1.58
+          },
+          {
+            "id": "tip",
+            "y_in": 0.95,
+            "y_out": 1.0,
+            "area_m2": 0.3363767132352944,
+            "chord_in_m": 1.1957250299790243,
+            "chord_out_m": 1.170639889489954,
+            "clmax_clean": 1.58,
+            "flapped": false,
+            "cl_unflapped_at_stall": 1.58
+          }
+        ],
+        "cl_max_wing": 1.5180120000000001,
+        "cl_max_wing_clean_same_method": 1.422,
+        "delta_cl_max": 0.09601200000000021,
+        "sref_m2": 16.1651,
+        "area_covered_pct": 100.0
+      },
+      "landing": {
+        "segments": [
+          {
+            "id": "root",
+            "y_in": 0.0,
+            "y_out": 0.12,
+            "area_m2": 1.1205266964705882,
+            "chord_in_m": 1.6723426992713628,
+            "chord_out_m": 1.6121383620975938,
+            "clmax_clean": 1.58,
+            "flapped": false,
+            "cl_unflapped_at_stall": 1.31
+          },
+          {
+            "id": "flap",
+            "y_in": 0.12,
+            "y_out": 0.62,
+            "area_m2": 4.226698205882353,
+            "chord_in_m": 1.6121383620975938,
+            "chord_out_m": 1.3612869572068893,
+            "clmax_clean": 1.58,
+            "flapped": true,
+            "clmax_i": 2.0312,
+            "section": {
+              "source": "XFOIL 2D (GDES/FLAP), viscous",
+              "clmax": 2.0312,
+              "d_clmax": 0.3641000000000001,
+              "alpha_at_clmax_deg": 13.0,
+              "stall_captured": true,
+              "alpha0l_deg": null,
+              "points": 27,
+              "polar": [
+                {
+                  "alpha": -4.0,
+                  "cl": 0.9378,
+                  "cd": 0.05302,
+                  "cm": -0.1892,
+                  "cdp": 0.05033,
+                  "xtr_top": 0.7298,
+                  "xtr_bottom": 0.3718
+                },
+                {
+                  "alpha": -3.0,
+                  "cl": 1.0258,
+                  "cd": 0.05298,
+                  "cm": -0.1856,
+                  "cdp": 0.04943,
+                  "xtr_top": 0.5235,
+                  "xtr_bottom": 0.4206
+                },
+                {
+                  "alpha": -2.0,
+                  "cl": 1.1278,
+                  "cd": 0.05219,
+                  "cm": -0.1838,
+                  "cdp": 0.04808,
+                  "xtr_top": 0.4019,
+                  "xtr_bottom": 0.4675
+                },
+                {
+                  "alpha": -1.0,
+                  "cl": 1.2165,
+                  "cd": 0.05259,
+                  "cm": -0.1801,
+                  "cdp": 0.04796,
+                  "xtr_top": 0.2854,
+                  "xtr_bottom": 0.5022
+                },
+                {
+                  "alpha": 0.0,
+                  "cl": 1.3089,
+                  "cd": 0.05248,
+                  "cm": -0.1769,
+                  "cdp": 0.04721,
+                  "xtr_top": 0.1621,
+                  "xtr_bottom": 0.5271
+                },
+                {
+                  "alpha": 1.0,
+                  "cl": 1.3951,
+                  "cd": 0.05315,
+                  "cm": -0.1729,
+                  "cdp": 0.04744,
+                  "xtr_top": 0.0835,
+                  "xtr_bottom": 0.5462
+                },
+                {
+                  "alpha": 2.0,
+                  "cl": 1.4784,
+                  "cd": 0.05425,
+                  "cm": -0.1685,
+                  "cdp": 0.04833,
+                  "xtr_top": 0.0473,
+                  "xtr_bottom": 0.5628
+                },
+                {
+                  "alpha": 3.0,
+                  "cl": 1.5595,
+                  "cd": 0.05559,
+                  "cm": -0.1639,
+                  "cdp": 0.04959,
+                  "xtr_top": 0.0318,
+                  "xtr_bottom": 0.576
+                },
+                {
+                  "alpha": 4.0,
+                  "cl": 1.6372,
+                  "cd": 0.05724,
+                  "cm": -0.1589,
+                  "cdp": 0.05117,
+                  "xtr_top": 0.0224,
+                  "xtr_bottom": 0.5853
+                },
+                {
+                  "alpha": 5.0,
+                  "cl": 1.7114,
+                  "cd": 0.05917,
+                  "cm": -0.1536,
+                  "cdp": 0.05313,
+                  "xtr_top": 0.0175,
+                  "xtr_bottom": 0.597
+                },
+                {
+                  "alpha": 6.0,
+                  "cl": 1.7807,
+                  "cd": 0.0615,
+                  "cm": -0.1479,
+                  "cdp": 0.0555,
+                  "xtr_top": 0.0142,
+                  "xtr_bottom": 0.604
+                },
+                {
+                  "alpha": 7.0,
+                  "cl": 1.8439,
+                  "cd": 0.06442,
+                  "cm": -0.1416,
+                  "cdp": 0.05849,
+                  "xtr_top": 0.0115,
+                  "xtr_bottom": 0.6129
+                },
+                {
+                  "alpha": 8.0,
+                  "cl": 1.8982,
+                  "cd": 0.06814,
+                  "cm": -0.1347,
+                  "cdp": 0.06233,
+                  "xtr_top": 0.0103,
+                  "xtr_bottom": 0.6192
+                },
+                {
+                  "alpha": 9.0,
+                  "cl": 1.9456,
+                  "cd": 0.07258,
+                  "cm": -0.1274,
+                  "cdp": 0.06689,
+                  "xtr_top": 0.0088,
+                  "xtr_bottom": 0.6241
+                },
+                {
+                  "alpha": 10.0,
+                  "cl": 1.9855,
+                  "cd": 0.07779,
+                  "cm": -0.12,
+                  "cdp": 0.07228,
+                  "xtr_top": 0.0082,
+                  "xtr_bottom": 0.6294
+                },
+                {
+                  "alpha": 11.0,
+                  "cl": 2.0131,
+                  "cd": 0.08437,
+                  "cm": -0.1124,
+                  "cdp": 0.07904,
+                  "xtr_top": 0.0072,
+                  "xtr_bottom": 0.6337
+                },
+                {
+                  "alpha": 12.0,
+                  "cl": 2.0257,
+                  "cd": 0.09289,
+                  "cm": -0.1051,
+                  "cdp": 0.08781,
+                  "xtr_top": 0.0066,
+                  "xtr_bottom": 0.6375
+                },
+                {
+                  "alpha": 13.0,
+                  "cl": 2.0312,
+                  "cd": 0.10255,
+                  "cm": -0.0994,
+                  "cdp": 0.09773,
+                  "xtr_top": 0.0063,
+                  "xtr_bottom": 0.641
+                },
+                {
+                  "alpha": 14.0,
+                  "cl": 2.0264,
+                  "cd": 0.11379,
+                  "cm": -0.096,
+                  "cdp": 0.10925,
+                  "xtr_top": 0.0059,
+                  "xtr_bottom": 0.6434
+                },
+                {
+                  "alpha": 15.0,
+                  "cl": 2.0087,
+                  "cd": 0.12689,
+                  "cm": -0.0957,
+                  "cdp": 0.12266,
+                  "xtr_top": 0.0055,
+                  "xtr_bottom": 0.6456
+                },
+                {
+                  "alpha": 16.0,
+                  "cl": 1.9777,
+                  "cd": 0.14204,
+                  "cm": -0.0993,
+                  "cdp": 0.13817,
+                  "xtr_top": 0.0051,
+                  "xtr_bottom": 0.6478
+                },
+                {
+                  "alpha": 17.0,
+                  "cl": 1.9363,
+                  "cd": 0.15906,
+                  "cm": -0.1072,
+                  "cdp": 0.15557,
+                  "xtr_top": 0.0049,
+                  "xtr_bottom": 0.6499
+                },
+                {
+                  "alpha": 18.0,
+                  "cl": 1.8979,
+                  "cd": 0.17574,
+                  "cm": -0.1176,
+                  "cdp": 0.1726,
+                  "xtr_top": 0.0048,
+                  "xtr_bottom": 0.6522
+                },
+                {
+                  "alpha": 19.0,
+                  "cl": 1.8468,
+                  "cd": 0.19479,
+                  "cm": -0.1322,
+                  "cdp": 0.19203,
+                  "xtr_top": 0.0047,
+                  "xtr_bottom": 0.6537
+                },
+                {
+                  "alpha": 20.0,
+                  "cl": 1.779,
+                  "cd": 0.2175,
+                  "cm": -0.1521,
+                  "cdp": 0.21515,
+                  "xtr_top": 0.0047,
+                  "xtr_bottom": 0.6548
+                },
+                {
+                  "alpha": 21.0,
+                  "cl": 1.6966,
+                  "cd": 0.24444,
+                  "cm": -0.1776,
+                  "cdp": 0.24251,
+                  "xtr_top": 0.0046,
+                  "xtr_bottom": 0.6553
+                },
+                {
+                  "alpha": 22.0,
+                  "cl": 1.6306,
+                  "cd": 0.26945,
+                  "cm": -0.2017,
+                  "cdp": 0.26786,
+                  "xtr_top": 0.0045,
+                  "xtr_bottom": 0.6557
+                }
+              ],
+              "caution": "XFOIL does not model slot flow or massive separation: indicator, not a certification value"
+            },
+            "hinge_sweep_deg": 0.0
+          },
+          {
+            "id": "aileron",
+            "y_in": 0.62,
+            "y_out": 0.95,
+            "area_m2": 2.398948384411764,
+            "chord_in_m": 1.3612869572068893,
+            "chord_out_m": 1.1957250299790243,
+            "clmax_clean": 1.58,
+            "flapped": false,
+            "cl_unflapped_at_stall": 1.31
+          },
+          {
+            "id": "tip",
+            "y_in": 0.95,
+            "y_out": 1.0,
+            "area_m2": 0.3363767132352944,
+            "chord_in_m": 1.1957250299790243,
+            "chord_out_m": 1.170639889489954,
+            "clmax_clean": 1.58,
+            "flapped": false,
+            "cl_unflapped_at_stall": 1.31
+          }
+        ],
+        "cl_max_wing": 1.5184306588235295,
+        "cl_max_wing_clean_same_method": 1.422,
+        "delta_cl_max": 0.09643065882352952,
+        "sref_m2": 16.1651,
+        "area_covered_pct": 100.0
+      }
+    },
+    "xfoil_clean_section": {
+      "naca": "2412",
+      "reynolds": 3000000,
+      "clmax": 1.6671,
+      "alpha_at_clmax_deg": 18.0,
+      "stall_captured": true,
+      "polar": [
+        {
+          "alpha": -4.0,
+          "cl": -0.1815,
+          "cd": 0.00616,
+          "cm": -0.0575,
+          "cdp": 0.00134,
+          "xtr_top": 0.7818,
+          "xtr_bottom": 0.0882
+        },
+        {
+          "alpha": -3.0,
+          "cl": -0.0779,
+          "cd": 0.00588,
+          "cm": -0.0554,
+          "cdp": 0.00106,
+          "xtr_top": 0.722,
+          "xtr_bottom": 0.1336
+        },
+        {
+          "alpha": -2.0,
+          "cl": 0.0257,
+          "cd": 0.00564,
+          "cm": -0.0533,
+          "cdp": 0.00086,
+          "xtr_top": 0.658,
+          "xtr_bottom": 0.2029
+        },
+        {
+          "alpha": -1.0,
+          "cl": 0.1298,
+          "cd": 0.00549,
+          "cm": -0.0514,
+          "cdp": 0.00077,
+          "xtr_top": 0.5931,
+          "xtr_bottom": 0.2879
+        },
+        {
+          "alpha": 0.0,
+          "cl": 0.2334,
+          "cd": 0.00536,
+          "cm": -0.0495,
+          "cdp": 0.00076,
+          "xtr_top": 0.5313,
+          "xtr_bottom": 0.4001
+        },
+        {
+          "alpha": 1.0,
+          "cl": 0.335,
+          "cd": 0.00511,
+          "cm": -0.0471,
+          "cdp": 0.00082,
+          "xtr_top": 0.4779,
+          "xtr_bottom": 0.5737
+        },
+        {
+          "alpha": 2.0,
+          "cl": 0.4356,
+          "cd": 0.00501,
+          "cm": -0.0445,
+          "cdp": 0.00098,
+          "xtr_top": 0.4268,
+          "xtr_bottom": 0.731
+        },
+        {
+          "alpha": 3.0,
+          "cl": 0.5302,
+          "cd": 0.00505,
+          "cm": -0.0404,
+          "cdp": 0.00123,
+          "xtr_top": 0.3652,
+          "xtr_bottom": 0.8842
+        },
+        {
+          "alpha": 4.0,
+          "cl": 0.6491,
+          "cd": 0.00567,
+          "cm": -0.042,
+          "cdp": 0.00171,
+          "xtr_top": 0.2779,
+          "xtr_bottom": 0.9715
+        },
+        {
+          "alpha": 5.0,
+          "cl": 0.7814,
+          "cd": 0.00682,
+          "cm": -0.047,
+          "cdp": 0.00238,
+          "xtr_top": 0.1742,
+          "xtr_bottom": 0.9875
+        },
+        {
+          "alpha": 6.0,
+          "cl": 0.9085,
+          "cd": 0.00807,
+          "cm": -0.051,
+          "cdp": 0.0032,
+          "xtr_top": 0.0945,
+          "xtr_bottom": 0.9964
+        },
+        {
+          "alpha": 7.0,
+          "cl": 1.0328,
+          "cd": 0.00916,
+          "cm": -0.0544,
+          "cdp": 0.00403,
+          "xtr_top": 0.054,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 8.0,
+          "cl": 1.1111,
+          "cd": 0.01006,
+          "cm": -0.0478,
+          "cdp": 0.00483,
+          "xtr_top": 0.0378,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 9.0,
+          "cl": 1.19,
+          "cd": 0.01106,
+          "cm": -0.0414,
+          "cdp": 0.00576,
+          "xtr_top": 0.0276,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 10.0,
+          "cl": 1.2699,
+          "cd": 0.0121,
+          "cm": -0.0356,
+          "cdp": 0.0068,
+          "xtr_top": 0.0222,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 11.0,
+          "cl": 1.3467,
+          "cd": 0.01333,
+          "cm": -0.0295,
+          "cdp": 0.00803,
+          "xtr_top": 0.018,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 12.0,
+          "cl": 1.4104,
+          "cd": 0.01466,
+          "cm": -0.0213,
+          "cdp": 0.00942,
+          "xtr_top": 0.0156,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 13.0,
+          "cl": 1.4725,
+          "cd": 0.01644,
+          "cm": -0.0139,
+          "cdp": 0.01126,
+          "xtr_top": 0.0134,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 14.0,
+          "cl": 1.5332,
+          "cd": 0.0185,
+          "cm": -0.0075,
+          "cdp": 0.01342,
+          "xtr_top": 0.0121,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 15.0,
+          "cl": 1.5812,
+          "cd": 0.0216,
+          "cm": -0.0009,
+          "cdp": 0.01665,
+          "xtr_top": 0.0108,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 16.0,
+          "cl": 1.6258,
+          "cd": 0.02535,
+          "cm": 0.0043,
+          "cdp": 0.02056,
+          "xtr_top": 0.01,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 17.0,
+          "cl": 1.6533,
+          "cd": 0.03111,
+          "cm": 0.0086,
+          "cdp": 0.02651,
+          "xtr_top": 0.0092,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 18.0,
+          "cl": 1.6671,
+          "cd": 0.03909,
+          "cm": 0.0109,
+          "cdp": 0.03473,
+          "xtr_top": 0.0085,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 19.0,
+          "cl": 1.667,
+          "cd": 0.04977,
+          "cm": 0.0105,
+          "cdp": 0.04568,
+          "xtr_top": 0.0082,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 20.0,
+          "cl": 1.6451,
+          "cd": 0.06432,
+          "cm": 0.0073,
+          "cdp": 0.06055,
+          "xtr_top": 0.0079,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 21.0,
+          "cl": 1.5958,
+          "cd": 0.0838,
+          "cm": 0.0007,
+          "cdp": 0.08039,
+          "xtr_top": 0.0076,
+          "xtr_bottom": 1.0
+        },
+        {
+          "alpha": 22.0,
+          "cl": 1.5229,
+          "cd": 0.10817,
+          "cm": -0.0094,
+          "cdp": 0.10516,
+          "xtr_top": 0.0075,
+          "xtr_bottom": 1.0
+        }
+      ]
+    },
+    "requirements": {}
+  }
+}

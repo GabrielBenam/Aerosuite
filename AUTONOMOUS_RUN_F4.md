@@ -66,6 +66,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 - 2026-10-15 21:00 | M16 estabilidad | TERMINADO | feat(M16) | D-34 a D-36; B747 de Etkin reproducido; flow5 tipo 7 pendiente
 - 2026-10-15 22:00 | M18a tren de aterrizaje | TERMINADO | feat(M18a) | D-37; Ejemplos 13-2 y 13-3
 - 2026-10-15 22:40 | M18b controles | TERMINADO | feat(M18b) | D-38; Ejemplo 24-6 (d); C_H como dato de entrada
+- 2026-10-15 23:30 | M18c hipersustentación | TERMINADO | feat(M18c) | D-39; XFOIL 6.99 real con flap; evidence/xfoil-flaps-win
 
 ## 8. Cierre (dispara el correo)
 Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:
