@@ -39,8 +39,11 @@ def dispatch(args) -> bool:
         return True
     if args.command == "project-status":
         data = prj.load(args.project)
-        print(json.dumps({"name": data["name"], "outputs": sorted(data["outputs"]), "stale": prj.stale(data),
-                          "assumptions": data["assumptions"]}, indent=2, ensure_ascii=False))
+        summary = {"name": data["name"], "outputs": sorted(data["outputs"]), "stale": prj.stale(data),
+                   "assumptions": data["assumptions"]}
+        if "m03" in data["outputs"]:
+            summary["nota_costos_m03"] = data["outputs"]["m03"]["result"].get("nota_costos")
+        print(json.dumps(summary, indent=2, ensure_ascii=False))
         return True
     if args.command in MODULES:
         module = importlib.import_module(f"aerosuite.{MODULES[args.command][1]}")

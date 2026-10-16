@@ -16,6 +16,9 @@ Actualizado 2026-10-14. Sustituye a `docs/ROADMAP.md`.
 - [x] M01 Requisitos y base regulatoria
 - [x] M02 Referencias · [x] M03 Costos · [x] M04 Restricciones (+ aterrizaje) · [x] M06 Peso inicial
 
+## Pendientes anotados
+- M03: factor de inflación opcional como dato de entrada del usuario (hoy costos de 2012, D-23); no se asume ninguno.
+
 ## Etapa 2 — Conexiones entre motores (prioridad en este orden)
 1. C-3 lector de resultados flow5 → 2. C-2 dimensionamiento ADRpy → ala flow5 → 3. C-5 CD0/k calculados → 4. C-1 polares XFOIL → flow5 → 5. C-4 optimización 3D con flow5 → 6. C-7 envolvente V-n → 7. C-8 derivadas de estabilidad.
 

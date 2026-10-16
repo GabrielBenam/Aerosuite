@@ -16,6 +16,9 @@ REFERENCES = [
     "GUD Sec. 2.2.1 costo fijo/variable, motor de pistón Ec. 2-21, Ejemplos 2-1 a 2-4, PDF 88-92 / impr. 43-47",
     "GUD Sec. 2.3.1 costo operativo directo, Ecs. 2-38 a 2-47 y Ejemplo 2-5, PDF 95-97 / impr. 50-52",
 ]
+BASE_YEAR = 2012
+COST_NOTE = ("Costos en dólares de 2012 (tarifas por defecto de Gudmundsson, Cap. 2); no están actualizados por "
+             "inflación. Interpretar como orden de magnitud relativo, no como precio actual.")
 RATE_DEFAULTS = {"r_engr": 92.0, "r_tool": 61.0, "r_mfg": 53.0}  # USD/h, junio 2012 (GUD PDF 86)
 
 
@@ -116,7 +119,7 @@ def run(project: dict) -> dict:
                            d.get("certification", "part23"), d.get("complex_flap", False), d.get("f_comp", 0.0),
                            d.get("pressurized", False), d.get("tapered_wing", True), d.get("cpi_2012", 1.0),
                            d.get("rates"), d.get("flight_test_usd"))
-    result = {"development": dev}
+    result = {"anio_base": BASE_YEAR, "nota_costos": COST_NOTE, "development": dev}
     if "vsc_usd" in d:
         vsc = dict(d["vsc_usd"])
         if "piston_engine" in d:
@@ -130,8 +133,8 @@ def run(project: dict) -> dict:
         result["operation"] = operating_cost(d["operation"])
     if "rates" not in d:
         prj.add_assumption(project, "m03", "rates", RATE_DEFAULTS,
-                           "tarifas de junio 2012 del libro (GUD PDF 86); actualizar con tarifas vigentes o CPI")
+                           "supuesto de 2012: tarifas de junio 2012 del libro (GUD PDF 86), sin actualizar por inflación (D-23)")
     if "cpi_2012" not in d:
-        prj.add_assumption(project, "m03", "cpi_2012", 1.0, "sin ajuste de inflación; el libro usa 1.10 para abril 2019")
+        prj.add_assumption(project, "m03", "cpi_2012", 1.0, "supuesto de 2012: sin ajuste de inflación (D-23); el libro usa 1.10 para abril 2019 solo en su ejemplo")
     prj.record(project, "m03", result, "conceptual", REFERENCES)
     return result
