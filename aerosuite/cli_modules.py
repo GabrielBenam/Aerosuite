@@ -19,6 +19,7 @@ MODULES = {
     "m13": ("m13", "m13_cg", "M13 center of gravity, inertias and CG envelope (steps 13-14)"),
     "m15": ("m15", "m15_fuselage", "M15 fuselage sizing: cabin, nose/tail, wetted area and volume (step 15)"),
     "m16": ("m16", "m16_stability", "M16 static and dynamic stability: neutral point, CG limits, modes (steps 16-17)"),
+    "m18a": ("m18a", "m18a_gear", "M18a landing gear: layout, static/dynamic loads, overturn, tires, brakes (step 18)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 

@@ -63,6 +63,8 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 <!-- BITACORA -->
 - 2026-10-15 19:40 | Git: rama auto/f4 desde origin/main (PR de F3 MERGED) | TERMINADO | chore plan | push hecho
 - 2026-10-15 20:00 | V-F5 validación flow5 7.55 | TERMINADO | feat(M-F5R) | D-32, D-33; evidencia en evidence/flow5-7.55-win
+- 2026-10-15 21:00 | M16 estabilidad | TERMINADO | feat(M16) | D-34 a D-36; B747 de Etkin reproducido; flow5 tipo 7 pendiente
+- 2026-10-15 22:00 | M18a tren de aterrizaje | TERMINADO | feat(M18a) | D-37; Ejemplos 13-2 y 13-3
 
 ## 8. Cierre (dispara el correo)
 Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:
@@ -70,4 +72,3 @@ Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:
 2. Escribe `PR_F4.md` (no lo incluyas en git) con: qué se implementó, qué se validó con cifras contra el libro, qué se validó con flow5 y XFOIL reales (con la versión 7.55 declarada), qué quedó como supuesto, qué quedó pendiente y la lista de elementos que el usuario debe verificar.
 3. `gh pr create --base main --head auto/f4 --title "[FASE COMPLETA] V-F5 + F4: M16-M21" --body-file PR_F4.md`. Si todo lo pendiente quedó BLOQUEADO, el título es `[BLOQUEADO] V-F5 + F4`.
 4. Crea el archivo `FASE_COMPLETA.flag` en la raíz (ignorado por git).
-- 2026-10-15 21:00 | M16 estabilidad | TERMINADO | feat(M16) | D-34 a D-36; B747 de Etkin reproducido; flow5 tipo 7 pendiente
