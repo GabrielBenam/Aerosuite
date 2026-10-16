@@ -78,6 +78,11 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M09b | Ecs. 9-68 a 9-73, Tabla 9-7 (C_Lα) | GUD Sec. 9.5.4, PDF 412-414 / impr. 367-369 | Tabla 9-7 reproducida (8 filas) |
 | M09b | Ecs. 9-74 a 9-78, Ejemplo 9-9 (CL_max) | GUD Sec. 9.5.5, PDF 415-417 / impr. 370-372 | reproducido |
 | M09b | Ecs. 9-122, 9-129; Ejemplo 9-4 y 3-1 (e) | GUD Sec. 9.5.12, PDF 428-430 / impr. 383-385 | reproducido; 9-130 no implementada |
+| M10 | Dato (origen) en el borde de ataque de la raíz del ala | GUD Sec. 9.1.3, PDF 367 / impr. 322 | |
+| M10 | Brazos l_HT y l_VT entre c_MGC/4 del ala y de la cola (Figs. 11-1, 11-2) | GUD Sec. 11.2.1-11.2.2, PDF 529-530 / impr. 484-485 | |
+| M10 | Forma y escala; comprobaciones previas; concisión, robustez, flexibilidad | SOB Sec. 2.1.1, 2.2.1, 2.3, PDF 31-36 / impr. 13-18 | principios, no ecuaciones |
+| M10 | Círculo generalizado Y(Z) = Z^N1 (1−Z)^N2 (Ec. 2.16) y fuselaje 3D por secciones | SOB Sec. 2.4.1 y 2.4.3, PDF 36-46 / impr. 18-28 | |
+| M10 | Solevado lineal L(u,t) = (1−u)B1(t) + uB2(t) (Ec. 4.1) | SOB Sec. 4.1, PDF 85 / impr. 67 | |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)

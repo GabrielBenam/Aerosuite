@@ -72,6 +72,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 `- AAAA-MM-DD HH:MM | Mxx | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 <!-- BITACORA -->
+- 2026-10-15 | M10 | TERMINADO | feat(M10) | OML aerosuite-oml/1; invariantes geométricos; sin ejemplo del libro; D-27
 - 2026-10-15 | M09b | TERMINADO | feat(M09b) | Tabla 9-7 reproducida; inconsistencia Ej. 9-3 (D-26); flow5 solo intercambio
 - 2026-10-15 | M09a | TERMINADO | feat(M09a) | XFOIL 6.99 MIT descargado (SHA en TEST_RESULTS §3.5); matriz Sec. 8.3.9; D-25
 - 2026-10-15 | M08 | TERMINADO | feat(M08) | Ejemplos 11-1 a 11-3 reproducidos; Método 4 sin validación contra libro; D-24

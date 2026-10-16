@@ -1,0 +1,23 @@
+{
+  "m09b": {
+    "_source": "Cessna 172 de GUD Ejemplos 11-1 a 11-3: S = 174 ft2, b = 36 ft, AR = 7.45 (b2/S), lambda y diedro SUPUESTOS del usuario.",
+    "planform": {"area_m2": 16.1651, "aspect_ratio": 8.0, "taper_ratio": 0.7},
+    "dihedral_deg": 1.5,
+    "washout_deg": 1.5,
+    "airfoils": {"root": {"id": "naca2412", "clmax": 1.58, "cl_alpha_per_rad": 6.1},
+                 "tip": {"id": "naca2412", "clmax": 1.58, "cl_alpha_per_rad": 6.1}}
+  },
+  "m08": {
+    "wing_from_m09b": true,
+    "volumes": {"vht": 0.761, "vvt": 0.0419},
+    "fuselage": {"r1_m": 0.6096, "r2_m": 0.1524},
+    "method": 3, "ar_ht": 3.0, "ar_vt": 1.35
+  },
+  "m10": {
+    "_source": "Geometria de ejemplo: las posiciones z y la nariz son supuestos del usuario; no son datos del Cessna 172.",
+    "wing_z_m": 0.45,
+    "ht_z_m": 0.1,
+    "fuselage": {"from_m08": true, "x_nose_m": -1.6, "nose_length_m": 1.2, "z_axis_m": 0.0, "n1": 0.5, "n2": 0.5},
+    "contours": false
+  }
+}
