@@ -93,6 +93,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 - 2026-10-16 06:02 | M23 | TERMINADO | 8ba15d5 | 14 CFR 23.2110/2120/2130 leídos; no evaluable donde no hay texto (D-47); fix hash np.bool_
 - 2026-10-16 06:06 | M22 | TERMINADO | d4bb26b | motor project; DE/SLSQP vs malla 551 pts; 3D flow5 opt-in verificado (D-48)
 - 2026-10-16 06:17 | M24 | TERMINADO | 483d9bd | CadQuery 2.8.0 con --no-deps (nlopt vs NumPy); invariantes reimportados dentro de tolerancia (D-49)
+- 2026-10-16 06:18 | V-1 | TERMINADO | e829467 | VERIFICAR.md
 <!-- BITACORA -->
 
 ## 13. Cierre (dispara el correo)
