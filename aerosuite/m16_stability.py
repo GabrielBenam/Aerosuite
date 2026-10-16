@@ -262,9 +262,16 @@ def evaluate(project: dict) -> tuple[dict, list]:
     q = 0.5 * rho * u0 * u0
     cl = m * G / (q * s)
     k_ind = fl.get("k", w["span_efficiency"]["k_induced"])
-    cd = fl["cd0"] + k_ind * cl * cl
+    cd0, cd0_source = fl.get("cd0"), fl.get("cd0_source", "inputs.m16.flight.cd0 (M20 will compute it)")
+    if cd0 is None:
+        m20 = project["outputs"].get("m20")
+        if not m20:
+            raise SystemExit("inputs.m16.flight.cd0 is missing: give it or run m20 first")
+        cd0, cd0_source = m20["result"]["buildup"]["cd_min"], "M20 component buildup (outputs.m20)"
+        depends.append("m20")
+    cd = cd0 + k_ind * cl * cl
     res["flight_condition"] = {"speed_mps": u0, "density_kgm3": rho, "mass_kg": m, "q_pa": q, "cl": cl, "cd": cd, "l_over_d": cl / cd,
-                               "cd0_source": fl.get("cd0_source", "inputs.m16.flight.cd0 (M20 will compute it)"), "k": k_ind}
+                               "cd0": cd0, "cd0_source": cd0_source, "k": k_ind}
     inr = cg["inertia_about_cg_kgm2"]
     de = npt["downwash_gradient"]
     lc = l_ht / c

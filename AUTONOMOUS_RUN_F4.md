@@ -68,6 +68,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 - 2026-10-15 22:40 | M18b controles | TERMINADO | feat(M18b) | D-38; Ejemplo 24-6 (d); C_H como dato de entrada
 - 2026-10-15 23:30 | M18c hipersustentación | TERMINADO | feat(M18c) | D-39; XFOIL 6.99 real con flap; evidence/xfoil-flaps-win
 - 2026-10-16 00:30 | M19 pérdida benigna | TERMINADO | feat(M19) | D-40; línea sustentadora propia; contraste C_Lα con flow5 7.55 real
+- 2026-10-16 01:30 | M20 resistencia por componentes | TERMINADO | feat(M20) | D-41; Ejemplos 16-6 y 16-11; contraste con flow5 7.55 real
 
 ## 8. Cierre (dispara el correo)
 Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:
