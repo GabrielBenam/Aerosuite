@@ -1,9 +1,10 @@
 """M16 tests. Dynamics: Etkin's Boeing 747 (Sec. 6.2 / 6.7, flight condition 2: M = 0.8, 40 000 ft) in English units, since the
 matrix builders accept any coherent unit system. Statics: Gudmundsson Eqs. 24-91/24-132 and consistency identities.
-The longitudinal Table 6.1 values are those of the converted text, except CZ_u = -1.416 (recovered from the printed A(2,1) = -0.09055;
-the text shows 'CZ_u' unreadable) and CZ_alpha_dot = +5.896, the sign that reproduces the printed A(2,3) = 773.98 (the sign is not
-legible in the converted text). The lateral Table 6.6 values are not in the converted text: they are checked because they reproduce the
-printed eigenvalues. These are validation fixtures of published data, not aerodynamic results from AeroSuite."""
+Both tables were checked against the printed page images (F5, C-2; BIBLIOGRAFIA/dynamics_of_flight_by_etkins, imagenes 0175 and 0196,
+PDF 178 and 199): Table 6.1 prints CZ_u = -0.1060, which is C_zu without the 2 C_z0 term (C_z0 = -0.654): -0.1060 - 2 (0.654) = -1.414,
+the -1.416 used here reproduces the printed A(2,1) = -0.09055; CZ_alpha_dot = +5.896 is printed positive. Table 6.6 (CY_b -0.8771, Cl_b -0.2797,
+Cn_b 0.1946, Cl_p -0.3295, Cn_p -0.04073, Cl_r 0.304, Cn_r -0.2737) matches the values used, and the printed matrix of Eq. 6.7,2 is checked below.
+These are validation fixtures of published data, not aerodynamic results from AeroSuite."""
 import json
 import math
 import tempfile
@@ -36,6 +37,11 @@ class EtkinB747Tests(unittest.TestCase):
         self.assertAlmostEqual(c["phugoid"]["eigenvalue"][1], 0.067231, delta=1e-4)
         self.assertAlmostEqual(c["short_period"]["eigenvalue"][0], -0.3719, delta=2e-3)  # book -0.3719 +- 0.8875 i
         self.assertAlmostEqual(c["short_period"]["eigenvalue"][1], 0.8875, delta=2e-3)
+
+    def test_lateral_matrix_printed_in_eq_6_7_2(self):
+        a = m.lateral_matrix(B747_LAT)
+        printed = np.array([[-0.0558, 0, -774, 32.2], [-0.003865, -0.4342, 0.4136, 0], [0.001086, -0.006112, -0.1458, 0], [0, 1, 0, 0]])
+        np.testing.assert_allclose(a, printed, rtol=0.01, atol=2e-5)      # printed to 4 digits; g = 32.174 vs 32.2
 
     def test_lateral_eigenvalues(self):
         c = m.classify_lateral(np.linalg.eigvals(m.lateral_matrix(B747_LAT)))
@@ -77,6 +83,75 @@ class StaticTests(unittest.TestCase):
         self.assertLess(m.cn_beta_fuselage([0, 4, 8], [0.5, 1.2, 0.5], 8.0, 1.2, 16.0, 11.0), 0.0)
 
 
+# Gudmundsson Ejemplo 24-3 (SR22, Tabla 24-4), unidades inglesas; l_i positivo hacia delante del borde de ataque de la raiz (x = -l).
+SR22_L = [7.57, 5.66, 3.76, 1.90, 0.0, -5.20, -6.69, -8.29, -9.89, -11.21, -12.58, -14.07, -15.30]
+SR22_W = [0.0, 3.24, 3.72, 3.95, 4.08, 3.77, 3.19, 2.48, 1.64, 1.20, 0.84, 0.66, 0.58]
+SR22_ANG = [5.9, 0.9, -1.5, -2.0, -2.0, 2.3, 3.8, 5.0, 5.4, 4.9, 3.3, 0.1]       # col. 6 (el 5.o es la fila del ala)
+SR22_DBETA_BOOK = [0.943, 1.061, 1.205, 3.141, 0.276, 0.347, 0.422, 0.489, 0.552, 0.618, 0.681]  # col. 8
+
+
+class MunkMulthoppTests(unittest.TestCase):
+    """Ejemplo 24-3 del libro: C_M0,FUS = -0.003381, C_Malpha,FUS = 0.008671 por grado (fuselaje desestabilizador)."""
+
+    def run_example(self):
+        return m.munk_multhopp([-l for l in SR22_L], SR22_W, 5.20, 3.783, 144.9, 14.37, 0.333, SR22_ANG)
+
+    def test_k2_minus_k1(self):
+        self.assertAlmostEqual(m.k2_minus_k1(22.73 / 4.17), 0.857, delta=0.001)         # impreso 0.857
+
+    def test_book_columns_arithmetic(self):
+        """Aritmetica de la tabla con los valores de la col. 8 impresos (no valida las curvas de upwash)."""
+        r = self.run_example()
+        seg = r["segments"]
+        wf2dx = [g["w_f_m"] ** 2 * g["dx_m"] for g in seg]
+        s9 = sum(a * b for a, b in zip(wf2dx, SR22_DBETA_BOOK))
+        self.assertAlmostEqual(s9, 173.49, delta=0.2)
+        self.assertAlmostEqual(0.857 * (-78.9) / (36.5 * 144.9 * 3.783), -0.003381, delta=2e-6)
+        # el libro no multiplica C_M_alpha por k2 - k1: 173.49 / (36.5 S c) = 0.008671
+        self.assertAlmostEqual(s9 / (36.5 * 144.9 * 3.783), 0.008671, delta=5e-6)
+
+    def test_aft_upwash_matches_table(self):
+        seg = self.run_example()["segments"]
+        aft = [g["dbeta_dalpha"] for g in seg if g["region"] == "aft"]
+        for got, book in zip(aft, SR22_DBETA_BOOK[4:]):
+            self.assertAlmostEqual(got, book, delta=0.002)           # x_i/l_h (1 - d eps/d alpha) exacto
+        self.assertAlmostEqual(seg[3]["dbeta_dalpha"], 3.141, delta=0.005)   # curva 2 (Ec. 24-105) del segmento junto al ala
+
+    def test_example_with_digitized_curves(self):
+        """Con las curvas 1-2 impresas los segmentos 1-3 difieren 1.6-10 % de la tabla (el libro no los obtiene de la Ec. 24-104):
+        C_M_alpha +1.4 %; C_M0 -2.3 % (k2 - k1 de la Ec. 24-103 0.8626 frente a 0.857 impreso y redondeos de la tabla)."""
+        r = self.run_example()
+        self.assertAlmostEqual(r["cm_alpha_per_deg"], 0.008671, delta=0.008671 * 0.02)
+        self.assertAlmostEqual(r["cm0"], -0.003381, delta=0.003381 * 0.03)
+
+    def test_example_24_4_curve_1(self):
+        self.assertAlmostEqual(m.upwash_gradient_forward(2.258), 1.026, delta=0.001)        # Ejemplo 24-4, Ec. 24-104
+
+    def test_upwash_guards(self):
+        self.assertEqual(m.upwash_gradient_forward(5.0), m.upwash_gradient_forward(2.5))
+        self.assertEqual(m.upwash_gradient_forward(0.0), m.upwash_gradient_forward(0.1))
+
+    def test_neutral_point_moves_forward(self):
+        a = m.neutral_point(5.0, 4.0, 8.0, 0.6)
+        b = m.neutral_point(5.0, 4.0, 8.0, 0.6, dcm_alpha_fuselage=0.5)
+        self.assertAlmostEqual(b["h_n"], a["h_n"] - 0.1, places=12)
+        self.assertAlmostEqual(m.cm_alpha(5.0, 4.0, 8.0, 0.6, b["h_n"], dcm_alpha_fuselage=0.5), 0.0, places=12)
+
+    def test_no_fuselage_flags_optimistic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            src = Path(tmp) / "in.json"
+            src.write_text(EXAMPLE.read_text(encoding="utf-8"), encoding="utf-8")
+            path = Path(tmp) / "p.json"
+            main(["project-init", "--project", str(path), "--name", "s", "--from-inputs", str(src)])
+            for mod in ("m09b", "m08", "m10", "m12", "m13"):
+                main([mod, "--project", str(path)])
+            data = prj.load(path)
+            del data["outputs"]["m10"]                    # sin geometria de fuselaje para M16
+            r = m.evaluate(data)[0]
+            self.assertTrue(r["punto_neutro_optimista"])
+            self.assertFalse(r["longitudinal_static"]["fuselage_contribution"]["included"])
+
+
 class ProjectTests(unittest.TestCase):
     def build(self, tmp, mutate=None):
         data = json.loads(EXAMPLE.read_text(encoding="utf-8"))
@@ -99,7 +174,12 @@ class ProjectTests(unittest.TestCase):
             self.assertAlmostEqual(ls["static_margin"], ls["h_n"] - ls["h_cg"])
             self.assertAlmostEqual(ls["cm_alpha_per_rad"], -ls["cl_alpha_wing_per_rad"] * ls["static_margin"], places=9)
             self.assertTrue(ls["stable"])
-            self.assertEqual(sorted(data["outputs"]["m16"]["run"]["depends_on"]), ["m08", "m09b", "m13"])
+            self.assertTrue(ls["fuselage_contribution"]["included"])
+            self.assertFalse(r["punto_neutro_optimista"])
+            self.assertGreater(ls["fuselage_contribution"]["dcm_alpha_per_rad"], 0.0)       # destabilizing
+            self.assertAlmostEqual(ls["h_n"], ls["h_n_wing_ht"] + ls["fuselage_contribution"]["dh_n"], places=12)
+            self.assertLess(ls["fuselage_contribution"]["dh_n"], 0.0)
+            self.assertEqual(sorted(data["outputs"]["m16"]["run"]["depends_on"]), ["m08", "m09b", "m10", "m13"])
             self.assertEqual(prj.stale(data), [])
             self.assertIn("phugoid", r["longitudinal_dynamics"])
             self.assertIn("status", r["lateral_dynamics"])                   # no derivatives given: not invented

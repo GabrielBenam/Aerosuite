@@ -1,0 +1,16 @@
+# M24 (exportacion STEP): CadQuery y su motor OCP/OpenCASCADE, solo PyPI, instalados en .venv (Python 3.11, Windows).
+# CadQuery 2.8.0 declara nlopt>=2.9 que exige NumPy 2; el nucleo de AeroSuite fija NumPy 1.26.4 (requirements-core.txt). nlopt 2.11.0 importa
+# y CadQuery funciona con NumPy 1.26.4, por eso se instalo con --no-deps (ver TEST_RESULTS.md sec. 10, M24):
+#   python -m pip install --no-deps -r requirements-cad.txt
+cadquery==2.8.0
+cadquery-ocp==7.9.3.1.1
+cadquery-ocp-proxy==7.9.3.1.1
+casadi==3.8.1
+ezdxf==1.4.5
+fonttools==4.67.0
+multimethod==1.12
+nlopt==2.11.0
+pyparsing==3.3.3
+runtype==0.5.3
+typing_extensions==4.16.0
+vtk==9.6.2

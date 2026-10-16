@@ -39,3 +39,12 @@ Actualizado 2026-10-14. Sustituye a `docs/ROADMAP.md`.
 
 ## Etapa 4 — Interfaz integrada
 Diseñar la interfaz propia sobre los contratos JSON ya probados. No antes de cerrar la Etapa 2.
+
+## Fase F5 (corrida autónoma, `auto/f5`)
+- [x] C-1 M16: aporte del fuselaje (Munk-Multhopp)
+- [x] C-2 validaciones circulares de F4 verificadas
+- [x] V-1 `VERIFICAR.md` (guía de verificación para el usuario)
+- [x] M24 exportación STEP de la OML con CadQuery (`requirements-cad.txt`; sin abrir en Ansys)
+- [x] M22 optimizador multinivel (motor `project`; 3D opt-in)
+- [x] M23 verificación de requisitos (14 CFR 23.2110/2120/2130 leídos; el resto `no evaluable`)
+- [x] L-1 lazo completo M01→M21 (`python -m aerosuite loop`)

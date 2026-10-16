@@ -4,7 +4,11 @@ The optimizer never computes physics. It calls an *evaluation engine*:
 
 * ``adrpy``  — conceptual level (ADRpy 0.2.6 constraint analysis);
 * ``xfoil``  — 2D aerodynamic level (original XFOIL executable, NACA 4-digit family);
-* ``flow5``  — 3D level: NOT AVAILABLE in this stage (see PROJECT_STATE.md).
+* ``project`` — M22 multilevel optimizer over a whole project.json (see ProjectEngine): the variables are inputs of the project, each
+  evaluation runs the algorithm modules (L-1 loop, `settle`) and the metrics are outputs of those modules. Level `conceptual` (Gudmundsson
+  modules and ADRpy); modules that use XFOIL (M09a, M18c) add real 2D data and are reported in `levels_used`; real 3D (flow5) only with
+  settings.flow5.enabled = true (explicit flag, time limit per evaluation, low evaluation cap);
+* ``flow5``  — standalone 3D engine: NOT AVAILABLE (use ``project`` with settings.flow5).
 
 Contract (JSON):
 
@@ -40,7 +44,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
-LEVELS = {"adrpy": "conceptual", "xfoil": "aero2d", "flow5": "aero3d"}
+LEVELS = {"adrpy": "conceptual", "xfoil": "aero2d", "flow5": "aero3d", "project": "conceptual"}
 
 
 # ----------------------------------------------------------------- engines
@@ -125,7 +129,130 @@ class XfoilEngine:
                 "points_converged": len(rows)}
 
 
-ENGINES = {"adrpy": AdrpyEngine, "xfoil": XfoilEngine}
+class ProjectEngine:
+    """M22: evaluates a project.json through the algorithm modules (L-1). Variables are dotted paths into the project inputs
+    (e.g. ``m21.cruise.speed_mps``; list items by index). Metrics are dotted paths into the outputs (``m21.payload_range.0.range_const_v_h_km``)
+    plus ``m23.n_no_cumple`` / ``m23.n_cumple`` / ``m23.n_no_evaluable`` / ``m23.overall``. Only the metrics named by the objective, the
+    constraints and ``settings.report_metrics`` are stored. A module that stops for missing data or a failed solver is a failed evaluation."""
+
+    def __init__(self, base, workdir: Path, spec: "Spec | None" = None):
+        from .project import new_project
+        doc = json.loads(Path(base).read_text(encoding="utf-8")) if isinstance(base, (str, Path)) else deepcopy(base)
+        if "inputs" in doc and doc.get("schema", "").startswith("aerosuite-project"):
+            doc = doc["inputs"]
+        self.inputs, self.workdir, self.spec = doc, workdir, spec
+        self.settings = dict(spec.settings) if spec else {}
+        self.f5 = dict(self.settings.get("flow5") or {})
+        self.f5_enabled = bool(self.f5.get("enabled", False))
+        self.f5_count = 0
+        self.counter = 0
+        self.levels_used: set = {"conceptual"}
+        self.new_project = new_project
+        names = [spec.objective["metric"]] if spec else []
+        for c in (spec.constraints if spec else []):
+            names += [c["metric"]] + ([c["value_metric"]] if "value_metric" in c else [])
+        self.wanted = sorted(set(names) | set(self.settings.get("report_metrics", [])))
+
+    @staticmethod
+    def _set(doc: dict, path: str, value) -> None:
+        keys = path.split(".")
+        node = doc
+        for k in keys[:-1]:
+            node = node[int(k)] if isinstance(node, list) else node[k]
+        last = keys[-1]
+        if isinstance(node, list):
+            node[int(last)] = value
+        elif last in node:
+            node[last] = value
+        else:
+            raise KeyError(f"variable path {path!r}: {last!r} is not an existing input (variables must name inputs already in the project)")
+
+    @staticmethod
+    def _get(doc, path: str):
+        node = doc
+        keys = path.split(".")
+        i = 0
+        while i < len(keys):
+            if isinstance(node, list):
+                node = node[int(keys[i])]
+                i += 1
+                continue
+            # keys that contain dots themselves (e.g. altitudes "0.0") are tried by joining consecutive parts
+            for j in range(len(keys), i, -1):
+                cand = ".".join(keys[i:j])
+                if isinstance(node, dict) and cand in node:
+                    node = node[cand]
+                    i = j
+                    break
+            else:
+                raise KeyError(path)
+        return node
+
+    def metrics(self, values: dict) -> dict:
+        from . import loop
+        self.counter += 1
+        project = self.new_project("m22-eval")
+        project["inputs"] = deepcopy(self.inputs)
+        for name, v in values.items():
+            self._set(project["inputs"], name, float(v))
+        try:
+            info = loop.settle(project, int(self.settings.get("max_iter", 3)), float(self.settings.get("tol", 1e-6)))
+        except loop.LoopStop as exc:
+            raise RuntimeError(f"module {exc.module} stopped: {exc.message}") from exc
+        except SystemExit as exc:
+            raise RuntimeError(f"module stopped: {exc.code}") from exc
+        out = {"loop_iterations": info["iterations"], "loop_stop": info["stop"]}
+        results = {m: item["result"] for m, item in project["outputs"].items()}
+        for m, item in project["outputs"].items():
+            self.levels_used.add(item["run"]["level"])
+        for name in self.wanted:
+            if name.startswith(("m23.n_", "flow5.")) or name == "m23.overall":
+                continue
+            out[name] = float(self._get(results, name))
+        m23 = results.get("m23")
+        if m23:
+            out.update({"m23.n_cumple": m23["counts"]["cumple"], "m23.n_no_cumple": m23["counts"]["no cumple"],
+                        "m23.n_no_evaluable": m23["counts"]["no evaluable"], "m23.overall": m23["overall"]})
+        if self.f5_enabled:
+            out.update(self._flow5(project))
+        return out
+
+    def _flow5(self, project: dict) -> dict:
+        """3D level, only with settings.flow5.enabled: exports the M09b wing (flow5_config), runs the official flow5 (timeout, evaluation cap)
+        and reads its polar (lift slope, CD0, k). Wing only: no fuselage/tail in this job."""
+        from types import SimpleNamespace
+        from .engines import flow5_executable
+        from . import flow5_xml
+        from .flow5_results import collect, fit_drag_polar, lift_slope
+        cap = int(self.f5.get("max_evaluations", 3))
+        if self.f5_count >= cap:
+            raise RuntimeError(f"flow5 evaluation cap reached ({cap}); raise settings.flow5.max_evaluations deliberately")
+        exe = flow5_executable(Path(self.f5["exe"]) if self.f5.get("exe") else None)
+        if exe is None:
+            raise FileNotFoundError("official flow5 not found (AEROSUITE_FLOW5 or settings.flow5.exe)")
+        cfg = project["outputs"].get("m09b", {}).get("result", {}).get("flow5_config")
+        if not cfg:
+            raise RuntimeError("flow5 level needs inputs.m09b.flow5 (M09b exports the wing configuration)")
+        self.f5_count += 1
+        job = self.workdir / "flow5_jobs" / f"eval{self.counter:04d}"
+        job.mkdir(parents=True, exist_ok=True)
+        cfg_path = job / "config.json"
+        cfg_path.write_text(json.dumps(cfg), encoding="utf-8")
+        flow5_xml.export(cfg_path, job / "job")
+        manifest = flow5_xml.run(job / "job", exe, int(self.f5.get("timeout_s", 300)))
+        if manifest.get("return_code") != 0:
+            raise RuntimeError(f"flow5 failed: {manifest.get('status')}")
+        polars = collect(job / "job" / "output")["polars"]
+        if not polars:
+            raise RuntimeError("flow5 produced no polar")
+        pol = SimpleNamespace(**{k: polars[0].get(k) for k in ("rows", "path", "plane", "polar")})
+        self.levels_used.add("3D")
+        fit = fit_drag_polar(pol)["model_simplified"]
+        return {"flow5.cl_alpha_per_rad": lift_slope(pol)["CL_alpha_per_rad"], "flow5.cd0": fit["CD0"], "flow5.k": fit["k"],
+                "flow5.job": str(job / "job")}
+
+
+ENGINES = {"adrpy": AdrpyEngine, "xfoil": XfoilEngine, "project": ProjectEngine}
 
 
 # ----------------------------------------------------------------- contract
@@ -167,6 +294,8 @@ class Spec:
         if self.engine not in ENGINES:
             raise ValueError(f"engine must be one of {sorted(ENGINES)}")
         expected = LEVELS[self.engine]
+        if self.engine == "project" and (self.settings.get("flow5") or {}).get("enabled"):
+            expected = "aero3d"
         if self.level and self.level != expected:
             raise ValueError(f"level {self.level!r} does not match engine {self.engine!r} ({expected})")
         self.level = expected
@@ -242,7 +371,7 @@ def run(spec: Spec, out: Path) -> dict:
     from scipy.optimize import NonlinearConstraint, differential_evolution, minimize
 
     out.mkdir(parents=True, exist_ok=True)
-    engine = ENGINES[spec.engine](spec.base, out)
+    engine = ENGINES[spec.engine](spec.base, out, spec) if spec.engine == "project" else ENGINES[spec.engine](spec.base, out)
     ev = Evaluator(spec, engine)
     bounds = [(float(v["lower"]), float(v["upper"])) for v in spec.variables]
     s = spec.settings
@@ -298,12 +427,23 @@ def run(spec: Spec, out: Path) -> dict:
             "conceptual": "Conceptual optimization on ADRpy constraint analysis; not an aerodynamic shape optimization.",
             "aero2d": "2D aerodynamic optimization on real XFOIL polars of a NACA 4-digit section; "
                       "not a 3D wing or aircraft optimization.",
-        }[spec.level],
+            "aero3d": "Project optimization with real 3D flow5 wing polars (settings.flow5.enabled); the rest of each evaluation is the "
+                      "conceptual level of the algorithm modules. Wing-only flow5 model.",
+        }[spec.level] if spec.engine != "project" or spec.level == "aero3d" else
+        "Conceptual project optimization: Gudmundsson algorithm modules and ADRpy (M22). Modules that call XFOIL contribute 2D data "
+        "(see levels_used); it is not a 3D or CFD optimization.",
         "variables": spec.variables, "objective": spec.objective, "constraints": spec.constraints,
         "solver": solver, "wall_time_s": round(time.time() - started, 2),
         "evaluations": len(ev.records),
         "failed_evaluations": sum(1 for r in ev.records if not r["ok"]),
         "feasible_evaluations": len(feasible),
+        "levels_used": sorted(engine.levels_used) if spec.engine == "project" else [spec.level],
+        "roles": {"decision_variables": [v["name"] for v in spec.variables], "objective": spec.objective,
+                  "constraints": spec.constraints, "settings": spec.settings},
+        "physical_viability": ({"m23.overall": best["metrics"].get("m23.overall"), "m23.n_no_cumple": best["metrics"].get("m23.n_no_cumple"),
+                                "note": "viability = M23 requirements check of the best point (cumple / no cumple / no evaluable)"}
+                               if best and "m23.overall" in best["metrics"] else
+                               {"note": "no M23 result in this project: viability beyond the listed constraints is not assessed"}),
         "best": best, "best_variables_at_bounds": at_bounds,
         "ranking": feasible[:top],
         "convergence_note": ("Solver reported success" if solver.get("success") else

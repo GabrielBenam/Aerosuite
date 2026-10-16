@@ -23,6 +23,7 @@ REFERENCES = [
     "GUD Sec. 24.3.4, Ecs. 24-129 a 24-133 y Ejemplo 24-6 (hn = 0.5917, CM_alpha = -0.3721 1/rad, CM0 = -0.005675), PDF 1008-1010",
     "GUD Sec. 24.3.4 (texto): hn tipico 0.4-0.6 en AG; SM minimo 8 % a 10 %, maximo 28 % a 30 %, PDF 1008 (+-1)",
     "GUD Sec. 25.3, Ecs. 25-12 a 25-14, 25-27/25-28 (cola vertical), 25-29 y 24-103 (fuselaje, Munk): inicio de la seccion en PDF 1034; la pagina exacta de cada ecuacion no se verifico",
+    "GUD Sec. 24.2.6, Ecs. 24-100, 24-103 a 24-108, Figs. 24-29/24-30, Ejemplos 24-3/24-4 (fuselaje, Munk-Multhopp), PDF 993-996 (marcadores [p. 994]-[p. 996]); D-44",
     "ETK Sec. 4.9, Ecs. 4.9,18 y 4.9,19 (matrices de estado), PDF 120 (+-1); Sec. 6.2 y Tabla 6.1/6.2 (B747 longitudinal), PDF 178; Sec. 6.7 (B747 lateral), PDF 201",
     "ETK Sec. 6.3, aproximacion de Lanchester al fugoide (T = pi sqrt(2) u0/g; zeta = 1/(sqrt(2) L/D) como lo cita el modulo), PDF 185",
     "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
@@ -44,7 +45,7 @@ def neutral_point(cl_alpha_w, cl_alpha_ht, ar_w, v_ht, eta_ht=1.0, h_ac=0.25, dc
     h_n hacia delante en -dCM_alpha_fus/CL_alpha_W (dato; 0 si no se aporta). Gradiente de estela: Ec. 24-91."""
     de = downwash_gradient(cl_alpha_w, ar_w)
     tail = eta_ht * v_ht * cl_alpha_ht / cl_alpha_w * (1.0 - de)
-    return {"h_n": h_ac + tail + dcm_alpha_fuselage / cl_alpha_w, "h_n_wing_ht": h_ac + tail, "downwash_gradient": de,
+    return {"h_n": h_ac + tail - dcm_alpha_fuselage / cl_alpha_w, "h_n_wing_ht": h_ac + tail, "downwash_gradient": de,
             "tail_contribution": tail}
 
 
@@ -68,6 +69,59 @@ def cg_limits(h_n: float, sm_min: float = SM_MIN, sm_max: float = SM_MAX) -> dic
     return {"aft_h": h_n - sm_min, "forward_h": h_n - sm_max, "aft_pct_mgc": 100.0 * (h_n - sm_min),
             "forward_pct_mgc": 100.0 * (h_n - sm_max), "sm_min": sm_min, "sm_max": sm_max,
             "note": "el limite delantero por autoridad del elevador (CL_max con el CG delantero) queda para el analisis de trimado"}
+
+
+# --------------------------------------------------------------------------- fuselaje: Munk-Multhopp (Cap. 24)
+def upwash_gradient_forward(x_over_c: float) -> float:
+    """Gradiente de upwash por delante del ala, Ecs. 24-104 (curva 1, x/c_MGC 0.4-2.5) y 24-105 (curva 2, 0.1-1.2), digitalizadas por
+    el autor de la Fig. 24-29 (derecha). Regla (D-44): curva 2 para x/c < 0.4 y curva 1 en adelante; fuera del dominio graficado
+    se toma el valor del extremo (x/c < 0.1 -> 0.1; x/c > 2.5 -> 2.5) en vez de extrapolar el polinomio."""
+    x = min(max(x_over_c, 0.1), 2.5)
+    if x < 0.4:
+        return 1.74611 * x ** -0.4254
+    return 1.4758 - 0.40485 * x + 0.09107 * x * x
+
+
+def munk_multhopp(x_m, width_m, c_root_m, c_mgc_m, s_m2, l_h_m, de_dalpha, alpha_zl_plus_if_deg=None, x_wing_le_m=0.0) -> dict:
+    """Aporte del fuselaje a C_M0 y C_M_alpha por Munk-Multhopp (GUD Sec. 24.2.6, Ecs. 24-100, 24-103, 24-107, 24-108, Figs. 24-29/24-30 y
+    Ejemplo 24-3). Segmentos entre estaciones consecutivas por delante del borde de ataque de la raiz del ala (x < x_wing_le) y por detras
+    de su borde de salida (x > x_wing_le + c_root); el tramo bajo el ala no aporta a C_M_alpha. Por delante, gradiente de upwash
+    d(beta)/d(alpha) segun las curvas 1-2 con x = distancia del centro del segmento al borde de ataque del ala; por detras
+    d(beta)/d(alpha) = (x_i/l_h)(1 - d eps/d alpha), x_i medida desde el borde de ataque de la raiz y l_h desde ese mismo punto al centro
+    aerodinamico de la cola horizontal (asi lo usa la Tabla 24-4). Ecuaciones por grado (36.5 = 180/pi/... del libro):
+    C_M_alpha = sum(w_f^2 dbeta/dalpha dx) / (36.5 S c_MGC)  [1/grado; el libro no multiplica por k2-k1 y el Ejemplo 24-3 lo confirma],
+    C_M0 = (k2-k1)/(36.5 S c_MGC) sum(w_f^2 (alpha_ZLW + i_f) dx). x positiva hacia atras. alpha_zl_plus_if_deg: escalar o lista
+    (un valor por segmento y, si se da lista, uno mas para el tramo del ala al final de los delanteros); None omite C_M0."""
+    x, w = np.asarray(x_m, float), np.asarray(width_m, float)
+    order = np.argsort(x)
+    x, w = x[order], w[order]
+    le, te = x_wing_le_m, x_wing_le_m + c_root_m
+    wi = lambda xx: float(np.interp(xx, x, w))
+    fwd_x = [v for v in x if v < le] + [le]
+    aft_x = [te] + [v for v in x if v > te]
+    segs = []
+    for xa, xb in zip(fwd_x[:-1], fwd_x[1:]):
+        xc = le - 0.5 * (xa + xb)
+        segs.append({"region": "forward", "x_start_m": xa, "x_end_m": xb, "dx_m": xb - xa, "x_c_ahead_m": xc,
+                     "w_f_m": 0.5 * (wi(xa) + wi(xb)), "dbeta_dalpha": upwash_gradient_forward(xc / c_mgc_m)})
+    for xa, xb in zip(aft_x[:-1], aft_x[1:]):
+        xi = 0.5 * (xa + xb) - le
+        segs.append({"region": "aft", "x_start_m": xa, "x_end_m": xb, "dx_m": xb - xa, "x_c_behind_le_m": xi,
+                     "w_f_m": 0.5 * (wi(xa) + wi(xb)), "dbeta_dalpha": xi / l_h_m * (1.0 - de_dalpha)})
+    k = k2_minus_k1((x.max() - x.min()) / w.max())
+    denom = 36.5 * s_m2 * c_mgc_m
+    sum9 = sum(g["w_f_m"] ** 2 * g["dbeta_dalpha"] * g["dx_m"] for g in segs)
+    out = {"segments": segs, "k2_minus_k1": k, "fineness": (x.max() - x.min()) / w.max(), "sum_wf2_dbeta_dx": sum9,
+           "cm_alpha_per_deg": sum9 / denom, "cm_alpha_per_rad": sum9 / denom * 180.0 / math.pi}
+    if alpha_zl_plus_if_deg is not None:
+        wing = {"region": "wing", "dx_m": c_root_m, "w_f_m": wi(le)}   # el Ejemplo 24-3 usa el ancho en el borde de ataque (4.08 ft)
+        rows = segs[:len(fwd_x) - 1] + [wing] + segs[len(fwd_x) - 1:]
+        ang = list(alpha_zl_plus_if_deg) if np.ndim(alpha_zl_plus_if_deg) else [float(alpha_zl_plus_if_deg)] * len(rows)
+        if len(ang) != len(rows):
+            raise ValueError(f"alpha_zl_plus_if_deg needs {len(rows)} values (segments + wing row), got {len(ang)}")
+        sum7 = sum(r["w_f_m"] ** 2 * a * r["dx_m"] for r, a in zip(rows, ang))
+        out.update({"sum_wf2_angle_dx": sum7, "cm0": k * sum7 / denom})
+    return out
 
 
 # --------------------------------------------------------------------------- cola vertical y fuselaje
@@ -213,12 +267,32 @@ def evaluate(project: dict) -> tuple[dict, list]:
     l_vt = d.get("l_vt_cg_m") or (vt["arm_m"] + pf["mgc_quarter_chord_x_m"] - x_cg)
     v_ht = ht["area_m2"] * l_ht / (s * c)
     v_vt = vt["area_m2"] * l_vt / (s * b)
-    dcm_fus = d.get("dcm_alpha_fuselage_per_rad", 0.0)
     res = {"level": "conceptual", "units": "SI (kg, m, s, rad)", "assumptions": []}
-    if "dcm_alpha_fuselage_per_rad" not in d:
-        res["assumptions"].append("fuselage contribution to CM_alpha (Munk-Multhopp, Eq. 24-102) not computed: h_n is optimistic "
-                                  "(the fuselage is destabilizing); give inputs.m16.dcm_alpha_fuselage_per_rad to include it")
-        prj.add_assumption(project, "m16", "dcm_alpha_fuselage_per_rad", 0.0, "Munk-Multhopp upwash curves not implemented (D-36)")
+    # --- fuselaje (Munk-Multhopp, Ecs. 24-100 a 24-108): estaciones de inputs.m16.fuselage_sections o de la geometria de M10 ---
+    fs = d.get("fuselage_sections")
+    if not fs and "m10" in project["outputs"]:
+        fus10 = next(k for k in project["outputs"]["m10"]["result"]["components"] if k["type"] == "fuselage")
+        fs = {"x_m": [st["x_m"] for st in fus10["stations"]], "width_m": [2.0 * st["radius_m"] for st in fus10["stations"]],
+              "length_m": fus10["length_m"], "depth_m": 2.0 * fus10["max_radius_m"], "origin": "M10 (secciones circulares: ancho = 2 r)"}
+        depends.append("m10")
+    de0 = downwash_gradient(cla_w, ar)
+    fus_mm = None
+    if "dcm_alpha_fuselage_per_rad" in d:
+        dcm_fus = d["dcm_alpha_fuselage_per_rad"]
+        fus_origin = "inputs.m16.dcm_alpha_fuselage_per_rad (dato del usuario)"
+    elif fs:
+        l_h = pf["mgc_quarter_chord_x_m"] + ht["arm_m"]
+        fus_mm = munk_multhopp(fs["x_m"], fs["width_m"], pf["root_chord_m"], c, s, l_h, de0,
+                               d.get("alpha_zl_plus_if_deg"), 0.0)
+        dcm_fus = fus_mm["cm_alpha_per_rad"]
+        fus_origin = fs.get("origin", "inputs.m16.fuselage_sections")
+    else:
+        dcm_fus = 0.0
+        fus_origin = None
+        res["assumptions"].append("fuselage contribution to CM_alpha (Munk-Multhopp, Eq. 24-108) not computed (no inputs.m16.fuselage_sections "
+                                  "and no M10 geometry): h_n is optimistic (the fuselage is destabilizing)")
+        prj.add_assumption(project, "m16", "dcm_alpha_fuselage_per_rad", 0.0, "sin geometria de fuselaje: aporte del fuselaje omitido (D-44)")
+    res["punto_neutro_optimista"] = fus_origin is None
     npt = neutral_point(cla_w, cla_ht, ar, v_ht, eta, h_ac, dcm_fus)
     sm = npt["h_n"] - h_cg
     cma = cm_alpha(cla_w, cla_ht, ar, v_ht, h_cg, eta, h_ac, dcm_fus)
@@ -227,7 +301,11 @@ def evaluate(project: dict) -> tuple[dict, list]:
         "h_cg": h_cg, "h_ac_wing": h_ac, **npt, "static_margin": sm, "cm_alpha_per_rad": cma,
         "x_neutral_point_m": pf["xmgc_le_m"] + npt["h_n"] * c, "cg_limits": cg_limits(npt["h_n"], d.get("sm_min", SM_MIN), d.get("sm_max", SM_MAX)),
         "stable": cma < 0.0, "sm_within_guidance": d.get("sm_min", SM_MIN) <= sm <= d.get("sm_max", SM_MAX),
-        "hn_guidance_ga": [0.4, 0.6]}
+        "hn_guidance_ga": [0.4, 0.6], "fuselage_contribution": {
+            "included": fus_origin is not None, "origin": fus_origin, "dcm_alpha_per_rad": dcm_fus,
+            "dh_n": -dcm_fus / cla_w, **({"k2_minus_k1": fus_mm["k2_minus_k1"], "fineness": fus_mm["fineness"],
+                                          "segments": fus_mm["segments"], "cm_alpha_per_deg": fus_mm["cm_alpha_per_deg"],
+                                          "cm0_fuselage": fus_mm.get("cm0")} if fus_mm else {})}}
     if "cm_ac_w" in d:
         res["longitudinal_static"]["cm0"] = cm0(d["cm_ac_w"], d.get("cl0_w", 0.0), h_cg, h_ac, eta_ht=eta, v_ht=v_ht,
                                                 cl_alpha_ht=cla_ht, i_ht_rad=math.radians(d.get("i_ht_deg", 0.0)),
@@ -238,12 +316,11 @@ def evaluate(project: dict) -> tuple[dict, list]:
            "cn_beta_vt_per_rad": cn_beta_vt(cla_vt, vt["area_m2"], l_vt, s, b, sw),
            "cy_beta_vt_per_rad": cy_beta_vt(cla_vt, vt["area_m2"], s, sw, d.get("k_yvt", 1.0))}
     cn_tot = lat["cn_beta_vt_per_rad"]
-    if d.get("fuselage_sections"):
-        fs = d["fuselage_sections"]
+    if fs and "length_m" in fs:
         lat["cn_beta_fuselage_per_rad"] = cn_beta_fuselage(fs["x_m"], fs["width_m"], fs["length_m"], fs["depth_m"], s, b)
         cn_tot += lat["cn_beta_fuselage_per_rad"]
     else:
-        res["assumptions"].append("CN_beta of the fuselage (Eq. 25-29) not computed without inputs.m16.fuselage_sections: CN_beta is optimistic")
+        res["assumptions"].append("CN_beta of the fuselage (Eq. 25-29) not computed without fuselage geometry (inputs.m16.fuselage_sections or M10): CN_beta is optimistic")
     cn_tot += d.get("cn_beta_other_per_rad", 0.0)
     lat["cn_beta_total_per_rad"] = cn_tot
     lat["cn_beta_in_typical_range"] = CN_BETA_RANGE[0] <= cn_tot <= CN_BETA_RANGE[1]

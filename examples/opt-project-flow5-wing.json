@@ -1,0 +1,36 @@
+{
+  "name": "M22 (3D, flow5 real, opt-in): alargamiento de ala sola frente a la pendiente de sustentacion",
+  "notes": [
+    "Nivel 3D SOLO por la bandera explicita settings.flow5.enabled; tope bajo de evaluaciones (2) y 300 s por corrida.",
+    "Modelo de flow5: ala sola exportada por M09b (sin fuselaje ni cola). Cada evaluacion tarda del orden de 1-2 minutos.",
+    "Es una demostracion del contrato, no una recomendacion de diseño: maximizar la pendiente sustentadora lleva al alargamiento maximo."
+  ],
+  "level": "aero3d",
+  "engine": "project",
+  "base": "projects/m22-flow5-wing-inputs.json",
+  "variables": [
+    {
+      "name": "m09b.planform.aspect_ratio",
+      "lower": 7.0,
+      "upper": 9.0
+    }
+  ],
+  "objective": {
+    "metric": "flow5.cl_alpha_per_rad",
+    "sense": "maximize"
+  },
+  "constraints": [],
+  "method": "grid",
+  "settings": {
+    "grid_points": 2,
+    "max_iter": 1,
+    "flow5": {
+      "enabled": true,
+      "timeout_s": 300,
+      "max_evaluations": 2
+    }
+  },
+  "ranking": {
+    "top": 2
+  }
+}

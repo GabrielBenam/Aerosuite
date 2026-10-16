@@ -1,0 +1,3 @@
+index,ok,feasible,seconds,m09b.planform.aspect_ratio,flow5.cd0,flow5.cl_alpha_per_rad,flow5.job,flow5.k,loop_iterations,loop_stop,error
+1,True,True,8.246,7.0,0.005122364688577355,4.575308636393577,evidence\m22\flow5-grid\flow5_jobs\eval0001\job,0.04610885757347791,1,stable,
+2,True,True,3.822,9.0,0.005133857909132704,4.8853017218711585,evidence\m22\flow5-grid\flow5_jobs\eval0002\job,0.03637228290593711,1,stable,

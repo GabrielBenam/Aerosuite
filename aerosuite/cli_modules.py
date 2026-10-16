@@ -25,6 +25,8 @@ MODULES = {
     "m19": ("m19", "m19_stall", "M19 benign spanwise stall: lifting line, C_l vs C_lmax, washout study (step 19)"),
     "m20": ("m20", "m20_drag", "M20 component drag buildup: C_Dmin, polar, best L/D (step 20)"),
     "m21": ("m21", "m21_performance", "M21 performance: speeds, climb, ceilings, range/endurance, payload-range (step 21)"),
+    "m23": ("m23", "m23_verification", "M23 requirements verification: cumple / no cumple / no evaluable with limits and references (step 23)"),
+    "m24": ("m24", "m24_cad", "M24 STEP export of the M10 outer mold line with CadQuery, in mm (step 24)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
@@ -40,6 +42,11 @@ def add_commands(sub) -> None:
     exp.add_argument("--project", type=Path, required=True)
     exp.add_argument("--module", required=True, help="module id, e.g. m08")
     exp.add_argument("--out", type=Path, required=True)
+    lp = sub.add_parser("loop", help="L-1 full Gudmundsson algorithm loop (steps 1-23) over a project.json, recording each iteration")
+    lp.add_argument("--project", type=Path, required=True)
+    lp.add_argument("--max-iter", type=int, default=5)
+    lp.add_argument("--tol", type=float, default=1e-6, help="relative tolerance for 'two consecutive iterations without change'")
+    lp.add_argument("--out", type=Path, help="new folder for iter-NNN.json and loop.json (default: <project>.loop/run-NNN)")
     for cmd, (_, _, help_text) in MODULES.items():
         p = sub.add_parser(cmd, help=help_text)
         p.add_argument("--project", type=Path, required=True, help="project.json (reads inputs.%s, writes outputs.%s)" % (cmd, cmd))
@@ -78,10 +85,17 @@ def dispatch(args) -> bool:
         args.out.write_text(json.dumps(payload, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
         print(f"Exported {args.module} to {args.out}" + (" (WARNING: stale)" if stale else ""))
         return True
+    if args.command == "loop":
+        from . import loop
+        summary = loop.run_loop(args.project, args.max_iter, args.tol, args.out)
+        print(json.dumps({k: summary[k] for k in ("project_name", "plan", "stop", "stale", "m23_overall", "output_dir")}
+                         | {"iterations": [{k: i[k] for k in ("iteration", "status", "order_executed", "stale_after")}
+                                           for i in summary["iterations"]]}, indent=2, ensure_ascii=False, default=float))
+        return True
     if args.command in MODULES:
         module = importlib.import_module(f"aerosuite.{MODULES[args.command][1]}")
         data = prj.load(args.project)
-        result = module.run(data)
+        result = module.run(data, args.project) if args.command == "m24" else module.run(data)
         prj.save(data, args.project)
         print(json.dumps(result, indent=2, ensure_ascii=False, default=float))
         return True

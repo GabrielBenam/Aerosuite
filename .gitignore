@@ -19,3 +19,4 @@ autonomo.log
 .venv/
 tools/
 PR_F3.md
+PR_*.md

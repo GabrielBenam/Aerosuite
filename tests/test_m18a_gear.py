@@ -20,13 +20,22 @@ class BookExampleTests(unittest.TestCase):
         self.assertAlmostEqual(r["main"], 962.5, delta=0.05)
 
     def test_example_13_3_tailwheel_share(self):
-        # printed: tailwheel 151.9 lbf = 11.5 % of 1320 lbf, main 1168 lbf. The geometry of Figure 13-34 is not legible, so the
-        # arm ratio x_T/x_M that gives 151.9 lbf is solved from the printed result and the formula is checked for consistency.
-        ratio = 1320.0 / 151.9 - 1.0                                          # x_T/x_M
-        r = g.static_loads_taildragger(1320.0, 1.0, ratio)
+        # The solution printed in Example 13-3 gives the arms: R_T = 1320 (1.3)/(1.3 + 10) = 151.9 lbf (x_M = 1.3 ft, x_TW = 10 ft), so the
+        # check is NOT circular (F5, C-2: the arm ratio is no longer solved from the result).
+        r = g.static_loads_taildragger(1320.0, 1.3, 10.0)
         self.assertAlmostEqual(r["tail"], 151.9, delta=0.05)
-        self.assertAlmostEqual(r["share_pct"], 11.5, delta=0.01)
+        self.assertAlmostEqual(r["share_pct"], 11.5, delta=0.05)
         self.assertAlmostEqual(r["main"], 1168.0, delta=0.2)
+
+    def test_example_13_3_dynamic_reaction_at_40_ktas(self):
+        # Example 13-3 (b), V = 40 KTAS, delta_e = 0: T = 408 lbf (z_T = 1.2 ft), L_W = 834.7 lbf (x_W = 0.7 ft), L_HT = 97.6 lbf (l_HT = 12 ft),
+        # M_W = -96.9 ft lbf, mu = 0.04, z_CG = 3.5 ft. Printed R_T = 167.5 lbf (the converted text lost the minus sign: the book says the
+        # negative R_T means the tailwheel is already off the ground) and R_M = W - L_HT - L_W - R_T = 555.2 lbf. Arithmetic of Eq. 13-20
+        # with the printed data (z_CG = 3.5 ft appears in the printed expression 1.3 - 0.04 (3.5)).
+        r = g.dynamic_loads_taildragger(1320.0, 1.3, 10.0, 3.5, 0.04, thrust=408.0, z_t=1.2, lift_w=834.7, x_w=0.7, lift_ht=97.6, l_ht=12.0,
+                                        m_w=-96.9)
+        self.assertAlmostEqual(r["tail"], -167.5, delta=0.1)
+        self.assertAlmostEqual(r["main"], 555.2, delta=0.1)
 
 
 class EquilibriumTests(unittest.TestCase):

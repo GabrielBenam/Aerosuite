@@ -83,3 +83,31 @@ Entradas de ejemplo: `examples/projects/c162-inputs.json` (M01, M02, M04, M06; E
 
 ## Corrida F4: estado
 V-F5 terminada (D-32, D-33). M16 funcional (`python -m aerosuite m16 --project p.json`, ejemplo `examples/projects/c172-like-stability-inputs.json`; D-34 a D-36); validación con flow5 tipo 7 pendiente. M18a funcional (`m18a`, ejemplo `c172-like-gear-inputs.json`, D-37). M18b funcional (`m18b`, ejemplo `c172-like-controls-inputs.json`, D-38). M18c funcional (`m18c`, XFOIL real con flap, evidencia en `evidence/xfoil-flaps-win/`, D-39). M19 funcional (`m19`, D-40). M20 funcional (`m20`, D-41). M21 funcional (`m21`, Ejemplo 21-6 reproducido, D-42). Corrida F4 completa; M16 contrastado con flow5 7.55 en estática (D-43), con modos dinámicos y derivadas laterales pendientes.
+
+## Corrida F5: estado
+Plan en `AUTONOMOUS_RUN_F5.md` (bitácora en su §12). C-1 terminado: `m16_stability.munk_multhopp` (D-44); M16 lee la geometría de fuselaje de M10 y depende de `m10`. El modelo de flow5 de la evidencia no tiene fuselaje: la diferencia de D-43 no se cierra con este aporte.
+
+### Lazo L-1 (F5)
+```
+.\.venv\Scripts\python.exe -m aerosuite project-init --project results\c162-full\project.json --name c162-full --from-inputs examples\projects\c162-full-loop.json
+.\.venv\Scripts\python.exe -m aerosuite loop --project results\c162-full\project.json --max-iter 5
+```
+Deja `results\c162-full\project.loopun-001\iter-001.json` y `loop.json`. Los módulos de `examples/projects/c162-full-loop.json` posteriores a M06 usan datos ILUSTRATIVOS (rotulados). D-46.
+
+### M22 (F5)
+```
+.\.venv\Scripts\python.exe -m aerosuite m22 --spec examples\opt-project-range-speed.json --out results\m22-range
+.\.venv\Scripts\python.exe -m aerosuite m22 --spec examples\opt-project-flow5-wing.json --out results\m22-flow5   # 3D real, opt-in
+```
+Motor `project`: variables = entradas del proyecto, métricas = salidas de módulos; ver D-48.
+
+### M24 (F5)
+```
+.\.venv\Scripts\python.exe -m pip install --no-deps -r requirements-cad.txt     # una vez (CadQuery, PyPI)
+.\.venv\Scripts\python.exe -m aerosuite m24 --project results\c172\project.json   # lee inputs.m24 (out_dir, te, profile_points)
+.\.venv\Scripts\python.exe -m aerosuite export --project results\c172\project.json --module m24 --out results\c172\m24.json
+```
+Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49.
+
+### Guía de verificación (F5)
+`VERIFICAR.md` (raíz): estado de validación por módulo, comprobaciones por módulo con página impresa (±1), supuestos y erratas, pasos en Windows.

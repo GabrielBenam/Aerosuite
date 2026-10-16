@@ -79,7 +79,7 @@ def build_parser() -> argparse.ArgumentParser:
     opt.add_argument("--config", type=Path, required=True)
     opt.add_argument("--out", type=Path, default=Path("results/conceptual-optimum.json"))
 
-    gopt = sub.add_parser("opt", help="General optimizer from a JSON spec (engines: adrpy, xfoil)")
+    gopt = sub.add_parser("opt", aliases=["m22"], help="General optimizer from a JSON spec (engines: adrpy, xfoil, project); m22 = multilevel project optimizer")
     gopt.add_argument("--spec", type=Path, required=True)
     gopt.add_argument("--out", type=Path, required=True, help="output folder")
 
@@ -178,7 +178,7 @@ def main(argv=None) -> None:
         result = optimize(load_concept(args.config))
         export_result(result, args.out)
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    elif args.command == "opt":
+    elif args.command in ("opt", "m22"):
         from .optimizer import Spec, run
         result = run(Spec.load(args.spec), args.out)
         print(json.dumps({k: result[k] for k in ("name", "level", "level_statement", "solver", "evaluations",

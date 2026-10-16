@@ -160,3 +160,14 @@ Convención: PDF = marcador `[p. N]` del texto convertido (`COMPLETO.md`) de cad
 | M19 | Línea sustentadora, perdida en envergadura, criterios | Gudmundsson, Secs. 9.5.4, 9.6, 9.7.3 (Ejemplos 9-9 y 9-10), PDF 416–452; Anderson, *Fundamentals of Aerodynamics* Sec. 5.3 (conocimiento externo, no verificado en la carpeta) |
 | M20 | Resistencia por componentes | Gudmundsson, Cap. 16 (Secs. 16.3.1 a 16.3.9; Ejemplos 16-6, 16-7, 16-11), PDF 726–758 |
 | M21 | Prestaciones, alcance, carga útil–alcance | Gudmundsson, Secs. 3.2, 7 (Gagg-Ferrar), Caps. 19–21 (Ejemplos 21-2 y 21-6), PDF 107, 253, 858–925 |
+
+## Fase F5
+| Módulo | Tema | Fuente |
+|---|---|---|
+| M16 | Tablas 6.1 y 6.6 del B747 (coeficientes) verificadas contra la imagen de la página | Etkin y Reid, *Dynamics of Flight*, PDF 178 (Tabla 6.1) y PDF 199 (Tabla 6.6 y Ec. 6.7,2), imágenes 0175 y 0196 |
+| M18a | Ejemplo 13-3 (brazos x_M = 1.3, x_TW = 10 ft; reacción dinámica a 40 KTAS) | Gudmundsson Cap. 13, Ejemplo 13-3, PDF 614-616 |
+| M16 | Fuselaje, Munk-Multhopp: Ecs. 24-100, 24-103 a 24-108, Figs. 24-29/24-30, Ejemplos 24-3 y 24-4 | Gudmundsson, *General Aviation Aircraft Design* 2.ª ed., Sec. 24.2.6, PDF 993-996 (marcadores [p. 994]-[p. 996]); verificado contra las figuras de la Tabla 24-4 (imágenes 1353-1356 de la carpeta BIBLIOGRAFIA) |
+| L-1 | Algoritmo de diseño conceptual, Tabla 1-4 y Fig. 1-11; Ejemplo 3-1 (cifras de comparación) | Gudmundsson, Cap. 1 y Sec. 3.2.2, PDF 109-111 |
+| M23 | 14 CFR 23.2110, 23.2120, 23.2130 (texto vigente) | eCFR, https://www.ecfr.gov/current/title-14/part-23 (leído 2026-10-16); GUD Sec. 1.3 (61 KCAS, texto anterior) |
+| M22 | Alcance de Breguet de hélice a V y h constantes (Ec. 21-25, vía M21) como problema de validación; paso 22 del algoritmo (Tabla 1-4) | Gudmundsson, Cap. 21 y Tabla 1-4 |
+| M24 | Fuselaje y superficies por solevado de secciones (Sec. 2.4.3, Sec. 4.1, Ec. 4.1) | Sobester y Forrester, *Aircraft Aerodynamic Design: Geometry and Optimization*, PDF 36-46 y 85-86 (heredado de M10) |
