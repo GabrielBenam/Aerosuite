@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow5>
+<xflscript version="1.0">
+    <Metadata>
+        <make_project_file>true</make_project_file>
+        <project_file_name>m22-eval_wing.fl5</project_file_name>
+        <polar_text_output_format>csv</polar_text_output_format>
+        <Directories>
+            <output_dir>C:\Users\oscar\Desktop\ESPACIO COWORK\Aerosuite-main\Aerosuite\evidence\m22\flow5-grid\flow5_jobs\eval0001\job\output</output_dir>
+            <recursive_scan>false</recursive_scan>
+        </Directories>
+        <MultiThreading>
+            <Allow_Multithreading>true</Allow_Multithreading>
+            <max_threads>4</max_threads>
+        </MultiThreading>
+    </Metadata>
+    <Plane_analysis>
+        <Foil_Dat_Files>
+            <Foil_File_Name>C:\Users\oscar\Desktop\ESPACIO COWORK\Aerosuite-main\Aerosuite\evidence\m22\flow5-grid\flow5_jobs\eval0001\job\foils\NACA_2412.dat</Foil_File_Name>
+        </Foil_Dat_Files>
+        <Plane_Definition_Files>
+            <Plane_File_Name>C:\Users\oscar\Desktop\ESPACIO COWORK\Aerosuite-main\Aerosuite\evidence\m22\flow5-grid\flow5_jobs\eval0001\job\planes\m22-eval_wing.xml</Plane_File_Name>
+        </Plane_Definition_Files>
+        <Plane_Analysis_Files>
+            <Analysis_File_Name>C:\Users\oscar\Desktop\ESPACIO COWORK\Aerosuite-main\Aerosuite\evidence\m22\flow5-grid\flow5_jobs\eval0001\job\analyses\FIXEDSPEEDPOLAR-VLM2-55.6mps.xml</Analysis_File_Name>
+        </Plane_Analysis_Files>
+        <Plane_Analysis_Data>
+            <Alpha>-2, 10, 2</Alpha>
+        </Plane_Analysis_Data>
+        <Plane_Analysis_Output>
+            <make_polars_text_file>true</make_polars_text_file>
+            <make_oppoints>false</make_oppoints>
+            <make_oppoints_text_file>false</make_oppoints_text_file>
+            <Compute_derivatives>false</Compute_derivatives>
+        </Plane_Analysis_Output>
+    </Plane_analysis>
+</xflscript>

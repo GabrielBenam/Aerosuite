@@ -1,0 +1,114 @@
+{
+  "name": "M22 (3D, flow5 real, opt-in): alargamiento de ala sola frente a la pendiente de sustentacion",
+  "level": "aero3d",
+  "engine": "project",
+  "level_statement": "Project optimization with real 3D flow5 wing polars (settings.flow5.enabled); the rest of each evaluation is the conceptual level of the algorithm modules. Wing-only flow5 model.",
+  "variables": [
+    {
+      "name": "m09b.planform.aspect_ratio",
+      "lower": 7.0,
+      "upper": 9.0
+    }
+  ],
+  "objective": {
+    "metric": "flow5.cl_alpha_per_rad",
+    "sense": "maximize"
+  },
+  "constraints": [],
+  "solver": {
+    "method": "grid",
+    "success": true,
+    "message": "full factorial grid 2^1"
+  },
+  "wall_time_s": 12.07,
+  "evaluations": 2,
+  "failed_evaluations": 0,
+  "feasible_evaluations": 2,
+  "levels_used": [
+    "3D",
+    "conceptual"
+  ],
+  "roles": {
+    "decision_variables": [
+      "m09b.planform.aspect_ratio"
+    ],
+    "objective": {
+      "metric": "flow5.cl_alpha_per_rad",
+      "sense": "maximize"
+    },
+    "constraints": [],
+    "settings": {
+      "grid_points": 2,
+      "max_iter": 1,
+      "flow5": {
+        "enabled": true,
+        "timeout_s": 300,
+        "max_evaluations": 2
+      }
+    }
+  },
+  "physical_viability": {
+    "note": "no M23 result in this project: viability beyond the listed constraints is not assessed"
+  },
+  "best": {
+    "index": 2,
+    "variables": {
+      "m09b.planform.aspect_ratio": 9.0
+    },
+    "metrics": {
+      "loop_iterations": 1,
+      "loop_stop": "stable",
+      "flow5.cl_alpha_per_rad": 4.8853017218711585,
+      "flow5.cd0": 0.005133857909132704,
+      "flow5.k": 0.03637228290593711,
+      "flow5.job": "evidence\\m22\\flow5-grid\\flow5_jobs\\eval0002\\job"
+    },
+    "ok": true,
+    "seconds": 3.822,
+    "constraint_margins": {},
+    "feasible": true
+  },
+  "best_variables_at_bounds": [
+    "m09b.planform.aspect_ratio"
+  ],
+  "ranking": [
+    {
+      "index": 2,
+      "variables": {
+        "m09b.planform.aspect_ratio": 9.0
+      },
+      "metrics": {
+        "loop_iterations": 1,
+        "loop_stop": "stable",
+        "flow5.cl_alpha_per_rad": 4.8853017218711585,
+        "flow5.cd0": 0.005133857909132704,
+        "flow5.k": 0.03637228290593711,
+        "flow5.job": "evidence\\m22\\flow5-grid\\flow5_jobs\\eval0002\\job"
+      },
+      "ok": true,
+      "seconds": 3.822,
+      "constraint_margins": {},
+      "feasible": true
+    },
+    {
+      "index": 1,
+      "variables": {
+        "m09b.planform.aspect_ratio": 7.0
+      },
+      "metrics": {
+        "loop_iterations": 1,
+        "loop_stop": "stable",
+        "flow5.cl_alpha_per_rad": 4.575308636393577,
+        "flow5.cd0": 0.005122364688577355,
+        "flow5.k": 0.04610885757347791,
+        "flow5.job": "evidence\\m22\\flow5-grid\\flow5_jobs\\eval0001\\job"
+      },
+      "ok": true,
+      "seconds": 8.246,
+      "constraint_margins": {},
+      "feasible": true
+    }
+  ],
+  "convergence_note": "Solver reported success",
+  "viability_note": "Feasibility here means only the constraints listed in this spec; physical/structural viability outside them is not assessed."
+}

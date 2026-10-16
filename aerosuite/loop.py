@@ -205,3 +205,27 @@ def run_loop(project_path, max_iter: int = 5, tol: float = 1e-6, out_dir=None) -
     summary["output_dir"] = str(out)
     (out / "loop.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
     return summary
+
+
+def settle(project: dict, max_iter: int = 3, tol: float = 1e-6) -> dict:
+    """Variante sin archivos para el optimizador M22: itera `run_iteration` en memoria hasta que no quede nada desactualizado, se cumpla
+    el paso 23, haya convergencia (misma regla que `run_loop`) o se alcance `max_iter`. Lanza LoopStop ante datos faltantes."""
+    modules = plan(project)
+    previous = None
+    stop = "max_iter reached"
+    ran: list[list[str]] = []
+    for it in range(1, max_iter + 1):
+        before = snapshot(project)
+        _, executed = run_iteration(project, modules)
+        ran.append(executed)
+        if project["outputs"].get("m23", {}).get("result", {}).get("overall") == "cumple":
+            stop = "requirements_met"
+        elif not executed:
+            stop = "nothing_to_run"
+        elif not prj.stale(project):
+            stop = "stable"
+        elif it >= 2 and before and max_relative_change(before, snapshot(project)) <= tol:
+            stop = "converged"
+        if stop != "max_iter reached":
+            break
+    return {"iterations": len(ran), "order_executed": ran, "stop": stop, "stale": prj.stale(project)}

@@ -93,3 +93,10 @@ Plan en `AUTONOMOUS_RUN_F5.md` (bitácora en su §12). C-1 terminado: `m16_stabi
 .\.venv\Scripts\python.exe -m aerosuite loop --project results\c162-full\project.json --max-iter 5
 ```
 Deja `results\c162-full\project.loopun-001\iter-001.json` y `loop.json`. Los módulos de `examples/projects/c162-full-loop.json` posteriores a M06 usan datos ILUSTRATIVOS (rotulados). D-46.
+
+### M22 (F5)
+```
+.\.venv\Scripts\python.exe -m aerosuite m22 --spec examples\opt-project-range-speed.json --out results\m22-range
+.\.venv\Scripts\python.exe -m aerosuite m22 --spec examples\opt-project-flow5-wing.json --out results\m22-flow5   # 3D real, opt-in
+```
+Motor `project`: variables = entradas del proyecto, métricas = salidas de módulos; ver D-48.

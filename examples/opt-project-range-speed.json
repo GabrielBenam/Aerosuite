@@ -1,0 +1,45 @@
+{
+  "name": "M22 (conceptual): velocidad de crucero de maximo alcance de Breguet",
+  "notes": [
+    "Un problema pequeño con optimo verificable por barrido de malla (D-48): alcance de Breguet de helice a V y h constantes (Ec. 21-25 de GUD, M21).",
+    "Variable de decision: m21.cruise.speed_mps. Objetivo: maximizar el alcance del caso B (combustible maximo a MTOW). Restriccion: potencia requerida <= disponible.",
+    "Nivel conceptual: modulos de GUD (M09b, M21); no es optimizacion aerodinamica 2D ni 3D."
+  ],
+  "level": "conceptual",
+  "engine": "project",
+  "base": "projects/m22-range-speed-inputs.json",
+  "variables": [
+    {
+      "name": "m21.cruise.speed_mps",
+      "lower": 25.0,
+      "upper": 80.0
+    }
+  ],
+  "objective": {
+    "metric": "m21.payload_range.1.range_const_v_h_km",
+    "sense": "maximize"
+  },
+  "constraints": [
+    {
+      "metric": "m21.cruise_condition.power_required_w_at_mtow",
+      "type": "<=",
+      "value_metric": "m21.cruise_condition.power_available_w"
+    }
+  ],
+  "method": "differential_evolution",
+  "settings": {
+    "seed": 42,
+    "maxiter": 60,
+    "popsize": 12,
+    "tol": 1e-10,
+    "max_iter": 2,
+    "report_metrics": [
+      "m21.cruise_condition.speed_kt",
+      "m21.aero.k",
+      "m21.aero.cdmin"
+    ]
+  },
+  "ranking": {
+    "top": 5
+  }
+}

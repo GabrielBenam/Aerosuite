@@ -1,0 +1,52 @@
+{
+  "m09b": {
+    "_source": "AR = 8 y S = 120 ft2 del Ejemplo 3-1 de GUD; lambda, diedro y perfil supuestos del usuario.",
+    "planform": {
+      "area_m2": 11.148,
+      "aspect_ratio": 8.0,
+      "taper_ratio": 0.7,
+      "sweep_c4_deg": 0.0
+    },
+    "dihedral_deg": 2.0,
+    "washout_deg": 1.5,
+    "mach": 0.1,
+    "airfoils": {
+      "root": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      },
+      "tip": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      }
+    }
+  },
+  "m21": {
+    "_source": "Problema de validacion de M22 (D-48): alcance de Breguet a velocidad y altitud constantes frente a la velocidad de crucero. Datos ilustrativos del usuario (motor, masas, reservas); c_P = 0.304 kg/(kW h) es el del Ejemplo 21-2 de GUD; C_Dmin dado (0.0333, Ej. 3-1).",
+    "engine": {
+      "power_sl_w": 74570.0,
+      "eta_p": 0.75,
+      "c_p_kg_per_kwh": 0.304
+    },
+    "weights": {
+      "mtow_kg": 598.74,
+      "oew_kg": 340.0,
+      "max_payload_kg": 172.0,
+      "fuel_capacity_gal": 24,
+      "non_cruise_fuel_fraction": 0.03,
+      "reserve_minutes": 30
+    },
+    "cruise": {
+      "altitude_m": 2438.4,
+      "speed_mps": 50.0
+    },
+    "altitudes_m": [
+      0.0,
+      2000.0,
+      4000.0
+    ],
+    "cdmin": 0.0333
+  }
+}
