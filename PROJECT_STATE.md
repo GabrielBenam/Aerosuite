@@ -60,7 +60,7 @@ Ver la lista numerada en `CLAUDE_HANDOFF.md` §5 (C-1 a C-9).
 3. El paquete Debian de XFOIL activa trampas de punto flotante y se cierra con SIGFPE; en Linux se ejecuta con `LD_PRELOAD` de una función nula (`_gfortran_set_fpe`). No afecta a Windows.
 4. XFOIL depende del camino de convergencia: el mismo α puede converger en un barrido y no en otro (NACA 2412, α = 2°, Re 10⁶).
 
-## 7. Módulos del algoritmo F1–F2 (corrida autónoma, rama `auto/f1-f2`)
+## 7. Módulos del algoritmo F1–F3 (corridas autónomas, ramas `auto/f1-f2` y `auto/f3`)
 
 Núcleo: `aerosuite/project.py` (`project.json` con `inputs`, `outputs` + registro de corrida, `assumptions`, detección de salidas desactualizadas) y `aerosuite/cli_modules.py` (`project-init`, `project-status`, `mXX`). Ejemplo: `examples/projects/c162-inputs.json`.
 
