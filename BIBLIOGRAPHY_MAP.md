@@ -83,6 +83,13 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M10 | Forma y escala; comprobaciones previas; concisión, robustez, flexibilidad | SOB Sec. 2.1.1, 2.2.1, 2.3, PDF 31-36 / impr. 13-18 | principios, no ecuaciones |
 | M10 | Círculo generalizado Y(Z) = Z^N1 (1−Z)^N2 (Ec. 2.16) y fuselaje 3D por secciones | SOB Sec. 2.4.1 y 2.4.3, PDF 36-46 / impr. 18-28 | |
 | M10 | Solevado lineal L(u,t) = (1−u)B1(t) + uB2(t) (Ec. 4.1) | SOB Sec. 4.1, PDF 85 / impr. 67 | |
+| M11 | Ecs. 7-7 y 7-8 (Gagg-Ferrar), Fig. 7-8, Ejemplo 7-2 | GUD Sec. 7.2.1(2)-(4), PDF 252-254 / impr. 207-209 | reproducidos |
+| M11 | Ecs. 7-9 y 7-10 (altitud crítica) | GUD PDF 253 / impr. 208 | reconstruida; sin ejemplo (D-28) |
+| M11 | Ecs. 7-12 y 7-13 (temperatura) | GUD PDF 254 / impr. 209 | reproducidas (Ej. 7-2) |
+| M11 | Ecs. 7-14 a 7-17, Ejemplo 7-3 (reductor) | GUD Sec. 7.2.3, PDF 254-255 / impr. 209-210 | reproducido |
+| M11 | Ecs. 15-24 a 15-26, Ejemplo 15-2 (diámetro, velocidad de punta) | GUD Sec. 15.3.1-15.3.2, PDF 665-666 / impr. 620-621 | reproducidos |
+| M11 | Ec. 15-30 (paso) y Ejemplo 15-3 (J) | GUD Sec. 15.3.3-15.3.5, PDF 666-669 / impr. 621-624 | errata de 1251 por 1215 (D-28) |
+| M11 | Ec. 15-32 (η_p requerida) | GUD Sec. 15.3.4, PDF 669 / impr. 624 | caso LSA reproducido |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)
