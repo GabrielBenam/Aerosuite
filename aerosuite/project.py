@@ -15,8 +15,14 @@ SCHEMA = "aerosuite-project/1"
 LEVELS = ("conceptual", "2D", "3D")
 
 
+def _json_default(o):
+    """Escalares de NumPy (np.bool_, np.float64...) como sus equivalentes de Python, igual al guardar y al calcular el hash: asi el
+    hash de una salida en memoria coincide con el del archivo recargado (antes np.bool_ daba 'True' al hash y 1.0 al guardar)."""
+    return o.item() if hasattr(o, "item") else str(o)
+
+
 def digest(obj) -> str:
-    return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode("utf-8")).hexdigest()
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, default=_json_default).encode("utf-8")).hexdigest()
 
 
 def new_project(name: str) -> dict:
@@ -34,7 +40,7 @@ def save(project: dict, path) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(project, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
+    tmp.write_text(json.dumps(project, indent=2, ensure_ascii=False, default=_json_default), encoding="utf-8")
     os.replace(tmp, path)
 
 

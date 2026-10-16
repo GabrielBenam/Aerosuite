@@ -105,6 +105,8 @@ def run_iteration(project: dict, modules: list[str]) -> tuple[dict, list[str]]:
     while pending and progress:
         progress = False
         for m in list(pending):
+            if m == "m23" and len(pending) > 1:          # el paso 23 evalua los resultados: siempre al final de la pasada
+                continue
             try:
                 secs = _run_module(project, m)
             except SystemExit as exc:

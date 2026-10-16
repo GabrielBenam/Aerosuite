@@ -143,6 +143,18 @@ class MissingDataTests(unittest.TestCase):
             self.assertIn("m09b", s["stop"]["message"])
 
 
+class DigestRoundTripTests(unittest.TestCase):
+    def test_numpy_scalars_hash_the_same_after_save_and_load(self):
+        import numpy as np
+        p = prj.new_project("x")
+        p["outputs"]["m99"] = {"result": {"ok": np.bool_(True), "x": np.float64(1.5), "n": np.int64(3)}, "run": {}}
+        before = prj.digest(p["outputs"]["m99"]["result"])
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "p.json"
+            prj.save(p, path)
+            self.assertEqual(prj.digest(prj.load(path)["outputs"]["m99"]["result"]), before)
+
+
 class ConvergenceFixtureTests(unittest.TestCase):
     """Synthetic fixed-point modules (logic fixture, NOT aerodynamics): A reads B's previous output and B reads A's, so each pass leaves the
     other stale until the values stop changing."""
