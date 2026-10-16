@@ -18,6 +18,13 @@ MODULES = {
     "m12": ("m12", "m12_weights", "M12 detailed component weights, statistical and direct (step 12)"),
     "m13": ("m13", "m13_cg", "M13 center of gravity, inertias and CG envelope (steps 13-14)"),
     "m15": ("m15", "m15_fuselage", "M15 fuselage sizing: cabin, nose/tail, wetted area and volume (step 15)"),
+    "m16": ("m16", "m16_stability", "M16 static and dynamic stability: neutral point, CG limits, modes (steps 16-17)"),
+    "m18a": ("m18a", "m18a_gear", "M18a landing gear: layout, static/dynamic loads, overturn, tires, brakes (step 18)"),
+    "m18b": ("m18b", "m18b_controls", "M18b controls: hinge moments, stick forces, free-elevator effect (step 18)"),
+    "m18c": ("m18c", "m18c_highlift", "M18c high-lift and flaps: wing partition method, XFOIL flapped section (step 18)"),
+    "m19": ("m19", "m19_stall", "M19 benign spanwise stall: lifting line, C_l vs C_lmax, washout study (step 19)"),
+    "m20": ("m20", "m20_drag", "M20 component drag buildup: C_Dmin, polar, best L/D (step 20)"),
+    "m21": ("m21", "m21_performance", "M21 performance: speeds, climb, ceilings, range/endurance, payload-range (step 21)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 

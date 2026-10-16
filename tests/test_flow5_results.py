@@ -168,5 +168,34 @@ class Flow5ResultsTests(unittest.TestCase):
             self.assertEqual(len(data["errors"]), 1)
 
 
+class Flow5Real755Regression(unittest.TestCase):
+    """Regresión con salida REAL de flow5 7.55 (evidence/flow5-7.55-win/run2-custom-ref), no un fixture de formato."""
+
+    OUT = Path(__file__).resolve().parents[1] / "evidence" / "flow5-7.55-win" / "run2-custom-ref" / "output"
+
+    def test_collect_finds_nested_polar(self):
+        from aerosuite.flow5_results import collect
+        data = collect(self.OUT)
+        self.assertEqual(data["errors"], [])
+        self.assertEqual(len(data["polars"]), 1)
+        self.assertEqual(len(data["polars"][0]["rows"]), 17)
+        self.assertEqual(data["operating_points"], [])
+
+    def test_polar_values(self):
+        from aerosuite.flow5_results import collect
+        rows = collect(self.OUT)["polars"][0]["rows"]
+        r0 = next(r for r in rows if r["alpha_deg"] == 0)
+        self.assertAlmostEqual(r0["CL"], 0.12538, places=5)
+        self.assertAlmostEqual(r0["CD"], 0.0071081, places=7)
+
+    def test_reference_dims_written_custom(self):
+        from aerosuite.flow5_xml import main_wing_reference
+        import json
+        cfg = json.loads((Path(__file__).resolve().parents[1] / "examples" / "flow5-c162-like.json").read_text(encoding="utf-8"))
+        ref = main_wing_reference(cfg)
+        self.assertAlmostEqual(ref["span_m"], 9.44, places=6)
+        self.assertGreater(ref["area_m2"], 10.0)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -313,20 +313,24 @@ def collect(output_dir: Path) -> dict:
     """Read every polar and operating point that flow5 wrote under ``output_dir``."""
     output_dir = Path(output_dir)
     polars, opps, errors = [], [], []
-    for plane_dir in sorted(p for p in output_dir.iterdir() if p.is_dir()) if output_dir.is_dir() else []:
-        for f in sorted(plane_dir.glob("*")):
-            if f.is_file() and f.suffix.lower() in (".csv", ".txt"):
-                try:
-                    polars.append(parse_plane_polar(f).to_dict())
-                except ValueError as exc:
-                    errors.append({"file": str(f), "error": str(exc)})
-            elif f.is_dir():
-                for g in sorted(f.glob("*")):
-                    if g.suffix.lower() in (".csv", ".txt"):
-                        try:
-                            opps.append(parse_plane_opp(g).to_dict())
-                        except (ValueError, IndexError) as exc:
-                            errors.append({"file": str(g), "error": str(exc)})
+    # flow5 7.55 (real run, evidence/flow5-7.55-win) nests the files one level deeper than the 7.57 source suggests:
+    # <output>/<plane>/<plane name>/<polar>.csv; search recursively and classify each file by its content.
+    files = sorted(f for f in output_dir.rglob("*") if f.is_file() and f.suffix.lower() in (".csv", ".txt")
+                   and f.name != "flow5_results.json") if output_dir.is_dir() else []
+    for f in files:
+        text = f.read_text(encoding="utf-8-sig", errors="replace")
+        sep = detect_separator(text)
+        is_polar = any(_split(l, sep)[:1] == ["Ctrl"] for l in text.splitlines())
+        try:
+            if is_polar:
+                polars.append(parse_plane_polar(f).to_dict())
+            else:
+                opp = parse_plane_opp(f)
+                if not (opp.derivatives or opp.span or any(k != "Progression_factor_" for k in opp.scalars)):
+                    raise ValueError(f"{f}: neither a flow5 plane polar nor an operating point")
+                opps.append(opp.to_dict())
+        except (ValueError, IndexError) as exc:
+            errors.append({"file": str(f), "error": str(exc)})
     return {"schema": SCHEMA, "schema_version": SCHEMA_VERSION, "source": str(output_dir),
             "engine": "flow5 v7.57 (original executable)", "polars": polars,
             "operating_points": opps, "errors": errors}

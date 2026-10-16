@@ -1,0 +1,262 @@
+{
+  "m09b": {
+    "_source": "Cessna 172 de GUD Ejemplos 11-1 a 11-3: S = 174 ft2, b = 36 ft, AR = 7.45 (b2/S), lambda y diedro SUPUESTOS del usuario.",
+    "planform": {
+      "area_m2": 16.1651,
+      "aspect_ratio": 8.0,
+      "taper_ratio": 0.7
+    },
+    "dihedral_deg": 1.5,
+    "washout_deg": 1.5,
+    "airfoils": {
+      "root": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      },
+      "tip": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      }
+    }
+  },
+  "m08": {
+    "wing_from_m09b": true,
+    "volumes": {
+      "vht": 0.761,
+      "vvt": 0.0419
+    },
+    "fuselage": {
+      "r1_m": 0.6096,
+      "r2_m": 0.1524
+    },
+    "method": 3,
+    "ar_ht": 3.0,
+    "ar_vt": 1.35
+  },
+  "m10": {
+    "_source": "Geometria de ejemplo: las posiciones z y la nariz son supuestos del usuario; no son datos del Cessna 172.",
+    "wing_z_m": 0.45,
+    "ht_z_m": 0.1,
+    "fuselage": {
+      "from_m08": true,
+      "x_nose_m": -1.6,
+      "nose_length_m": 1.2,
+      "z_axis_m": 0.0,
+      "n1": 0.5,
+      "n2": 0.5
+    },
+    "contours": false
+  },
+  "m12": {
+    "_source": "Ejemplo ilustrativo tipo Cessna 172 (W0 2550 lbf, 4 ocupantes, 56 gal). Los pesos conocidos (hélice, aviónica sin instalar), el motor de 160 BHP, la longitud de los trenes y el factor de carga de aterrizaje son DATOS ILUSTRATIVOS DEL USUARIO, no valores comprobados del avión real.",
+    "w0_kg": 1156.7,
+    "n_ult": 5.7,
+    "occupants": 4,
+    "crew": 1,
+    "wing_tc": 0.12,
+    "vh_keas": 120,
+    "cruise": {
+      "ktas": 122,
+      "altitude_m": 2438.4
+    },
+    "engine": {
+      "rated_bhp": 160,
+      "count": 1
+    },
+    "known_weights": {
+      "propeller_kg": 15.0,
+      "avionics_uninstalled_kg": 15.0
+    },
+    "fuel": {
+      "total_gal": 56,
+      "integral_gal": 56,
+      "tanks": 2
+    },
+    "landing_gear": {
+      "ultimate_landing_load_factor": 4.5,
+      "main_strut_m": 0.5,
+      "nose_strut_m": 0.5
+    },
+    "direct_wing": {
+      "sigma_max_pa": 448159000,
+      "rho_cap_kgm3": 2768,
+      "ar_values": [
+        8,
+        10,
+        12
+      ]
+    }
+  },
+  "m13": {
+    "_source": "Ejemplo ilustrativo: las posiciones del CG de cada componente (x desde el borde de ataque de la raíz del ala, positivo hacia atrás; y; z) y las cargas son DATOS ILUSTRATIVOS DEL USUARIO, no valores del avión real. Los pesos salen de M12.",
+    "from_m12": true,
+    "positions_m": {
+      "wing": [
+        0.35,
+        0,
+        0.45
+      ],
+      "horizontal_tail": [
+        4.95,
+        0,
+        0.1
+      ],
+      "vertical_tail": [
+        5.1,
+        0,
+        0.45
+      ],
+      "fuselage": [
+        2.6,
+        0,
+        0.0
+      ],
+      "landing_gear": [
+        0.25,
+        0,
+        -0.6
+      ],
+      "engine_installed": [
+        -1.0,
+        0,
+        0.0
+      ],
+      "fuel_system": [
+        0.4,
+        0,
+        0.4
+      ],
+      "flight_controls": [
+        1.0,
+        0,
+        0.1
+      ],
+      "hydraulics": [
+        0.5,
+        0,
+        -0.2
+      ],
+      "electrical": [
+        -0.6,
+        0,
+        0.1
+      ],
+      "air_conditioning": [
+        -0.5,
+        0,
+        0.0
+      ],
+      "avionics": [
+        -0.3,
+        0,
+        0.2
+      ],
+      "furnishings": [
+        0.9,
+        0,
+        0.0
+      ]
+    },
+    "items": [],
+    "envelope": {
+      "empty_mass_kg": 600.0,
+      "max_mass_kg": 1157.0,
+      "forward_limit_pct_mgc": 15.0,
+      "aft_limit_pct_mgc": 35.0,
+      "source": "usuario (placeholder; sale de M16)"
+    },
+    "loading": {
+      "stations_m": {
+        "pilot": 0.0,
+        "front_passenger": 0.0,
+        "rear_passengers": 1.0,
+        "baggage": 1.8,
+        "fuel": 0.4
+      },
+      "combinations": [
+        {
+          "id": "pilot only",
+          "loads": {
+            "pilot": 77.0
+          }
+        },
+        {
+          "id": "2 + fuel",
+          "loads": {
+            "pilot": 77.0,
+            "front_passenger": 77.0,
+            "fuel": 150.0
+          }
+        },
+        {
+          "id": "4 + baggage + fuel",
+          "loads": {
+            "pilot": 77.0,
+            "front_passenger": 77.0,
+            "rear_passengers": 154.0,
+            "baggage": 30.0,
+            "fuel": 150.0
+          }
+        }
+      ]
+    }
+  },
+  "m18c": {
+    "_source": "Ejemplo ilustrativo tipo Cessna 172: segmentos, fraccion de cuerda del flap y deflexiones son DATOS ILUSTRATIVOS DEL USUARIO. Los incrementos de C_lmax salen de XFOIL real (2D, NACA 2412, Re = 3e6).",
+    "section": {
+      "clmax_root": 1.58,
+      "clmax_tip": 1.58,
+      "cl_alpha_per_deg": 0.1,
+      "alpha_zl_deg": -2.1,
+      "xfoil": {
+        "naca": "2412",
+        "reynolds": 3000000,
+        "alpha_start": -4,
+        "alpha_end": 22,
+        "alpha_step": 1
+      }
+    },
+    "segments": [
+      {
+        "id": "root",
+        "y_in": 0.0,
+        "y_out": 0.12
+      },
+      {
+        "id": "flap",
+        "y_in": 0.12,
+        "y_out": 0.62,
+        "flap": {
+          "cf_over_c": 0.3,
+          "hinge_sweep_deg": 0.0
+        }
+      },
+      {
+        "id": "aileron",
+        "y_in": 0.62,
+        "y_out": 0.95
+      },
+      {
+        "id": "tip",
+        "y_in": 0.95,
+        "y_out": 1.0
+      }
+    ],
+    "configurations": {
+      "takeoff": {
+        "source": "xfoil",
+        "delta_deg": 10.0
+      },
+      "landing": {
+        "source": "xfoil",
+        "delta_deg": 30.0
+      }
+    },
+    "alpha_stall_flapped_deg": {
+      "takeoff": 14.0,
+      "landing": 11.0
+    }
+  }
+}

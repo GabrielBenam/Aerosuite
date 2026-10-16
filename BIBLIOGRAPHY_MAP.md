@@ -145,3 +145,18 @@ Verificado el 2026-10-14 contra `General Aviation Aircraft Design ... - COMPLETO
 | M06 | Método 2: We/W0 = A + B ln W0 por clase (sailplane, powered sailplane, LSA tierra/anfibio, GA monomotor, bimotor pistón, bimotor turbohélice, agrícola, jet de negocios) | GUD Ecs. 6-16 a 6-24, PDF 197–198 / impr. 152–153. Coeficientes leídos del PDF original con `pdftotext`; signos y pares lbf/kg verificados por la identidad A_kg = A_lbf + B·ln(2.2046) |
 | M06 | Método 3: fracciones por segmento (taxi/despegue, ascenso, crucero, descenso, espera, reserva, aterrizaje), Ec. 6-29 y Ejemplo 6-4 | GUD Sec. 6.2.3, Ecs. 6-25 a 6-42, PDF 198–201 / impr. 153–156; Ejemplo 6-4, PDF 202–204 / impr. 157–159 |
 | M06 | Aeronave eléctrica (Hepperle): Ecs. 6-10 a 6-15 y Ejemplo 6-3 | GUD PDF 196–197 / impr. 151–152 |
+
+## Fase F4 (M16, M18a-c, M19, M20, M21)
+Convención: PDF = marcador `[p. N]` del texto convertido (`COMPLETO.md`) de cada libro; impreso = PDF − 46 en Gudmundsson y PDF − 13 en Etkin; ±1 página. Las páginas de ecuaciones sueltas no se verificaron una a una (se cita el rango de la sección).
+
+| Módulo | Contenido | Fuente (autor, obra, capítulo, PDF) |
+|---|---|---|
+| M16 | Gradiente de estela, punto neutro, CM_α, CM0, SM | Gudmundsson, *General Aviation Aircraft Design* 2.ª ed., Cap. 24 (Secs. 24.2.5, 24.2.8, 24.3.4, Ejemplo 24-6), PDF 987–1010 |
+| M16 | CN_β y CY_β de cola vertical y fuselaje | Gudmundsson, Cap. 25 (Sec. 25.3), PDF 1034 y ss. (ecuaciones 25-12 a 25-14, 25-27 a 25-29; K_YVT central reconstruido, D-36) |
+| M16 | Matrices de estado, B747 (fugoide, periodo corto, espiral, balanceo, holandés), fugoide de Lanchester | Etkin y Reid, *Dynamics of Flight* 3.ª ed., Secs. 4.9, 6.2, 6.3, 6.7, PDF 120, 178, 185, 201 (coeficientes laterales de la Tabla 6.6 no están en el texto convertido: se validan por los autovalores impresos, D-35) |
+| M18a | Tren de aterrizaje: trazado, vuelco, cargas, giro, huella, frenos | Gudmundsson, Cap. 13 (Secs. 13.2, 13.3; Ejemplos 13-2 y 13-3), PDF 590–615; 14 CFR §23.725, §23.735, §23.925(a) citados por el libro (no consultados directamente) |
+| M18b | Momentos de charnela, ganancias, flotación, τ_e | Gudmundsson, Sec. 24.4 y Ec. 24-86, Tabla 24-6, Ejemplo 24-6 (d), PDF 990, 1009, 1013–1017 |
+| M18c | Flaps: Ec. 10-1, Tabla 10-5 (datos de entrada), partición del ala | Gudmundsson, Cap. 10 (Secs. 10.3, 10.4; Ejemplos 10-2 y 10-3), PDF 479–507; XFOIL 6.99 (Drela) con GDES/FLAP |
+| M19 | Línea sustentadora, perdida en envergadura, criterios | Gudmundsson, Secs. 9.5.4, 9.6, 9.7.3 (Ejemplos 9-9 y 9-10), PDF 416–452; Anderson, *Fundamentals of Aerodynamics* Sec. 5.3 (conocimiento externo, no verificado en la carpeta) |
+| M20 | Resistencia por componentes | Gudmundsson, Cap. 16 (Secs. 16.3.1 a 16.3.9; Ejemplos 16-6, 16-7, 16-11), PDF 726–758 |
+| M21 | Prestaciones, alcance, carga útil–alcance | Gudmundsson, Secs. 3.2, 7 (Gagg-Ferrar), Caps. 19–21 (Ejemplos 21-2 y 21-6), PDF 107, 253, 858–925 |
