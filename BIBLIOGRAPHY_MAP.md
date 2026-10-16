@@ -99,6 +99,9 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M13 | Ecs. 6-140 a 6-151 (inercias, ejes paralelos, principales) | GUD Sec. 6.6.7-6.6.10, PDF 225-228 / impr. 180-183 | sin ejemplo; 6-150 con signo reconstruido (D-30) |
 | M13 | Sec. 6.7, Tabla 6-6, Figs. 6-26 a 6-31 (envolvente, nube de cargas) | GUD PDF 228-236 / impr. 183-191 | límites son dato (M16) |
 | M13 | Ecs. 6-152 a 6-157, Ejemplo 6-10 (tolerancias) | GUD Sec. 6.7.6, PDF 237-239 / impr. 192-194 | reproducido |
+| M15 | Sec. 12.2.2 (nariz 1.45-1.75 d, cola 3-3.35 d) y Sec. 12.3.1-12.3.2 (procedimiento y refinamiento) | GUD PDF 564-571 / impr. 519-526 | reglas y rangos |
+| M15 | Sec. 12.3.3-12.3.4 (22x43x65 in, pasillo 20x76 in, 20 in por persona) | GUD PDF 571-573 / impr. 526-528 | reglas |
+| M15 | Ecs. 12-1 a 12-17, Tabla 12-1 (áreas y volúmenes de sólidos) | GUD Sec. 12.4, PDF 575-580 / impr. 530-535 | reproducidas; errata del tronco (D-31) |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)

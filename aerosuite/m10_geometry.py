@@ -43,16 +43,20 @@ def fuselage(d: dict, x_tail_start: float, tail_end_x: float) -> dict:
     x_nose, l_nose = float(d["x_nose_m"]), float(d["nose_length_m"])
     r1, r2 = float(d["radius_m"]), float(d["tail_radius_m"])
     z0 = float(d.get("z_axis_m", 0.0))
-    if not (0.0 < r2 <= r1) or l_nose <= 0.0:
-        raise ValueError("require 0 < tail radius <= cabin radius and nose length > 0")
+    if not (0.0 <= r2 <= r1) or r1 <= 0.0 or l_nose <= 0.0:
+        raise ValueError("require 0 <= tail radius <= cabin radius and nose length > 0")
     x_cabin = x_nose + l_nose
     if not x_cabin < x_tail_start < tail_end_x:
         raise ValueError("require nose < cabin start < tail-cone start < tail end along x")
     stations = []
     nn = int(d.get("stations_nose", 6))
-    for i in range(nn):                                    # elipsoide: r = R sqrt(1 - ((x_cabin - x)/L)^2)
-        x = x_nose + l_nose * (i / nn) ** 1.0
-        r = r1 * math.sqrt(max(0.0, 1.0 - ((x_cabin - x) / l_nose) ** 2))
+    parab = d.get("nose_shape", "ellipsoid") == "paraboloid"
+    for i in range(nn):
+        x = x_nose + l_nose * (i / nn)
+        if parab:                                          # paraboloide de revolucion (GUD Sec. 12.4): r = R sqrt(s)
+            r = r1 * math.sqrt(max(0.0, (x - x_nose) / l_nose))
+        else:                                              # elipsoide: r = R sqrt(1 - ((x_cabin - x)/L)^2)
+            r = r1 * math.sqrt(max(0.0, 1.0 - ((x_cabin - x) / l_nose) ** 2))
         stations.append({"x_m": x, "radius_m": r})
     stations += [{"x_m": x_cabin, "radius_m": r1}, {"x_m": x_tail_start, "radius_m": r1}]
     nt = int(d.get("stations_tail", 3))
@@ -166,6 +170,9 @@ def evaluate(project: dict) -> tuple[dict, list]:
                            vt["root_chord_m"], vt["tip_chord_m"], sw_vt, 0.0, 0.0, 0.0, vt_foil, vt_foil, vertical=True)
     # --- fuselaje ---
     fz = dict(d["fuselage"])
+    if fz.pop("from_m15", False):
+        fz.update(_need(project, "m15")["m10_fuselage"])
+        depends.append("m15")
     if fz.pop("from_m08", False):
         fz.setdefault("radius_m", tail["fuselage_tail_section"]["r1_m"])
         fz.setdefault("tail_radius_m", tail["fuselage_tail_section"]["r2_m"])
