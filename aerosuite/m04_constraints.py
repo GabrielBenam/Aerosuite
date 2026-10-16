@@ -4,7 +4,8 @@ Nivel conceptual. Reúne tres cosas:
   1. el análisis de restricciones de ADRpy (`adrpy_core.size`, sin modificar), con el límite de pérdida;
   2. la restricción de aterrizaje de Gudmundsson (distancia total Ec. 3-13, solo rodadura Ec. 3-14), que
      ADRpy no trae: es un límite vertical de W/S (la tracción en tierra es mínima y no interviene);
-  3. la Ec. 3-1 de despegue del libro, como contraste de la formulación de ADRpy.
+  3. la Ec. 3-1 de despegue del libro, que es la curva de despegue del punto de diseño (D-22); la de ADRpy
+     queda como `contraste_adrpy`. `fuente` declara qué curva viene de cuál motor.
 Las ecuaciones del libro tienen constantes dimensionales (pies, slug/ft³, lbf/ft²): se evalúan en esas unidades
 y las funciones públicas reciben y devuelven SI.
 """
@@ -113,6 +114,38 @@ def run(project: dict) -> dict:
         alt = d["landing"].get("altitude_m", doc["designbrief"].get("rwyelevation_m", 0.0))
         result["landing"] = _landing_block(d["landing"], float(atm.airdens_kgpm3(alt)))
         limits["landing"] = result["landing"]["max_wingloading_pa"]
+    brief, perf = doc["designbrief"], doc["designperformance"]
+    source = {name: "adrpy" for name in result["constraints_evaluated"]}
+    source.update({"stall": "adrpy", "landing": "gudmundsson"})
+    result["contraste_adrpy"] = None
+    if all(k in perf for k in ("CLmaxTO", "CLTO", "CDTO", "mu_R")) and brief.get("groundrun_m"):
+        # D-22: the take-off curve that defines the design point is Eq. 3-1 (GUD); ADRpy's is kept as contrast.
+        rho = float(atm.airdens_kgpm3(brief.get("rwyelevation_m", 0.0))) / KGM3_PER_SLUGFT3
+        rows = []
+        for s in result["samples"]:
+            tw_book = takeoff_tw_book(s["wingloading_pa"] / PA_PER_LBF_FT2, rho, perf["CLmaxTO"], perf["CLTO"],
+                                      perf["CDTO"], perf["mu_R"], brief["groundrun_m"] * FT_PER_M)
+            tw_adrpy = s["by_constraint"].get("takeoff")
+            rows.append({"wingloading_pa": s["wingloading_pa"], "tw_eq_3_1": tw_book, "tw_adrpy": tw_adrpy,
+                         "difference_pct": None if tw_adrpy is None else 100.0 * (tw_adrpy / tw_book - 1.0)})
+            s["by_constraint"]["takeoff"] = tw_book
+            s["required_tw"] = max(s["by_constraint"].values())
+            s["active_constraint"] = max(s["by_constraint"], key=s["by_constraint"].get)
+        source["takeoff"] = "gudmundsson"
+        result["best_sample_ignoring_stall"] = min(result["samples"], key=lambda s: s["required_tw"])
+        result["contraste_adrpy"] = {
+            "description": "ADRpy 0.2.6 take-off curve (sea-level equivalent) against Eq. 3-1 (GUD), kept for contrast",
+            "samples": rows,
+            "difference_pct_mean": sum(r["difference_pct"] for r in rows) / len(rows)}
+        if brief.get("rwyelevation_m", 0.0):
+            result["takeoff_note"] = ("Eq. 3-1 is evaluated at runway density and is not mapped to sea level; "
+                                      "the other curves are sea-level equivalents (map2sl)")
+    else:
+        result["takeoff_note"] = ("Eq. 3-1 inputs missing (CLmaxTO, CLTO, CDTO, mu_R, groundrun_m): "
+                                  "take-off curve comes from ADRpy")
+        if "takeoff" in source:
+            source["takeoff"] = "adrpy"
+    result["fuente"] = source
     active = {k: v for k, v in limits.items() if v is not None}
     ws_limit = min(active.values()) if active else None
     admissible = [s for s in result["samples"] if ws_limit is None or s["wingloading_pa"] <= ws_limit]
@@ -123,13 +156,7 @@ def run(project: dict) -> dict:
     result["best_sample"] = min(admissible, key=lambda s: s["required_tw"]) if admissible else None
     if not admissible:
         result["warning"] = "no sampled wing loading satisfies the W/S limits"
-    brief, perf = doc["designbrief"], doc["designperformance"]
-    if all(k in perf for k in ("CLmaxTO", "CLTO", "CDTO", "mu_R")) and brief.get("groundrun_m"):
-        rho = float(atm.airdens_kgpm3(brief.get("rwyelevation_m", 0.0))) / KGM3_PER_SLUGFT3
-        result["takeoff_book_eq_3_1"] = [
-            {"wingloading_pa": s["wingloading_pa"],
-             "tw_local": takeoff_tw_book(s["wingloading_pa"] / PA_PER_LBF_FT2, rho, perf["CLmaxTO"], perf["CLTO"],
-                                         perf["CDTO"], perf["mu_R"], brief["groundrun_m"] * FT_PER_M),
-             "adrpy_tw_sea_level": s["by_constraint"].get("takeoff")} for s in result["samples"]]
+    if "power_required" in result and result["power_required"]:
+        result["power_required"]["note"] = "ADRpy powerrequired(): uses ADRpy's take-off formulation, not Eq. 3-1"
     prj.record(project, "m04", result, "conceptual", REFERENCES, depends)
     return result

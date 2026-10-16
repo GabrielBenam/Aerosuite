@@ -14,11 +14,13 @@ if not exist .venv (
   .venv\Scripts\python -m pip install --no-deps ./vendor/ADRpy
 )
 set MAX=12
+set PLAN=AUTONOMOUS_RUN_F3.md
+if exist FASE_COMPLETA.flag del FASE_COMPLETA.flag
 for /L %%i in (1,1,%MAX%) do (
   if exist FASE_COMPLETA.flag goto fin
   echo Corrida %%i en curso. Claude Code trabaja en segundo plano; el detalle queda en autonomo.log
   echo ==== Corrida %%i  %date% %time% ==== >> autonomo.log
-  claude -p "Lee CLAUDE.md y AUTONOMOUS_RUN.md y ejecuta la corrida autonoma desde donde indique la bitacora. Usa .venv\Scripts\python para Python. No hagas preguntas." --permission-mode bypassPermissions --max-turns 300 --disallowedTools "Edit(vendor/**)" "Bash(git push --force:*)" "Bash(git push -f:*)" "Bash(git push origin main:*)" "Bash(git reset --hard:*)" "Bash(rm -rf:*)" "Bash(gh pr merge:*)" "Bash(gh repo delete:*)" >> autonomo.log 2>&1
+  claude -p "Lee CLAUDE.md y %PLAN% y ejecuta la corrida autonoma desde donde indique la bitacora. Usa .venv\Scripts\python para Python. No hagas preguntas." --permission-mode bypassPermissions --max-turns 300 --disallowedTools "Edit(vendor/**)" "Bash(git push --force:*)" "Bash(git push -f:*)" "Bash(git push origin main:*)" "Bash(git reset --hard:*)" "Bash(rm -rf:*)" "Bash(gh pr merge:*)" "Bash(gh repo delete:*)" >> autonomo.log 2>&1
   if exist FASE_COMPLETA.flag goto fin
   echo Esperando 30 min antes de reintentar... >> autonomo.log
   timeout /t 1800 /nobreak >nul

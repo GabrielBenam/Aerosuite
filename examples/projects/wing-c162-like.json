@@ -1,0 +1,16 @@
+{
+  "m09b": {
+    "_source": "Ejemplo ilustrativo: S = 120 ft2 (11.15 m2) y AR = 8 del Ejemplo 3-1 de GUD; lambda 0.7, diedro 2 deg, washout 1.5 deg y Cl_max/Cl_alpha 2D de la NACA 2412 son SUPUESTOS del usuario (Cl_max 1.58 es el dato de NACA TR-824 que cita GUD en el Ejemplo 9-9), no resultados.",
+    "planform": {"area_m2": 11.15, "aspect_ratio": 8.0, "taper_ratio": 0.7, "sweep_c4_deg": 0.0},
+    "dihedral_deg": 2.0,
+    "washout_deg": 1.5,
+    "mach": 0.1,
+    "wing_class": "general_aviation",
+    "airfoils": {"root": {"id": "naca2412", "clmax": 1.58, "cl_alpha_per_rad": 6.1},
+                 "tip": {"id": "naca2412", "clmax": 1.58, "cl_alpha_per_rad": 6.1}},
+    "wing_loading_pa": 526.7,
+    "volume": {"y1_m": 0.4, "y2_m": 2.2, "k": 0.3, "t_over_c": 0.12, "usable_fraction": 0.3, "fuel_density_kgm3": 720},
+    "flow5": {"analysis": {"type": "FIXEDSPEEDPOLAR", "method": "LLT", "velocity_mps": 55.6, "altitude_m": 2438.4,
+                           "viscous": true, "xfoil_on_the_fly": true, "ncrit": 9, "alpha_deg": [-2, 10, 2]}}
+  }
+}

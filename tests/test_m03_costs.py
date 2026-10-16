@@ -80,6 +80,24 @@ class M03Tests(unittest.TestCase):
             msp = data["outputs"]["m03"]["result"]["unit"]["with_qdf"]["minimum_selling_price"]
             self.assertAlmostEqual(msp, 285617, delta=5)
             self.assertEqual(prj.stale(data), [])
+            r = data["outputs"]["m03"]["result"]
+            self.assertEqual(r["anio_base"], 2012)
+            self.assertIn("dólares de 2012", r["nota_costos"])
+            self.assertIn("no están actualizados por inflación", r["nota_costos"])
+
+    def test_project_status_repeats_cost_note(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "p.json"
+            main(["project-init", "--project", str(path), "--name", "ex2", "--from-inputs",
+                  str(Path(__file__).parents[1] / "examples" / "projects" / "gud-example-2-cost.json")])
+            with contextlib.redirect_stdout(io.StringIO()):
+                main(["m03", "--project", str(path)])
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                main(["project-status", "--project", str(path)])
+            self.assertIn("dólares de 2012", buf.getvalue().replace("\u00f3", "ó"))
 
 
 if __name__ == "__main__":

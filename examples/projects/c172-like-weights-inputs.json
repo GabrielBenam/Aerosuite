@@ -1,0 +1,92 @@
+{
+  "m09b": {
+    "_source": "Cessna 172 de GUD Ejemplos 11-1 a 11-3: S = 174 ft2, b = 36 ft, AR = 7.45 (b2/S), lambda y diedro SUPUESTOS del usuario.",
+    "planform": {
+      "area_m2": 16.1651,
+      "aspect_ratio": 8.0,
+      "taper_ratio": 0.7
+    },
+    "dihedral_deg": 1.5,
+    "washout_deg": 1.5,
+    "airfoils": {
+      "root": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      },
+      "tip": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      }
+    }
+  },
+  "m08": {
+    "wing_from_m09b": true,
+    "volumes": {
+      "vht": 0.761,
+      "vvt": 0.0419
+    },
+    "fuselage": {
+      "r1_m": 0.6096,
+      "r2_m": 0.1524
+    },
+    "method": 3,
+    "ar_ht": 3.0,
+    "ar_vt": 1.35
+  },
+  "m10": {
+    "_source": "Geometria de ejemplo: las posiciones z y la nariz son supuestos del usuario; no son datos del Cessna 172.",
+    "wing_z_m": 0.45,
+    "ht_z_m": 0.1,
+    "fuselage": {
+      "from_m08": true,
+      "x_nose_m": -1.6,
+      "nose_length_m": 1.2,
+      "z_axis_m": 0.0,
+      "n1": 0.5,
+      "n2": 0.5
+    },
+    "contours": false
+  },
+  "m12": {
+    "_source": "Ejemplo ilustrativo tipo Cessna 172 (W0 2550 lbf, 4 ocupantes, 56 gal). Los pesos conocidos (hélice, aviónica sin instalar), el motor de 160 BHP, la longitud de los trenes y el factor de carga de aterrizaje son DATOS ILUSTRATIVOS DEL USUARIO, no valores comprobados del avión real.",
+    "w0_kg": 1156.7,
+    "n_ult": 5.7,
+    "occupants": 4,
+    "crew": 1,
+    "wing_tc": 0.12,
+    "vh_keas": 120,
+    "cruise": {
+      "ktas": 122,
+      "altitude_m": 2438.4
+    },
+    "engine": {
+      "rated_bhp": 160,
+      "count": 1
+    },
+    "known_weights": {
+      "propeller_kg": 15.0,
+      "avionics_uninstalled_kg": 15.0
+    },
+    "fuel": {
+      "total_gal": 56,
+      "integral_gal": 56,
+      "tanks": 2
+    },
+    "landing_gear": {
+      "ultimate_landing_load_factor": 4.5,
+      "main_strut_m": 0.5,
+      "nose_strut_m": 0.5
+    },
+    "direct_wing": {
+      "sigma_max_pa": 448159000,
+      "rho_cap_kgm3": 2768,
+      "ar_values": [
+        8,
+        10,
+        12
+      ]
+    }
+  }
+}

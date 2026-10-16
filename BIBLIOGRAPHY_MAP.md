@@ -54,6 +54,56 @@ Métodos declarados en el código original (`flow5-lib/api/enums_objects.h`): `L
 | Ejes y transformaciones | Ejes cuerpo/estabilidad/viento, ángulos de Euler | DRE Sec. 6.2 y 9.2 impr. 124 y 201; Apéndice F impr. 265. DIS Cap. 2 Platform Kinematics: Euler Angles PDF 56 / impr. 37 | Intercambio de resultados con convención de signos explícita | Verificar convención de flow5 al exportar |
 | Compresibilidad en 3D | Prandtl-Glauert | DRE Sec. 8.6 impr. 173 | Corrección subsónica | — |
 
+## 3b. Módulos del algoritmo F3 (corrida F3, comprobado contra `BIBLIOGRAFIA` local)
+
+Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; impr. = PDF − 45 (coincide con el índice del Cap. 11: 11.4 en impr. 505).
+
+| Módulo | Ecuación / dato | Referencia comprobada | Nota |
+|---|---|---|---|
+| M08 | Ecs. 11-5 y 11-6, volúmenes de cola | GUD Sec. 11.2.2, PDF 530 / impr. 485 | |
+| M08 | Tabla 11-4, V_HT y V_VT por clase | GUD Sec. 11.4.1, PDF 550 / impr. 505 | leída de la figura (imagen 680) |
+| M08 | Ecs. 11-14 a 11-26 (Método 1), Ejemplo 11-1 | GUD Sec. 11.4.3-11.4.4, PDF 555-556 / impr. 510-511 | Ejemplo reproducido |
+| M08 | Ec. 11-27 (Método 2), Ejemplo 11-2 | GUD PDF 556 / impr. 511 | reproducido |
+| M08 | Ec. 11-28 (Método 3), Ejemplo 11-3 | GUD Sec. 11.4.6, PDF 557 / impr. 512 | reproducido |
+| M08 | Ecs. 11-29 a 11-35 (Método 4), Ejemplo 11-5 | GUD Sec. 11.4.7, PDF 558-560 / impr. 513-515 | solo prueba de algoritmo (Ej. 11-5 es una figura de hoja de cálculo) |
+| M08 | Ecs. 9-3, 9-8 a 9-13, 9-28, 9-29 (planta trapezoidal) | GUD Sec. 9.2.2 y 9.2.5, PDF 369-371 / impr. 324-326 | los títulos del Cap. 9 de ARCHITECTURE §2 coinciden |
+| M09a | Sec. 8.3.9, criterios (1)-(11), matriz y ejemplo de prorrateo | GUD PDF 355-361 / impr. 310-316 | ejemplo reproducido (t/c) |
+| M09a | Tabla 8-12 (clases de perfil) | GUD PDF 356-357 / impr. 311-312 | figura; solo se registra la clase elegida |
+| M09a | Sec. 8.1.4 definiciones (Cl_max, Cl_α = 2π máx., α_ZL, Cl_max/Cd_min) | GUD PDF 305-306 / impr. 260-261 | |
+| M09a | Ec. 8-64 (M_crit de Shevell) y 8-67 (Korn) | GUD PDF 355-356 | 8-64 garbleada: no usada (D-25) |
+| M09b | Ecs. 9-3, 9-8 a 9-16, 9-28 a 9-31; Ejemplo 9-3 | GUD Sec. 9.2.2 y 9.2.5, PDF 369-375 / impr. 324-330 | reproducido (b, c_r, c_t) |
+| M09b | Ecs. 9-35 y 9-36 (volumen del ala) | GUD Sec. 9.2.6, PDF 374-375 / impr. 329-330 | el ejemplo impreso es inconsistente (D-26) |
+| M09b | Tablas 9-4, 9-5; Secs. 9.3.3-9.3.5 (AR, λ, flecha, diedro, washout) | GUD PDF 377-385 / impr. 332-340 | guías |
+| M09b | Ecs. 9-37 a 9-40 y Ejemplo 9-4 (AR_e por alcance) | GUD PDF 379-380 / impr. 334-335 | reproducido |
+| M09b | Ecs. 9-68 a 9-73, Tabla 9-7 (C_Lα) | GUD Sec. 9.5.4, PDF 412-414 / impr. 367-369 | Tabla 9-7 reproducida (8 filas) |
+| M09b | Ecs. 9-74 a 9-78, Ejemplo 9-9 (CL_max) | GUD Sec. 9.5.5, PDF 415-417 / impr. 370-372 | reproducido |
+| M09b | Ecs. 9-122, 9-129; Ejemplo 9-4 y 3-1 (e) | GUD Sec. 9.5.12, PDF 428-430 / impr. 383-385 | reproducido; 9-130 no implementada |
+| M10 | Dato (origen) en el borde de ataque de la raíz del ala | GUD Sec. 9.1.3, PDF 367 / impr. 322 | |
+| M10 | Brazos l_HT y l_VT entre c_MGC/4 del ala y de la cola (Figs. 11-1, 11-2) | GUD Sec. 11.2.1-11.2.2, PDF 529-530 / impr. 484-485 | |
+| M10 | Forma y escala; comprobaciones previas; concisión, robustez, flexibilidad | SOB Sec. 2.1.1, 2.2.1, 2.3, PDF 31-36 / impr. 13-18 | principios, no ecuaciones |
+| M10 | Círculo generalizado Y(Z) = Z^N1 (1−Z)^N2 (Ec. 2.16) y fuselaje 3D por secciones | SOB Sec. 2.4.1 y 2.4.3, PDF 36-46 / impr. 18-28 | |
+| M10 | Solevado lineal L(u,t) = (1−u)B1(t) + uB2(t) (Ec. 4.1) | SOB Sec. 4.1, PDF 85 / impr. 67 | |
+| M11 | Ecs. 7-7 y 7-8 (Gagg-Ferrar), Fig. 7-8, Ejemplo 7-2 | GUD Sec. 7.2.1(2)-(4), PDF 252-254 / impr. 207-209 | reproducidos |
+| M11 | Ecs. 7-9 y 7-10 (altitud crítica) | GUD PDF 253 / impr. 208 | reconstruida; sin ejemplo (D-28) |
+| M11 | Ecs. 7-12 y 7-13 (temperatura) | GUD PDF 254 / impr. 209 | reproducidas (Ej. 7-2) |
+| M11 | Ecs. 7-14 a 7-17, Ejemplo 7-3 (reductor) | GUD Sec. 7.2.3, PDF 254-255 / impr. 209-210 | reproducido |
+| M11 | Ecs. 15-24 a 15-26, Ejemplo 15-2 (diámetro, velocidad de punta) | GUD Sec. 15.3.1-15.3.2, PDF 665-666 / impr. 620-621 | reproducidos |
+| M11 | Ec. 15-30 (paso) y Ejemplo 15-3 (J) | GUD Sec. 15.3.3-15.3.5, PDF 666-669 / impr. 621-624 | errata de 1251 por 1215 (D-28) |
+| M11 | Ec. 15-32 (η_p requerida) | GUD Sec. 15.3.4, PDF 669 / impr. 624 | caso LSA reproducido |
+| M12 | Ecs. 6-43 a 6-47 (ala) y Ejemplo 6-5 | GUD Sec. 6.4.1, PDF 205-210 / impr. 160-165 | reproducidos (leídas del PDF con pdftotext) |
+| M12 | Ecs. 6-48 a 6-105 (colas, fuselaje, tren, planta motriz, sistemas), Ec. 6-106 | GUD Sec. 6.4.1-6.4.2, PDF 206-210 / impr. 161-165 | transcritas, sin ejemplo; 6-52 sospechosa (D-29) |
+| M12 | Ecs. 6-109 a 6-127, Ejemplos 6-6 y 6-7 (cajón directo, variación con AR) | GUD Sec. 6.5, PDF 212-221 / impr. 167-176 | reproducidos |
+| M12 | Sec. 6.3 (pesos conocidos, promedio de métodos, factores de escala) | GUD PDF 204-205 / impr. 159-160 | reglas de uso |
+| M13 | Ecs. 6-128 a 6-137, Ejemplos 6-8 y 6-9 (CG, % c_MGC) | GUD Sec. 6.6.3-6.6.5, PDF 222-225 / impr. 177-180 | reproducidos |
+| M13 | Ecs. 6-138 y 6-139 (pesaje) | GUD Sec. 6.6.6, PDF 225 / impr. 180 | consistencia estática |
+| M13 | Ecs. 6-140 a 6-151 (inercias, ejes paralelos, principales) | GUD Sec. 6.6.7-6.6.10, PDF 225-228 / impr. 180-183 | sin ejemplo; 6-150 con signo reconstruido (D-30) |
+| M13 | Sec. 6.7, Tabla 6-6, Figs. 6-26 a 6-31 (envolvente, nube de cargas) | GUD PDF 228-236 / impr. 183-191 | límites son dato (M16) |
+| M13 | Ecs. 6-152 a 6-157, Ejemplo 6-10 (tolerancias) | GUD Sec. 6.7.6, PDF 237-239 / impr. 192-194 | reproducido |
+| M15 | Sec. 12.2.2 (nariz 1.45-1.75 d, cola 3-3.35 d) y Sec. 12.3.1-12.3.2 (procedimiento y refinamiento) | GUD PDF 564-571 / impr. 519-526 | reglas y rangos |
+| M15 | Sec. 12.3.3-12.3.4 (22x43x65 in, pasillo 20x76 in, 20 in por persona) | GUD PDF 571-573 / impr. 526-528 | reglas |
+| M15 | Ecs. 12-1 a 12-17, Tabla 12-1 (áreas y volúmenes de sólidos) | GUD Sec. 12.4, PDF 575-580 / impr. 530-535 | reproducidas; errata del tronco (D-31) |
+| M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
+
 ## 4. Optimizador (SciPy)
 
 | Elemento | Referencia comprobada | Aplicación | Limitaciones |
