@@ -1,0 +1,29 @@
+{
+  "name": "Gudmundsson Table 6-1: weight ratios of selected Light Sport Aircraft",
+  "source": "Gudmundsson, General Aviation Aircraft Design, 2nd ed., Table 6-1, PDF p.196 / printed p.151 (read from the book's figure Imagen 0150). The book notes the data come from manufacturer websites and may contain erroneous weights.",
+  "class": "lsa_land",
+  "propulsion": "piston",
+  "units": {"we_lbf": "lbf", "w0_lbf": "lbf", "qf_gal": "US gal", "wf_lbf": "lbf"},
+  "book_statistics": {"we_w0_mean": 0.535, "wu_w0_mean": 0.465, "wf_w0_mean": 0.093,
+                      "we_w0_std": 0.060, "wu_w0_std": 0.060, "wf_w0_std": 0.034,
+                      "we_lbf_mean": 707, "w0_lbf_mean": 1320, "wf_lbf_mean": 123},
+  "aircraft": [
+    {"name": "Aerostar Festival LSA", "we_lbf": 848, "w0_lbf": 1318, "qf_gal": 21, "wf_lbf": 127},
+    {"name": "Allegro 2007", "we_lbf": 622, "w0_lbf": 1320, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "Cessna C-162 Skycatcher", "we_lbf": 834, "w0_lbf": 1320, "qf_gal": 24, "wf_lbf": 144},
+    {"name": "ECO1 EXP (medium)", "we_lbf": 655, "w0_lbf": 1322, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "ECO1 EXP (short)", "we_lbf": 655, "w0_lbf": 1322, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "ECO1 LSA", "we_lbf": 655, "w0_lbf": 1318, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "ECO1 UL", "we_lbf": 655, "w0_lbf": 1318, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "ECO1 VLA(medium)", "we_lbf": 655, "w0_lbf": 1322, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "ECO1 VLA(short)", "we_lbf": 655, "w0_lbf": 1322, "qf_gal": 13, "wf_lbf": 79},
+    {"name": "Flight Design CTLS", "we_lbf": 717, "w0_lbf": 1320, "qf_gal": 34, "wf_lbf": 204},
+    {"name": "Flight Design CTSW", "we_lbf": 693, "w0_lbf": 1320, "qf_gal": 34, "wf_lbf": 206},
+    {"name": "Flyfabriken LN-3 Seagull", "we_lbf": 639, "w0_lbf": 1323, "qf_gal": 26, "wf_lbf": 158},
+    {"name": "RANS S-19 Venterra", "we_lbf": 820, "w0_lbf": 1320, "qf_gal": 24, "wf_lbf": 144},
+    {"name": "RANS S-6 Coyote II", "we_lbf": 700, "w0_lbf": 1320, "qf_gal": 18, "wf_lbf": 108},
+    {"name": "RANS S-7 Courier", "we_lbf": 732, "w0_lbf": 1320, "qf_gal": 26, "wf_lbf": 156},
+    {"name": "Remos GX", "we_lbf": 639, "w0_lbf": 1320, "qf_gal": 22, "wf_lbf": 132},
+    {"name": "Sky Arrow 600 Sport", "we_lbf": 840, "w0_lbf": 1320, "qf_gal": 26, "wf_lbf": 155}
+  ]
+}

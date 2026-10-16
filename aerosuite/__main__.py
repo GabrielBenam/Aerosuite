@@ -104,11 +104,16 @@ def build_parser() -> argparse.ArgumentParser:
     frun.add_argument("--job", type=Path, required=True)
     frun.add_argument("--exe", type=Path)
     frun.add_argument("--timeout", type=int, default=1800)
+    from .cli_modules import add_commands
+    add_commands(sub)
     return parser
 
 
 def main(argv=None) -> None:
     args = build_parser().parse_args(argv)
+    from .cli_modules import dispatch
+    if dispatch(args):
+        return
     if args.command == "status":
         from .engines import status
         print(json.dumps(status(), indent=2))

@@ -89,3 +89,22 @@ Python 3.13, numpy 2.2.6, scipy 1.15.3, ADRpy 0.2.6, XFOIL 6.99 Debian (mismo SH
 ## 6. Validación en Windows
 
 Pendiente: se ejecuta con `VALIDAR-WINDOWS.cmd` (crea `evidence/windows-<fecha>/`). Esta sección se completará con sus resultados.
+
+## 8. Corrida autónoma F1–F2 (rama `auto/f1-f2`)
+
+Entorno: Windows 11, `.venv` Python 3.11, NumPy 1.26.4, ADRpy 0.2.6. Línea base antes de la corrida: 50 pruebas OK (1 omitida).
+
+### 8.1 M01 (N + U)
+`tests/test_m01_requirements.py`, 5 pruebas. Contra el libro (GUD PDF 58): Cessna 172 → Nivel 2/bajo, Eclipse 550 → Nivel 3/alto (coinciden). Fronteras de asientos de la Tabla 1-3 y límites de la Tabla 1-2 comprobados. Suite completa: 55 OK (1 omitida). `aerosuite validate` sin cambios.
+
+### 8.2 M02 (N + U)
+`tests/test_m02_references.py`, 5 pruebas. Contra el libro (Tabla 6-1, PDF 196): n = 17; medias We/W0 = 0.5353, Wu/W0 = 0.4647, Wf/W0 = 0.0930 y desviaciones 0.0602, 0.0602, 0.0336 frente a 0.535, 0.465, 0.093 y 0.060, 0.060, 0.034 (tolerancia ±0.0006 = media unidad de la última cifra impresa). Fila Cessna C-162: We/W0 0.632 y Wf/W0 0.109 coinciden. El ajuste logarítmico se prueba con un fixture de algoritmo (recta de la Ec. 6-18, no son datos aerodinámicos) y reproduce el paso kg→lbf del libro (1.4343 → 1.5451). Suite completa: 60 OK (1 omitida).
+
+### 8.3 M03 (N + U)
+`tests/test_m03_costs.py`, 8 pruebas contra los Ejemplos 2-1 a 2-5 de Gudmundsson (PDF 85–97; Tabla 2-3 en PDF 90). Horas de trabajo: 205 670 / 190 300 / 1 366 628 (diferencia < 1 h). Costo fijo $36 444 233 (diferencia relativa < 1·10⁻⁶; el libro redondea las horas a 5 cifras); motor $102 526; QDF 0.5998; costo variable $250 311 sin QDF y $196 672 con QDF; precio mínimo $339 255 y $285 617; equilibrio 366 y 238 aviones; costo operativo anual $83 649 (préstamo $42 599). Suite completa: 68 OK (1 omitida).
+
+### 8.4 M04 (N + U + E)
+`tests/test_m04_constraints.py`, 9 pruebas. Aterrizaje (Ejemplo 3-1, paso 8, GUD PDF 111): con W/S = 11.37 lbf/ft² la Ec. 3-13 da 1369.1 ft (objetivo 1369; tolerancia ±1 ft); el inverso da 11.366 lbf/ft² (libro 11.37, tolerancia ±0.01). Despegue Ec. 3-1 en el paso 3: T/W = 0.18692 (libro 0.1869, tolerancia 1·10⁻⁴). Con ISA (ρ = 1.225 kg/m³ = 0.0023769 slug/ft³ en vez de 0.002378) el límite de aterrizaje es 543.95 Pa = 11.36 lbf/ft², inferior al límite de pérdida 551.5 Pa, de modo que el aterrizaje manda el punto de diseño (W/S muestreado 502.7 Pa, T/W 0.212, ascenso activo). Contraste ADRpy 0.2.6 vs libro (T/W local, W/S = 10 lbf/ft²) con tolerancias documentadas: despegue 7 % (observado +6.4 %), ascenso 1 %, viraje 1 %, crucero 1 %, techo 3 % (observado +2.7 %). Suite completa: 77 OK (1 omitida); `aerosuite validate` ejecutado sin errores.
+
+### 8.5 M06 (N + U)
+`tests/test_m06_weight.py`, 16 pruebas. Método 1, Ejemplo 6-2 (GUD PDF 196): W0 = 6070.6 lbf (libro 6069), We 4173.6 (4172), Wf 797.1 (797); tolerancia ±3 lbf por redondeo del libro. Método 2: pares lbf/kg de las 9 clases coinciden en 6·10⁻⁵; Ec. 6-18 a 1320 lbf da 0.5376 frente a 0.535 de la Tabla 6-1 (±0.005); jet de negocios a 44 556 lbf da 0.5652 (libro 0.5652). Método 3, Ejemplo 6-4 (PDF 202–204): las nueve fracciones de segmento (0.9918, 0.9340, 0.7245, 0.9858, 0.9954, 0.9656, 0.9819, 0.9908, 0.9805) coinciden a 6·10⁻⁵; W_N/W0 = 0.60661 (libro 0.6066); W0 = 44 566 lbf (44 556; +0.02 %), We/W0 0.5652, We 25 189 lbf (25 184), combustible 17 532 lbf (17 528); segunda iteración con r escalado 43 636 lbf (43 619; +0.04 %) y We 24 692 (24 684). Tolerancias 0.05 % y 0.1 %. Eléctrico, Ejemplo 6-3 (PDF 197): L/D mínimo 21.62 y m0 = 6444 kg (libro 6444). Integración: cadena M06 → M04 con detección de desactualización probada. Suite completa: 93 OK (1 omitida); `aerosuite validate` sin errores.

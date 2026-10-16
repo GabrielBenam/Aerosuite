@@ -74,3 +74,24 @@ Houghton & Carpenter, *Aerodynamics for Engineering Students*; Torenbeek, *Synth
 1. Las conversiones a Markdown contienen ecuaciones marcadas "[verificar fórmula]"; cualquier ecuación que se use para validar debe contrastarse con el PDF original o el anexo de figuras.
 2. Hay dos copias de Gudmundsson en BIBLIOGRAFIA (`... Procedu` y `... Procedu (5aca4cf0)`); se usó la segunda. La numeración de páginas PDF corresponde al mismo PDF fuente (1146 páginas).
 3. Las páginas impresas de Anderson no se calcularon; usar sección + página PDF.
+
+## 7. Módulos del algoritmo F1–F2 (corrida autónoma)
+
+Verificado el 2026-10-14 contra `General Aviation Aircraft Design ... - COMPLETO.md` (marcas `[p. N]` = página PDF; impresa = PDF − 45).
+
+| Módulo | Contenido | Referencia comprobada |
+|---|---|---|
+| M01 | Límites de peso, ocupantes y factores de carga por categoría (Commuter/Normal/Utility/Aerobatic) | GUD Tabla 1-2, PDF 58 / impr. 13. Las celdas fusionadas (12 500 lbf, 9 ocupantes) se aplican a Normal, Utility y Aerobatic (DECISIONS D-17). n⁺ Normal = 2.1 + 24000/(W+10000) acotado a 3.8 (base 14 CFR §23.337 citada por el libro) |
+| M01 | Niveles de certificación por asientos y nivel de desempeño (V_NO/V_MO > 250 KCAS o M_MO > 0.6) | GUD Tabla 1-3, PDF 58 / impr. 13; casos resueltos del texto (Cessna 172 = Nivel 2 bajo; Eclipse 550 = Nivel 3 alto), PDF 58 |
+| M01 | V_SO ≤ 61 KCAS monomotores y multimotores ≤ 6000 lbf | GUD cita §23.2110(c), PDF 57 / impr. 12 |
+| M02 | Base de referencia de 17 LSA con We, W0, Qf, Wf y sus razones; promedios y desviaciones | GUD Tabla 6-1, PDF 196 / impr. 151 (datos leídos de la imagen de la tabla; el libro advierte que provienen de sitios de fabricantes y pueden tener pesos erróneos) |
+| M02 | Forma de regresión We/W0 = A + B ln W0 y principio de no mezclar clases/propulsión | GUD Sec. 6.2.1 guía y Sec. 6.2.2, PDF 195–198 / impr. 150–153. Coeficientes publicados (kg) 1.4343/−0.1402 y (lbf) 1.5451/−0.1402 de la Ec. 6-18 coinciden con el desplazamiento B·ln(0.45359237) |
+| M03 | Modelo de costo de desarrollo de Eastlake (QDF, CER 1–10) y fijo/variable | GUD Sec. 2.2.1, Ecs. 2-7 a 2-20, PDF 84–88 / impr. 39–43; tarifas de 2012 ($92/$61/$53 por h), PDF 86 |
+| M03 | Costo de motor de pistón (Ec. 2-21), descuento de tren fijo ($17 500), precio de hélices e aviónica como datos | GUD PDF 88–90 / impr. 43–45; Tabla 2-2 de aviónica es un rango de precios (dato de entrada) |
+| M03 | Costo operativo directo de aeronave privada | GUD Sec. 2.3.1, Ecs. 2-38 a 2-47, PDF 95–97 / impr. 50–52 |
+| M04 | Aterrizaje: distancia total (Ec. 3-13) y de rodadura (Ec. 3-14), con S_A, S_F, S_FR, S_BR | GUD Sec. 3.2.1 ítem (9), PDF 106 / impr. 61; deducción Apéndice D "Step 5/6", PDF 1121–1122 / impr. 1076–1077. Las ecuaciones digitales están garbladas: se reconstruyó a partir de la deducción (tan 3° = 1/19.08; V_BR = 1.1 V_S0, 1.21 = 1.1², 1.556 = 1.1·√2, q medio = 0.605 (W/S)/CLmax) y se comprobó con el paso 8 del Ejemplo 3-1 (D-20) |
+| M04 | Despegue Ec. 3-1 y Ejemplo 3-1 (Cessna 162) | GUD Sec. 3.2.1 Ec. 3-1, PDF 104 / impr. 59; Ejemplo 3-1 pasos 1–10, PDF 109–111 / impr. 64–66 |
+| M06 | Método 1: peso bruto con razones históricas (Ec. 6-9), Ejemplo 6-2 | GUD Sec. 6.2.1, PDF 195–196 / impr. 150–151 |
+| M06 | Método 2: We/W0 = A + B ln W0 por clase (sailplane, powered sailplane, LSA tierra/anfibio, GA monomotor, bimotor pistón, bimotor turbohélice, agrícola, jet de negocios) | GUD Ecs. 6-16 a 6-24, PDF 197–198 / impr. 152–153. Coeficientes leídos del PDF original con `pdftotext`; signos y pares lbf/kg verificados por la identidad A_kg = A_lbf + B·ln(2.2046) |
+| M06 | Método 3: fracciones por segmento (taxi/despegue, ascenso, crucero, descenso, espera, reserva, aterrizaje), Ec. 6-29 y Ejemplo 6-4 | GUD Sec. 6.2.3, Ecs. 6-25 a 6-42, PDF 198–201 / impr. 153–156; Ejemplo 6-4, PDF 202–204 / impr. 157–159 |
+| M06 | Aeronave eléctrica (Hepperle): Ecs. 6-10 a 6-15 y Ejemplo 6-3 | GUD PDF 196–197 / impr. 151–152 |

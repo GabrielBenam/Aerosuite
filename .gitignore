@@ -14,3 +14,6 @@ results/
 # Locally downloaded multi-GB vendor executables, caches, engine output
 runtime/
 *.zip
+FASE_COMPLETA.flag
+autonomo.log
+.venv/

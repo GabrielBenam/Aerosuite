@@ -65,3 +65,18 @@ Rama `feat/gudmundsson-base` sobre `main` de GitHub (dfc43b7). Reglas para Claud
 
 ## 6. Pendiente inmediato
 Completar `TEST_RESULTS.md` §6 con `evidence/windows-*` (resultado de `VALIDAR-WINDOWS.cmd`), en especial la ejecución real de `flow5 -s` y el formato de sus CSV. Comparar las polares MIT de Windows con las de Debian (§3.3). En la máquina existe además flow5 v7.55 en `C:\Users\oscar\Documents\flow5_v7.55_win64`; AeroSuite usa v7.57 en `runtime/`.
+
+## 7. Módulos del algoritmo (rama `auto/f1-f2`)
+```
+.\.venv\Scripts\python.exe -m aerosuite project-init --project results\c162\project.json --name c162 --from-inputs examples\projects\c162-inputs.json
+.\.venv\Scripts\python.exe -m aerosuite m01 --project results\c162\project.json
+.\.venv\Scripts\python.exe -m aerosuite project-status --project results\c162\project.json
+```
+Cada `mXX` lee `inputs.mXX` y escribe `outputs.mXX` con su registro de corrida. Estado y bitácora: `PROJECT_STATE.md` §7 y `AUTONOMOUS_RUN.md` §6.
+
+### Módulos F1–F2 disponibles (M01–M04, M06)
+```
+python -m aerosuite m01|m02|m03|m04|m06 --project <project.json>     # lee inputs.mXX, escribe outputs.mXX
+python -m aerosuite project-status --project <project.json>          # salidas y módulos desactualizados
+```
+Entradas de ejemplo: `examples/projects/c162-inputs.json` (M01, M02, M04, M06; Ejemplo 3-1), `gud-example-2-cost.json` (M03; Ejemplos 2-1 a 2-5), `gud-example-6-4-mission.json` (M06 Método 3; Ejemplo 6-4). Cadena de dependencias: M02 → M06 (`ratios_from_m02`) y M06 → M04 (`tow_from_m06`). Pendientes de la fase y verificaciones humanas: cuerpo del PR `[FASE COMPLETA] F1-F2`, DECISIONS D-17 a D-21. Siguiente en ARCHITECTURE §8: M08 cola inicial, M09b ala, M10 geometría, M24 CAD.
