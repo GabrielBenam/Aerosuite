@@ -64,7 +64,7 @@ No modificar `vendor/`. No presentar resultados sintéticos como aerodinámicos 
 Rama `feat/gudmundsson-base` sobre `main` de GitHub (dfc43b7). Reglas para Claude Code en `CLAUDE.md`. Lector de flow5: `aerosuite/flow5_results.py`, comando `flow5-results`; `flow5-run` ya lo invoca y deja `flow5_results.json` en la carpeta del trabajo.
 
 ## 6. Pendiente inmediato
-Completar `TEST_RESULTS.md` §6 con `evidence/windows-*` (resultado de `VALIDAR-WINDOWS.cmd`), en especial la ejecución real de `flow5 -s` y el formato de sus CSV. Comparar las polares MIT de Windows con las de Debian (§3.3). En la máquina existe además flow5 v7.55 en `C:\Users\oscar\Documents\flow5_v7.55_win64`; AeroSuite usa v7.57 en `runtime/`.
+Completar `TEST_RESULTS.md` §6 con `evidence/windows-*` (resultado de `VALIDAR-WINDOWS.cmd`), en especial la ejecución real de `flow5 -s` y el formato de sus CSV. Comparar las polares MIT de Windows con las de Debian (§3.3). V-F5 (2026-10-15): flow5 7.55 corre en lote y su salida se lee (TEST_RESULTS §9, D-32/D-33). En la máquina existe flow5 v7.55 (variable AEROSUITE_FLOW5) en `C:\Users\oscar\Documents\flow5_v7.55_win64`; AeroSuite usa v7.57 en `runtime/`.
 
 ## 7. Módulos del algoritmo (rama `auto/f1-f2`)
 ```

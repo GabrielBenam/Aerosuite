@@ -61,6 +61,8 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 `- AAAA-MM-DD HH:MM | tarea | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 <!-- BITACORA -->
+- 2026-10-15 19:40 | Git: rama auto/f4 desde origin/main (PR de F3 MERGED) | TERMINADO | chore plan | push hecho
+- 2026-10-15 20:00 | V-F5 validación flow5 7.55 | TERMINADO | feat(M-F5R) | D-32, D-33; evidencia en evidence/flow5-7.55-win
 
 ## 8. Cierre (dispara el correo)
 Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:

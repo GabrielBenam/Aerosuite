@@ -145,9 +145,30 @@ def plane_xml(cfg: dict) -> str:
     return "\n".join(out)
 
 
+def main_wing_reference(cfg: dict) -> dict:
+    """Area, span and MAC (m) of the main wing from its trapezoidal panels (both semi-spans).
+
+    flow5 7.55 in batch mode leaves the PLANFORM reference at zero and aborts (V-F5, D-35), so the reference
+    dimensions are written explicitly as CUSTOM.
+    """
+    wing = next(w for w in cfg["wings"] if w.get("type", "MAINWING") == "MAINWING")
+    secs = wing["sections"]
+    area = mac_num = 0.0
+    for a, b in zip(secs[:-1], secs[1:]):
+        dy = float(b["y_m"]) - float(a["y_m"])
+        c1, c2 = float(a["chord_m"]), float(b["chord_m"])
+        area += 0.5 * (c1 + c2) * dy
+        mac_num += dy * (c1 * c1 + c1 * c2 + c2 * c2) / 3.0
+    sym = bool(wing.get("symmetric", True))
+    f = 2.0 if sym else 1.0
+    return {"area_m2": f * area, "span_m": f * (float(secs[-1]["y_m"]) - float(secs[0]["y_m"])),
+            "mac_m": mac_num / area}
+
+
 def polar_xml(cfg: dict, density: float, viscosity: float) -> tuple[str, str]:
     a = cfg.get("analysis", {})
     method, ptype = a.get("method", "VLM2"), a.get("type", "FIXEDSPEEDPOLAR")
+    ref = {**main_wing_reference(cfg), **a.get("reference_dims", {})}
     name = a.get("name") or f"{ptype}-{method}-{_f(a.get('velocity_mps', 0))}mps"
     out = ['<?xml version="1.0" encoding="UTF-8"?>', "<!DOCTYPE flow5>", '<xflPlanePolar version="1.0">', UNITS_SI.rstrip("\n"),
            "    <Polar>", f"        <Polar_Name>{escape(name)}</Polar_Name>",
@@ -162,7 +183,10 @@ def polar_xml(cfg: dict, density: float, viscosity: float) -> tuple[str, str]:
            f"            <ProgressionFactor>{_f(a.get('wake_progression', 1.1))}</ProgressionFactor>",
            f"            <LengthFactor>{_f(a.get('wake_length_mac', 30))}</LengthFactor>", "        </Wake>",
            "        <Reference_Dimensions>",
-           f"            <Reference_Dimensions>{a.get('reference', 'PLANFORM')}</Reference_Dimensions>",
+           "            <Reference_Dimensions>CUSTOM</Reference_Dimensions>",
+           f"            <Reference_Area>{_f(ref['area_m2'])}</Reference_Area>",
+           f"            <Reference_Span_Length>{_f(ref['span_m'])}</Reference_Span_Length>",
+           f"            <Reference_Chord_Length>{_f(ref['mac_m'])}</Reference_Chord_Length>",
            "        </Reference_Dimensions>",
            "        <Fluid>", f"            <Viscosity>{viscosity:.6e}</Viscosity>",
            f"            <Density>{density:.6f}</Density>", "        </Fluid>",

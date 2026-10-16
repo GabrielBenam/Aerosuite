@@ -26,8 +26,8 @@ Estados: **FUNCIONAL** (ejecutado con el motor real y con evidencia), **PARCIAL*
 | `adrpy_core.py` | Restricciones ADRpy (despegue, ascenso, crucero, techo, viraje), límite de pérdida, potencia (hp), diagrama, tabla ISA, Reynolds | FUNCIONAL |
 | `validation.py` | ISA vs ICAO, docstring ADRpy, Ejemplo 3-1 de Gudmundsson | FUNCIONAL |
 | `optimizer.py` | Optimizador SciPy con contrato JSON; motores `adrpy` (conceptual) y `xfoil` (2D) | FUNCIONAL; `flow5` (3D) rechazado explícitamente |
-| `flow5_results.py` (M-F5R) | Lector de polares y puntos de operación de flow5 v7.57: columnas por encabezado, conversión a SI desde las etiquetas de unidad, derivadas de estabilidad y control, distribuciones en envergadura; ajuste CD0/k (simplificado y ajustado), pendiente de sustentación, margen estático | FUNCIONAL con fixtures de formato tomados del código escritor de flow5; NO PROBADO con salidas reales de flow5 |
-| `flow5_xml.py` | Genera perfiles .dat, avión XML, polar XML y guion `xflscript` para `flow5 -s`; ejecuta y registra salidas | Exportación FUNCIONAL (XML válido, estructura de los ejemplos oficiales); ejecución NO PROBADA hasta Windows |
+| `flow5_results.py` (M-F5R) | Lector de polares y puntos de operación de flow5 v7.57: columnas por encabezado, conversión a SI desde las etiquetas de unidad, derivadas de estabilidad y control, distribuciones en envergadura; ajuste CD0/k (simplificado y ajustado), pendiente de sustentación, margen estático | FUNCIONAL; validado con salida real de flow5 7.55 (evidence/flow5-7.55-win, D-33); sigue sin comprobarse contra 7.57 |
+| `flow5_xml.py` | Genera perfiles .dat, avión XML, polar XML y guion `xflscript` para `flow5 -s`; ejecuta y registra salidas | Exportación y ejecución FUNCIONALES con flow5 7.55 en lote (referencias CUSTOM, D-32); 7.57 sin probar |
 | `flow5_adapter.py` + `integrations/flow5/xfoilbatch_aerosuite.cpp` | Adaptador C++ al API de flow5 (prototipo anterior) | NO PROBADO; en pausa (ver DECISIONS D-03) |
 | `desktop.py`, `airfoil_lab_core.py` (Airfoil Lab, Tkinter) | GUI previa de comparación de perfiles | NO PROBADO en esta sesión; no se amplió (sin GUI nueva en esta etapa) |
 
