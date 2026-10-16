@@ -74,6 +74,27 @@ class M04ProjectTests(unittest.TestCase):
         self.assertAlmostEqual(r["landing"]["check_distance_m"] * FT_PER_M, 1369.0, delta=0.5)
         self.assertEqual(r["constraints_evaluated"], ["takeoff", "climb", "cruise", "ceiling", "turn"])
 
+    def test_takeoff_curve_is_eq_3_1_and_adrpy_is_contrast(self):
+        """D-22: design point uses Eq. 3-1 for take-off; ADRpy's curve is kept as contraste_adrpy."""
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "p.json"
+            main(["project-init", "--project", str(path), "--name", "c162", "--from-inputs",
+                  str(standalone_inputs(Path(tmp)))])
+            main(["m04", "--project", str(path)])
+            r = prj.load(path)["outputs"]["m04"]["result"]
+        self.assertEqual(r["fuente"]["takeoff"], "gudmundsson")
+        self.assertEqual(r["fuente"]["landing"], "gudmundsson")
+        self.assertEqual(r["fuente"]["climb"], "adrpy")
+        rows = r["contraste_adrpy"]["samples"]
+        for s, row in zip(r["samples"], rows):
+            self.assertAlmostEqual(s["by_constraint"]["takeoff"], row["tw_eq_3_1"])
+            self.assertGreater(row["tw_adrpy"], row["tw_eq_3_1"])  # ADRpy is higher (TEST_RESULTS 2.3)
+            self.assertAlmostEqual(row["difference_pct"], 100 * (row["tw_adrpy"] / row["tw_eq_3_1"] - 1))
+        # Design point after D-22 (before: 502.74 Pa, T/W 0.2118, climb)
+        self.assertAlmostEqual(r["best_sample"]["wingloading_pa"], 526.68, places=2)
+        self.assertAlmostEqual(r["best_sample"]["required_tw"], 0.21135, places=4)
+        self.assertEqual(r["best_sample"]["active_constraint"], "climb")
+
     def test_adrpy_vs_book_tolerances_at_10_lbf_ft2(self):
         """Documented tolerances (TEST_RESULTS 8.4): ADRpy 0.2.6 vs the book's local T/W at W/S = 10 lbf/ft^2.
 
