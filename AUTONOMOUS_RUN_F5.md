@@ -88,6 +88,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 `- AAAA-MM-DD HH:MM | tarea | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 - 2026-10-16 05:48 | C-1 | TERMINADO | 1da3531 | Munk-Multhopp verificado con Ej. 24-3; flow5 sin fuselaje: diferencia de D-43 permanece (D-44)
+- 2026-10-16 05:49 | C-2 | TERMINADO | e0d5eea | Tabla 6.6 de Etkin verificada en imagen; Ej. 13-3 con brazos impresos y caso dinámico (D-45)
 <!-- BITACORA -->
 
 ## 13. Cierre (dispara el correo)
