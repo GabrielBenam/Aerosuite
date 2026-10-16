@@ -15,10 +15,11 @@ from . import project as prj
 from .m16_stability import neutral_point
 
 REFERENCES = [
-    "GUD Sec. 24.4.1, Ecs. 24-148 a 24-155 (momento de charnela, coeficientes C_H, flotacion), PDF 1012-1014 / impr. 1013-1015",
-    "GUD Tabla 24-6 (cuerda y deflexiones tipicas de superficies de control), PDF 1014",
-    "GUD Sec. 24.4.2, Ecs. 24-156 a 24-164 (sistema manual simple, ganancias G_S y G_delta) y Ec. 24-157 (factor 1 - tau C_Halpha/C_Hdelta), PDF 1015-1016",
-    "GUD Sec. 24.2.7, Ec. 24-86 y Fig. 24-21 (efectividad del timon de profundidad tau_e) y Ejemplo 24-6 (d) (tau = 0.5066 para r_e = 0.3), PDF 1001 / 1009",
+    "GUD Sec. 24.4.1, Ecs. 24-148 a 24-155 (momento de charnela, coeficientes C_H, flotacion), PDF 1013-1015",
+    "GUD Tabla 24-6 (cuerda y deflexiones tipicas de superficies de control), PDF 1015",
+    "GUD Sec. 24.4.2, Ecs. 24-156 a 24-164 (sistema manual simple, ganancias G_S y G_delta) y Ec. 24-157 (factor 1 - tau C_Halpha/C_Hdelta), PDF 1015-1017",
+    "GUD Sec. 24.2.7, Ec. 24-86 y Fig. 24-21 (efectividad del timon de profundidad tau_e) y Ejemplo 24-6 (d) (tau = 0.5066 para r_e = 0.3), PDF 990 y 1009 (+-1)",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 # Tabla 24-6: cuerda c_f/c y deflexiones (grados) TEU = borde de salida arriba, TED = abajo, TEL/TER = izquierda/derecha.
 TABLE_24_6 = {"aileron": {"cf_over_c": (0.20, 0.35), "up_deg": (15.0, 25.0), "down_deg": (15.0, 20.0)},

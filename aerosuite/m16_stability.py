@@ -18,13 +18,14 @@ from . import project as prj
 from .m09b_wing import cl_alpha_helmbold
 
 REFERENCES = [
-    "GUD Sec. 24.2.8, Ecs. 24-89 a 24-93, y Ec. 8-28 (estela: d(eps)/d(alpha) = 2 CL_alpha_W/(pi AR)), PDF 953-954 / impr. 944-945",
-    "GUD Sec. 24.2.5 (4)-(5), Ecs. 24-80 a 24-82 (CM_q y CM_alpha_dot de la cola; CM_q = 1.1 CM_q_HT, Ref. [6]), PDF 1082-1083",
-    "GUD Sec. 24.3.4, Ecs. 24-129 a 24-133 y Ejemplo 24-6 (punto neutro hn = 0.5917, CM_alpha = -0.3721 1/rad, CM0 = -0.005675), PDF 970-973 / impr. 961-964",
-    "GUD Sec. 24.3.4 (texto): hn tipico 0.4-0.6 en AG; SM minimo 8 % a 10 %, maximo 28 % a 30 %, PDF 972",
-    "GUD Sec. 25.3, Ecs. 25-12 a 25-14 y 25-27/25-28 (cola vertical), 25-29 y 24-103 (fuselaje, Munk), PDF 1027-1031 / impr. 981-986",
-    "ETK Sec. 4.9, Ecs. 4.9,18 y 4.9,19 (matrices de estado); Sec. 6.2 y Tabla 6.1/6.2 (B747 longitudinal), Sec. 6.7 y Tablas 6.6/6.7 (B747 lateral), PDF 178-200",
-    "ETK Sec. 6.3, aproximacion de Lanchester al fugoide: T = pi sqrt(2) u0/g y zeta = 1/(sqrt(2) L/D), PDF 184-186",
+    "GUD Sec. 24.2.8, Ecs. 8-28 y 24-89 a 24-93 (gradiente de estela d(eps)/d(alpha) = 2 CL_alpha_W/(pi AR)), PDF 990",
+    "GUD Sec. 24.2.5 (4)-(5), Ecs. 24-80 a 24-82 (CM_q = 1.1 CM_q_HT, CM_alpha_dot de la cola), PDF 987",
+    "GUD Sec. 24.3.4, Ecs. 24-129 a 24-133 y Ejemplo 24-6 (hn = 0.5917, CM_alpha = -0.3721 1/rad, CM0 = -0.005675), PDF 1008-1010",
+    "GUD Sec. 24.3.4 (texto): hn tipico 0.4-0.6 en AG; SM minimo 8 % a 10 %, maximo 28 % a 30 %, PDF 1008 (+-1)",
+    "GUD Sec. 25.3, Ecs. 25-12 a 25-14, 25-27/25-28 (cola vertical), 25-29 y 24-103 (fuselaje, Munk): inicio de la seccion en PDF 1034; la pagina exacta de cada ecuacion no se verifico",
+    "ETK Sec. 4.9, Ecs. 4.9,18 y 4.9,19 (matrices de estado), PDF 120 (+-1); Sec. 6.2 y Tabla 6.1/6.2 (B747 longitudinal), PDF 178; Sec. 6.7 (B747 lateral), PDF 201",
+    "ETK Sec. 6.3, aproximacion de Lanchester al fugoide (T = pi sqrt(2) u0/g; zeta = 1/(sqrt(2) L/D) como lo cita el modulo), PDF 185",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 G = 9.80665
 SM_MIN, SM_MAX = 0.10, 0.30          # Sec. 24.3.4: minimo 8-10 %, maximo 28-30 % (se toma el extremo conservador)

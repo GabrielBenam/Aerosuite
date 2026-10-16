@@ -19,11 +19,12 @@ from .engines import xfoil_executable
 from .xfoil_cli import parse_polar
 
 REFERENCES = [
-    "GUD Sec. 10.3.2 y Ec. 10-1 (flap simple: C_lmax en funcion de c_f/c = 0.1, 0.2 y delta_f), PDF 486-487",
+    "GUD Sec. 10.3.2 y Ec. 10-1 (flap simple: C_lmax en funcion de c_f/c = 0.1, 0.2 y delta_f), PDF 479-488",
     "GUD Sec. 10.3.9 (1)-(3) y Ejemplo 10-2 (prorrateo de dC_lmax de la Tabla 10-5; resultado 3.01), PDF 500-501",
-    "GUD Sec. 10.4.2, Ecs. 10-2 y 10-3 (metodo de particion del ala) y Ejemplo 10-3 (SR22: C_Lmax = 1.936 frente a 1.99 del POH), PDF 503-505",
-    "GUD Sec. 8.1 (Ecs. 8-11 y 8-12: C_l = C_l0 + C_l_alpha alpha, usadas en el Ejemplo 10-3 para los segmentos sin flap)",
+    "GUD Sec. 10.4.2, Ecs. 10-2 y 10-3 (metodo de particion del ala) y Ejemplo 10-3 (SR22: C_Lmax = 1.936 frente a 1.99 del POH), PDF 504-507",
+    "GUD Sec. 8.1 (Ecs. 8-11 y 8-12: C_l = C_l0 + C_l_alpha alpha, usadas en el Ejemplo 10-3 para los segmentos sin flap); pagina no verificada",
     "XFOIL 6.99, comando GDES/FLAP (Drela): flap de charnela articulada aplicado a la geometria del perfil",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 PLAIN_FLAP_CLMAX = {0.1: (1.262, 0.01492, -8.315e-5), 0.2: (1.234, 0.02216, -1.611e-4)}   # Ec. 10-1
 HINGE_SWEEP_NOTE = "cos(Lambda_hingeline) penaliza la deflexion en estrechamiento/flecha (Sec. 10.4.2)"

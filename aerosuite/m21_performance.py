@@ -17,12 +17,13 @@ from .m20_drag import isa
 from . import m04_constraints as m04
 
 REFERENCES = [
-    "GUD Sec. 3.2 / Ec. 3-17 y Sec. 7 (modelo de Gagg-Ferrar: P = P_SL (1.132 sigma - 0.132)); techo de servicio con V_V = 100 fpm = 0.508 m/s",
-    "GUD Cap. 19 (ascenso: P_a, P_r y potencia excedente, RC = (P_a - D V)/W) y 19.3.7 (techo absoluto y de servicio)",
-    "GUD Cap. 20 (crucero estacionario: velocidades de maximo L/D y maximo CL^1.5/CD con polar parabolica)",
-    "GUD Sec. 21.3, Ecs. 21-25 a 21-29 (alcance de Breguet a velocidad y altitud constantes: R = ... [atan(A W_ini) - atan(A W_fin)]) y Ejemplo 21-6 (737 nm, 768 nm, optimo 950 nm), PDF 40385-40800",
-    "GUD Ejemplo 21-2 (Avgas 2.72 kg/gal; c_kW = 0.304 kg/(kW h) para 12.5 gal/h y 150 BHP)",
+    "GUD Sec. 3.2 (techo de servicio: V_V = 100 fpm = 0.508 m/s), PDF 107; modelo de Gagg-Ferrar P = P_SL (1.132 sigma - 0.132), Ec. 7-8 / 3-17, PDF 253 (+-1)",
+    "GUD Cap. 19 (ascenso: P_a, P_r y potencia excedente, RC = (P_a - D V)/W), PDF 858 y ss.; 19.3.7 (techo absoluto y de servicio), PDF 873",
+    "GUD Cap. 20 (crucero estacionario: velocidades de maximo L/D y maximo CL^1.5/CD con polar parabolica), PDF 885 y ss.",
+    "GUD Sec. 21.3, Ecs. 21-25 a 21-29 (alcance de Breguet a velocidad y altitud constantes) y Ejemplo 21-6 (737 nm, 768 nm, optimo 950 nm), PDF 919-925",
+    "GUD Ejemplo 21-2 (Avgas 2.72 kg/gal; c_kW = 0.304 kg/(kW h) para 12.5 gal/h y 150 BHP), PDF 918",
     "GUD Caps. 18 y 23 via M04 (distancias de despegue y aterrizaje)",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 G = 9.80665
 KT = 0.514444

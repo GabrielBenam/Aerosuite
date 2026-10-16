@@ -16,11 +16,12 @@ import numpy as np
 from . import project as prj
 
 REFERENCES = [
-    "GUD Sec. 9.7.3, Ecs. 9-166 a 9-172 (linea sustentadora de Prandtl, serie de Fourier, ecuacion del monoplano), PDF 19377-19430 del texto convertido",
-    "GUD Sec. 9.5.4, metodo 2 (pasos 1 a 4: C_lmax(eta), interseccion con C_l(eta), Ec. 9-80) y Ejemplos 9-9 y 9-10 (C172: C_Lmax0 = 1.468 frente a 1.41 del POH)",
-    "GUD Sec. 9.6.3 (1) (perdida de raiz a punta; C_l(70 %) <= C_lmax; C_l cae a cero de 70 % a 100 %; Torenbeek: C_lmax - 0.1; lavado 1-4 deg)",
-    "GUD Sec. 9.6.5, Ecs. 9-139 y 9-140 (limite de AR y de la flecha c/4 para evitar el cabeceo ascendente; el signo de (2 - lambda) se reconstruye por inversion de ambas ecuaciones)",
-    "Anderson, Fundamentals of Aerodynamics, Sec. 5.3 (solucion de la ecuacion del monoplano por colocacion; contraste: ala eliptica C_L_alpha = a0/(1 + a0/(pi AR)))",
+    "GUD Sec. 9.7.3, Ecs. 9-166 a 9-172 (linea sustentadora de Prandtl, serie de Fourier, ecuacion del monoplano), PDF 451-452",
+    "GUD Sec. 9.5.4, metodo 2 (pasos 1 a 4: C_lmax(eta), interseccion con C_l(eta), Ec. 9-80) y Ejemplos 9-9 y 9-10 (C172: C_Lmax0 = 1.468 frente a 1.41 del POH), PDF 416-418",
+    "GUD Sec. 9.6.3 (1) (perdida de raiz a punta; C_l(70 %) <= C_lmax; C_l cae a cero de 70 % a 100 %; Torenbeek: C_lmax - 0.1; lavado 1-4 deg), PDF 437-438",
+    "GUD Sec. 9.6.5, Ecs. 9-139 y 9-140 (limite de AR y de la flecha c/4 para evitar el cabeceo ascendente; el signo de (2 - lambda) se reconstruye por inversion de ambas ecuaciones), PDF 442",
+    "Anderson, Fundamentals of Aerodynamics, Sec. 5.3 (solucion de la ecuacion del monoplano por colocacion; contraste: ala eliptica C_L_alpha = a0/(1 + a0/(pi AR))); no esta en la carpeta de bibliografia consultada: fuente externa conocida, sin pagina verificada",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 CRITERIA_FRACTION = 0.7
 TORENBEEK_MARGIN = 0.1

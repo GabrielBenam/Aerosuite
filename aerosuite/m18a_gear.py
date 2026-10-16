@@ -13,14 +13,15 @@ import math
 from . import project as prj
 
 REFERENCES = [
-    "GUD Sec. 13.3.1, pasos 1 a 14 (tren triciclo: CG, golpe de cola, vuelco <= 63 deg, nariz 10 %-20 %), PDF 605-607 / impr. 606-608",
+    "GUD Sec. 13.3.1, pasos 1 a 14 (tren triciclo: CG, golpe de cola, vuelco <= 63 deg, nariz 10 %-20 %), PDF 605-608",
     "GUD Sec. 13.3.2, pasos 1 a 10 (tren convencional: 15 deg, 25 deg, cola 5 %-10 %, vuelco >= 25 deg), PDF 608-609",
-    "GUD Sec. 13.3.4, Ecs. 13-17 a 13-19 y Ejemplo 13-2 (RN estatica 357.5 lbf), PDF 610-612",
-    "GUD Sec. 13.3.5, Ecs. 13-20 a 13-22 y Ejemplo 13-3 (cola 11.5 %), PDF 613-615",
-    "GUD Sec. 13.2.1, Ecs. 13-2 a 13-5 (radio de giro, huella del neumatico), PDF 590-591",
-    "GUD Sec. 13.2.3, Ec. 13-6 (energia de frenado, 14 CFR 23.735), PDF 597",
-    "GUD Sec. 13.2.5, Ec. 13-8 y h = 3.6 (W/S)^(1/2) in, w ~ 4.4 (W/S)^(1/4) ft/s (14 CFR 23.725), PDF 602",
+    "GUD Sec. 13.3.4, Ecs. 13-17 a 13-19 y Ejemplo 13-2 (RN estatica 357.5 lbf), PDF 610-613",
+    "GUD Sec. 13.3.5, Ecs. 13-20 a 13-22 y Ejemplo 13-3 (cola 11.5 %), PDF 614-615",
+    "GUD Sec. 13.2.1, Ecs. 13-2 a 13-5 (radio de giro, huella del neumatico), PDF 590-592",
+    "GUD Sec. 13.2.3, Ec. 13-6 (energia de frenado, 14 CFR 23.735), PDF 598",
+    "GUD Sec. 13.2.5, Ec. 13-8 y h = 3.6 (W/S)^(1/2) in, w ~ 4.4 (W/S)^(1/4) ft/s (14 CFR 23.725), PDF 603",
     "GUD Sec. 13.2: el neumatico principal debe admitir 25 % de crecimiento del peso bruto, PDF 590",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 G = 9.80665
 FT = 0.3048

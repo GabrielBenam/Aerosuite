@@ -14,10 +14,11 @@ from . import project as prj
 REFERENCES = [
     "GUD Sec. 16.3.1, Ecs. 16-40, 16-43 (Prandtl-Schlichting), 16-69/16-70 (Young, capa limite mixta), 16-71/16-72 (ponderacion por area mojada), 16-31 (Re de corte), Tabla 16-2 (rugosidad), PDF 726-733",
     "GUD Sec. 16.3.5, Ecs. 16-117, 16-118 y 16-122 (acumulacion por componentes), Tabla 16-10 (areas parasitas equivalentes), PDF 747-749",
-    "GUD Sec. 16.3.6, Ecs. 16-123 a 16-135 (factores de forma: Hoerner, Torenbeek, Nicolai/Raymer, fuselaje) y Ejemplo 16-11 (FF del ala = 1.3111), PDF 749-756",
-    "GUD Sec. 16.3.7, Tabla 16-12 (factores de interferencia), PDF 756",
-    "GUD Sec. 16.3.8 (CRUD, k = 1.25) y 16.3.9, Ec. 16-141 (C_D = C_Dmin + C_Di + C_Dw), PDF 757",
-    "GUD Ejemplos 16-6 (x0/c = 0.0729 para x_tr/c = 0.50, Re = 5 126 287) y 16-7 (C_f ponderado = 0.00554; C_Df = 0.01219), PDF 733-736",
+    "GUD Sec. 16.3.6, Ecs. 16-123 a 16-135 (factores de forma: Hoerner, Torenbeek, Nicolai/Raymer, fuselaje) y Ejemplo 16-11 (FF del ala = 1.3111), PDF 750-752",
+    "GUD Sec. 16.3.7, Tabla 16-12 (factores de interferencia), PDF 757",
+    "GUD Sec. 16.3.8 (CRUD, k = 1.25) y 16.3.9, Ec. 16-141 (C_D = C_Dmin + C_Di + C_Dw), PDF 758",
+    "GUD Ejemplos 16-6 (x0/c = 0.0729 para x_tr/c = 0.50, Re = 5 126 287) y 16-7 (C_f ponderado = 0.00554; C_Df = 0.01219), PDF 733-737",
+    "PDF = marcador [p. N] del texto convertido (impreso = PDF - 46 en Gudmundsson, PDF - 13 en Etkin); +-1 pagina",
 ]
 KT = 0.514444
 FT = 0.3048
