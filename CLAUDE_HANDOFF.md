@@ -86,3 +86,10 @@ V-F5 terminada (D-32, D-33). M16 funcional (`python -m aerosuite m16 --project p
 
 ## Corrida F5: estado
 Plan en `AUTONOMOUS_RUN_F5.md` (bitácora en su §12). C-1 terminado: `m16_stability.munk_multhopp` (D-44); M16 lee la geometría de fuselaje de M10 y depende de `m10`. El modelo de flow5 de la evidencia no tiene fuselaje: la diferencia de D-43 no se cierra con este aporte.
+
+### Lazo L-1 (F5)
+```
+.\.venv\Scripts\python.exe -m aerosuite project-init --project results\c162-full\project.json --name c162-full --from-inputs examples\projects\c162-full-loop.json
+.\.venv\Scripts\python.exe -m aerosuite loop --project results\c162-full\project.json --max-iter 5
+```
+Deja `results\c162-full\project.loopun-001\iter-001.json` y `loop.json`. Los módulos de `examples/projects/c162-full-loop.json` posteriores a M06 usan datos ILUSTRATIVOS (rotulados). D-46.

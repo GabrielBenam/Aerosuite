@@ -43,3 +43,4 @@ Diseñar la interfaz propia sobre los contratos JSON ya probados. No antes de ce
 ## Fase F5 (corrida autónoma, `auto/f5`)
 - [x] C-1 M16: aporte del fuselaje (Munk-Multhopp)
 - [x] C-2 validaciones circulares de F4 verificadas
+- [x] L-1 lazo completo M01→M21 (`python -m aerosuite loop`)

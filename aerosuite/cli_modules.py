@@ -40,6 +40,11 @@ def add_commands(sub) -> None:
     exp.add_argument("--project", type=Path, required=True)
     exp.add_argument("--module", required=True, help="module id, e.g. m08")
     exp.add_argument("--out", type=Path, required=True)
+    lp = sub.add_parser("loop", help="L-1 full Gudmundsson algorithm loop (steps 1-23) over a project.json, recording each iteration")
+    lp.add_argument("--project", type=Path, required=True)
+    lp.add_argument("--max-iter", type=int, default=5)
+    lp.add_argument("--tol", type=float, default=1e-6, help="relative tolerance for 'two consecutive iterations without change'")
+    lp.add_argument("--out", type=Path, help="new folder for iter-NNN.json and loop.json (default: <project>.loop/run-NNN)")
     for cmd, (_, _, help_text) in MODULES.items():
         p = sub.add_parser(cmd, help=help_text)
         p.add_argument("--project", type=Path, required=True, help="project.json (reads inputs.%s, writes outputs.%s)" % (cmd, cmd))
@@ -77,6 +82,13 @@ def dispatch(args) -> bool:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(json.dumps(payload, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
         print(f"Exported {args.module} to {args.out}" + (" (WARNING: stale)" if stale else ""))
+        return True
+    if args.command == "loop":
+        from . import loop
+        summary = loop.run_loop(args.project, args.max_iter, args.tol, args.out)
+        print(json.dumps({k: summary[k] for k in ("project_name", "plan", "stop", "stale", "m23_overall", "output_dir")}
+                         | {"iterations": [{k: i[k] for k in ("iteration", "status", "order_executed", "stale_after")}
+                                           for i in summary["iterations"]]}, indent=2, ensure_ascii=False, default=float))
         return True
     if args.command in MODULES:
         module = importlib.import_module(f"aerosuite.{MODULES[args.command][1]}")

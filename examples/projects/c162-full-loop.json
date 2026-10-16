@@ -1,0 +1,565 @@
+{
+  "m01": {
+    "_source": "Gudmundsson Example 3-1 (Cessna 162 Skycatcher), PDF p.109; category LSA-like limits are not in Table 1-2, so the Part 23 'normal' category is evaluated.",
+    "category": "normal",
+    "mtow_kg": 598.74,
+    "occupants": 2,
+    "engines": 1,
+    "vno_kcas": 108,
+    "mmo": 0.2,
+    "vso_kcas_max": 45
+  },
+  "m02": {
+    "database": "gud_table_6_1_lsa"
+  },
+  "m04": {
+    "_source": "Gudmundsson Example 3-1, PDF 109-111. Landing (requirement 6): 1369 ft over a 50 ft obstacle at S-L, CLmax0 = 2.029, CL_LDG 0.5, CD_LDG 0.07, mu 0.3, Tgr/W 0, tau 1 s.",
+    "concept": {
+      "name": "Gudmundsson Example 3-1 (Cessna 162 Skycatcher) — ADRpy input",
+      "source": "Gudmundsson, General Aviation Aircraft Design, 2nd ed., Example 3-1, Sec. 3.2.2, PDF p.109-111 (printed p.64-66). Inputs converted to SI/ADRpy units; see notes.",
+      "notes": [
+        "AR=8, S=120 ft^2, W0=1320 lbf, CDmin=0.0333, CLmaxTO=1.756, CLTO=0.5, CDTO=0.038, mu=0.04 as given in the example.",
+        "Ground run 640 ft = 195.07 m; climb 880 fpm at VY=66.04 KCAS at S-L; turn n=1.155 at 108 KTAS and 8000 ft = 2438.4 m; cruise 108 KTAS at 8000 ft.",
+        "Service ceiling: the brief states 15,000 ft but STEP 7 evaluates the density ratio at 17,000 ft (5181.6 m). 17,000 ft is used here to reproduce STEP 7; the inconsistency is in the source.",
+        "CLmaxclean=1.68 (actual C-162 clean value quoted in STEP 3); vstallclean 45 KCAS = LSA limit shown in Fig. 3-3.",
+        "Propeller efficiencies 0.60 take-off, 0.65 climb, 0.75 cruise (given); turn 0.75 and service ceiling 0.65 are assumptions of this file, not of the example.",
+        "Gudmundsson uses e=0.8106 (k=0.04909); ADRpy computes its own induced-drag factor, so values are expected to differ."
+      ],
+      "designbrief": {
+        "rwyelevation_m": 0,
+        "groundrun_m": 195.072,
+        "climbalt_m": 0,
+        "climbspeed_kias": 66.04,
+        "climbrate_fpm": 880,
+        "turnalt_m": 2438.4,
+        "turnspeed_ktas": 108,
+        "stloadfactor": 1.155,
+        "cruisealt_m": 2438.4,
+        "cruisespeed_ktas": 108,
+        "servceil_m": 5181.6,
+        "secclimbspd_kias": 66.04,
+        "vstallclean_kcas": 45
+      },
+      "designdefinition": {
+        "aspectratio": 8,
+        "bpr": -1
+      },
+      "designperformance": {
+        "CDTO": 0.038,
+        "CLTO": 0.5,
+        "CLmaxTO": 1.756,
+        "CLmaxclean": 1.68,
+        "CDminclean": 0.0333,
+        "mu_R": 0.04,
+        "etaprop": {
+          "take-off": 0.6,
+          "climb": 0.65,
+          "cruise": 0.75,
+          "turn": 0.75,
+          "servceil": 0.65
+        }
+      },
+      "propulsion": "piston",
+      "tow_kg": 598.74,
+      "atmosphere": {
+        "offset_deg": 0
+      },
+      "wingloading_pa": {
+        "min": 239.4,
+        "max": 1675.8,
+        "samples": 61
+      }
+    },
+    "landing": {
+      "kind": "total",
+      "distance_m": 417.2712,
+      "obstacle_m": 15.24,
+      "altitude_m": 0,
+      "clmax_land": 2.029,
+      "cl_ldg": 0.5,
+      "cd_ldg": 0.07,
+      "mu_brake": 0.3,
+      "thrust_ratio_gr": 0.0,
+      "free_roll_s": 1.0
+    },
+    "tow_from_m06": true
+  },
+  "m06": {
+    "_source": "LSA with fixed gross weight 1320 lbf (598.74 kg): Method 2, Eq. 6-18/6-19 (GUD PDF 198). M04 reads this W0 (tow_from_m06).",
+    "method": "empty_fraction",
+    "class": "lsa_land",
+    "w0_kg": 598.74
+  },
+  "m09b": {
+    "_source": "AR = 8 (GUD Ej. 3-1); area de M04 (W0 g / (W/S) del punto de diseño); lambda 0.7, diedro 2 deg, washout 1.5 deg y Cl_max/Cl_alpha 2D de la NACA 2412 son SUPUESTOS del usuario.",
+    "planform": {
+      "from_m04": true,
+      "aspect_ratio": 8.0,
+      "taper_ratio": 0.7,
+      "sweep_c4_deg": 0.0
+    },
+    "dihedral_deg": 2.0,
+    "washout_deg": 1.5,
+    "mach": 0.1,
+    "wing_class": "general_aviation",
+    "airfoils": {
+      "root": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      },
+      "tip": {
+        "id": "naca2412",
+        "clmax": 1.58,
+        "cl_alpha_per_rad": 6.1
+      }
+    },
+    "volume": {
+      "y1_m": 0.4,
+      "y2_m": 2.2,
+      "k": 0.3,
+      "t_over_c": 0.12,
+      "usable_fraction": 0.3,
+      "fuel_density_kgm3": 720
+    }
+  },
+  "m08": {
+    "wing_from_m09b": true,
+    "volumes": {
+      "vht": 0.761,
+      "vvt": 0.0419
+    },
+    "fuselage": {
+      "r1_m": 0.55,
+      "r2_m": 0.14
+    },
+    "method": 3,
+    "ar_ht": 3.0,
+    "ar_vt": 1.35,
+    "_source": "Volumenes de cola 0.761 / 0.0419 (GUD Ej. 11-1 a 11-3, Cessna 172) usados como supuesto del usuario; metodo 3 de GUD Cap. 11; radios de fuselaje supuestos."
+  },
+  "m10": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras.",
+    "wing_z_m": 0.4,
+    "ht_z_m": 0.1,
+    "fuselage": {
+      "from_m08": true,
+      "x_nose_m": -1.3,
+      "nose_length_m": 1.0,
+      "z_axis_m": 0.0,
+      "n1": 0.5,
+      "n2": 0.5
+    },
+    "contours": false
+  },
+  "m11": {
+    "_source": "Ejemplo ilustrativo: motor de 100 BHP a 2800 RPM, 75 % de potencia y diametros de helice de madera (Cap. 15 de GUD). El motor es DATO DEL USUARIO (no se asume un modelo comercial); la potencia requerida sale de M04.",
+    "engine": {
+      "name": "100 BHP engine (user data)",
+      "rated_bhp": 100.0,
+      "rated_rpm": 2800.0,
+      "gear_ratio": 1.0
+    },
+    "propeller": {
+      "material": "wood",
+      "blades": 2
+    },
+    "ld_cruise": 10.0,
+    "temperature_offset_k": 15.0,
+    "adrpy_deck": "IO-540",
+    "adrpy_deck_rpm": 2400,
+    "power_required": {
+      "source": "m04"
+    }
+  },
+  "m12": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras. Pesos conocidos (helice, avionica) y el motor de 100 BHP son datos ilustrativos.",
+    "w0_kg": 598.74,
+    "n_ult": 5.7,
+    "occupants": 2,
+    "crew": 1,
+    "wing_tc": 0.12,
+    "vh_keas": 108,
+    "cruise": {
+      "ktas": 108,
+      "altitude_m": 2438.4
+    },
+    "engine": {
+      "rated_bhp": 100,
+      "count": 1
+    },
+    "known_weights": {
+      "propeller_kg": 8.0,
+      "avionics_uninstalled_kg": 8.0
+    },
+    "fuel": {
+      "total_gal": 24,
+      "integral_gal": 24,
+      "tanks": 2
+    },
+    "landing_gear": {
+      "ultimate_landing_load_factor": 4.5,
+      "main_strut_m": 0.4,
+      "nose_strut_m": 0.4
+    },
+    "direct_wing": {
+      "sigma_max_pa": 448159000,
+      "rho_cap_kgm3": 2768,
+      "ar_values": [
+        8,
+        10,
+        12
+      ]
+    }
+  },
+  "m13": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras.",
+    "from_m12": true,
+    "positions_m": {
+      "wing": [
+        0.28,
+        0,
+        0.4
+      ],
+      "horizontal_tail": [
+        4.0,
+        0,
+        0.1
+      ],
+      "vertical_tail": [
+        4.1,
+        0,
+        0.4
+      ],
+      "fuselage": [
+        2.1,
+        0,
+        0.0
+      ],
+      "landing_gear": [
+        0.2,
+        0,
+        -0.5
+      ],
+      "engine_installed": [
+        -0.8,
+        0,
+        0.0
+      ],
+      "fuel_system": [
+        0.3,
+        0,
+        0.35
+      ],
+      "flight_controls": [
+        0.8,
+        0,
+        0.1
+      ],
+      "hydraulics": [
+        0.4,
+        0,
+        -0.2
+      ],
+      "electrical": [
+        -0.5,
+        0,
+        0.1
+      ],
+      "air_conditioning": [
+        -0.4,
+        0,
+        0.0
+      ],
+      "avionics": [
+        -0.25,
+        0,
+        0.2
+      ],
+      "furnishings": [
+        0.7,
+        0,
+        0.0
+      ]
+    },
+    "items": [],
+    "envelope": {
+      "empty_mass_kg": 360.0,
+      "max_mass_kg": 598.74,
+      "forward_limit_pct_mgc": 15.0,
+      "aft_limit_pct_mgc": 35.0,
+      "source": "usuario (placeholder; el limite real sale de M16)"
+    },
+    "loading": {
+      "stations_m": {
+        "pilot": 0.0,
+        "front_passenger": 0.0,
+        "baggage": 1.4,
+        "fuel": 0.3
+      },
+      "combinations": [
+        {
+          "id": "pilot only",
+          "loads": {
+            "pilot": 77.0
+          }
+        },
+        {
+          "id": "2 + fuel",
+          "loads": {
+            "pilot": 77.0,
+            "front_passenger": 77.0,
+            "fuel": 65.0
+          }
+        },
+        {
+          "id": "2 + baggage + fuel",
+          "loads": {
+            "pilot": 77.0,
+            "front_passenger": 77.0,
+            "baggage": 18.0,
+            "fuel": 65.0
+          }
+        }
+      ]
+    }
+  },
+  "m15": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras.",
+    "shape": "tubular",
+    "cabin": {
+      "seats_abreast": 2,
+      "rows": 1,
+      "passengers": 2,
+      "aisle": false,
+      "diameter_m": 1.1,
+      "row_pitch_m": 0.9,
+      "cockpit_length_m": 1.0,
+      "baggage_length_m": 0.5
+    },
+    "wing_le_from_cabin_start_m": 0.5
+  },
+  "m16": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras. Sin C_D0 propio: lo toma de M20. Sin derivadas laterales.",
+    "flight": {
+      "speed_mps": 55.6,
+      "density_kgm3": 0.9629
+    }
+  },
+  "m18a": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras.",
+    "configuration": "tricycle",
+    "x_main_m": 0.6,
+    "x_nose_m": -0.9,
+    "z_cg_above_ground_m": 0.9,
+    "track_m": 2.3,
+    "nose_steer_deg": 30.0,
+    "prop_tip_height_above_ground_m": 0.3,
+    "tail_strike": {
+      "tail_point_x_m": 4.1,
+      "tail_point_height_above_ground_m": 0.8,
+      "alpha_stall_deg": 14.0
+    },
+    "main_tire": {
+      "rated_load_n": 4000.0,
+      "diameter_m": 0.43,
+      "loaded_radius_m": 0.19,
+      "inflation_pa": 220000.0
+    },
+    "flight": {
+      "vs0_mps": 23.0,
+      "wing_area_m2": 11.15
+    },
+    "stroke_m": 0.15
+  },
+  "m18b": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras. Derivadas de charnela supuestas.",
+    "rho_kgm3": 1.225,
+    "speeds_mps": [
+      30.0,
+      40.0
+    ],
+    "aileron": {
+      "cf_over_c": 0.25,
+      "y_in": 0.5,
+      "y_out": 0.95,
+      "delta_up_deg": 20.0,
+      "delta_down_deg": 15.0,
+      "ch_delta_per_rad": -0.2,
+      "ch_alpha_per_rad": -0.05,
+      "gearing": {
+        "force_gain_per_m": 1.5
+      }
+    },
+    "elevator": {
+      "cf_over_c": 0.35,
+      "y_in": 0.0,
+      "y_out": 1.0,
+      "delta_up_deg": 25.0,
+      "delta_down_deg": 18.0,
+      "alpha_deg": 3.0,
+      "ch_delta_per_rad": -0.2,
+      "ch_alpha_per_rad": -0.1,
+      "gearing": {
+        "l1_m": 0.5,
+        "l2_m": 0.2,
+        "e_m": 0.1,
+        "stick_deflection_deg": 20.0
+      }
+    },
+    "rudder": {
+      "cf_over_c": 0.35,
+      "y_in": 0.0,
+      "y_out": 1.0,
+      "delta_up_deg": 25.0,
+      "delta_down_deg": 25.0,
+      "ch_delta_per_rad": -0.2,
+      "ch_alpha_per_rad": -0.05,
+      "gearing": {
+        "force_gain_per_m": 2.0
+      }
+    }
+  },
+  "m18c": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras. Incrementos de C_lmax: XFOIL real (NACA 2412).",
+    "section": {
+      "clmax_root": 1.58,
+      "clmax_tip": 1.58,
+      "cl_alpha_per_deg": 0.1,
+      "alpha_zl_deg": -2.1,
+      "xfoil": {
+        "naca": "2412",
+        "reynolds": 3000000,
+        "alpha_start": -4,
+        "alpha_end": 22,
+        "alpha_step": 1
+      }
+    },
+    "segments": [
+      {
+        "id": "root",
+        "y_in": 0.0,
+        "y_out": 0.12
+      },
+      {
+        "id": "flap",
+        "y_in": 0.12,
+        "y_out": 0.62,
+        "flap": {
+          "cf_over_c": 0.3,
+          "hinge_sweep_deg": 0.0
+        }
+      },
+      {
+        "id": "aileron",
+        "y_in": 0.62,
+        "y_out": 0.95
+      },
+      {
+        "id": "tip",
+        "y_in": 0.95,
+        "y_out": 1.0
+      }
+    ],
+    "configurations": {
+      "takeoff": {
+        "source": "xfoil",
+        "delta_deg": 10.0
+      },
+      "landing": {
+        "source": "xfoil",
+        "delta_deg": 30.0
+      }
+    },
+    "alpha_stall_flapped_deg": {
+      "takeoff": 14.0,
+      "landing": 11.0
+    }
+  },
+  "m19": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras.",
+    "washout_study_deg": [
+      0.0,
+      1.5,
+      3.0
+    ]
+  },
+  "m20": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras.",
+    "flight": {
+      "speed_mps": 55.6,
+      "altitude_m": 2438.4
+    },
+    "surface": "production_sheet_metal",
+    "wing": {
+      "t_over_c": 0.12,
+      "xc_max": 0.3,
+      "xtr_upper": 0.1,
+      "xtr_lower": 0.1,
+      "interference": 1.1
+    },
+    "ht": {
+      "t_over_c": 0.09,
+      "xc_max": 0.3
+    },
+    "vt": {
+      "t_over_c": 0.09,
+      "xc_max": 0.3
+    },
+    "fuselage": {
+      "length_m": 6.4,
+      "diameter_m": 1.1,
+      "s_wet_m2": 16.5,
+      "xtr_upper": 0.05,
+      "xtr_lower": 0.05
+    },
+    "misc": [
+      {
+        "name": "fixed gear with fairings (illustrative)",
+        "cd_pi": 0.35,
+        "a_pi_m2": 0.15,
+        "source": "user assumption; Sec. 16.4.5 gives the method"
+      }
+    ]
+  },
+  "m21": {
+    "_source": "Ejemplo ilustrativo para el lazo L-1 con el frente de diseño del Ejemplo 3-1 de GUD (Cessna 162, datos del libro en m01/m02/m04/m06). Todo lo demás (geometria interior, posiciones de componentes, motor, carga, fuselaje, tren, mandos) es SUPUESTO ILUSTRATIVO DEL USUARIO, no del Cessna 162 real; las posiciones x se miden desde el borde de ataque de la raiz del ala, positivo hacia atras. c_P = 0.304 kg/(kW h) es el valor del Ejemplo 21-2 de GUD; los despegues/aterrizajes usan los datos del Ej. 3-1.",
+    "engine": {
+      "power_sl_w": 74570.0,
+      "eta_p": 0.75,
+      "c_p_kg_per_kwh": 0.304
+    },
+    "weights": {
+      "mtow_kg": 598.74,
+      "oew_kg": 340.0,
+      "max_payload_kg": 172.0,
+      "fuel_capacity_gal": 24,
+      "non_cruise_fuel_fraction": 0.03,
+      "reserve_minutes": 30
+    },
+    "cruise": {
+      "altitude_m": 2438.4,
+      "speed_mps": 55.6
+    },
+    "altitudes_m": [
+      0.0,
+      2000.0,
+      4000.0
+    ],
+    "takeoff": {
+      "thrust_to_weight_avg": 0.25,
+      "clmax": 1.756,
+      "cl": 0.5,
+      "cd": 0.038,
+      "mu": 0.04
+    },
+    "landing": {
+      "clmax": 2.029,
+      "cl_ldg": 0.5,
+      "cd_ldg": 0.07,
+      "mu_brake": 0.3,
+      "free_roll_s": 1.0,
+      "h_obst_m": 15.24
+    }
+  }
+}
