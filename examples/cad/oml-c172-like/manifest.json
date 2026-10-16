@@ -1,0 +1,171 @@
+{
+  "level": "conceptual",
+  "units_out": "mm",
+  "units_internal": "SI (m)",
+  "axes": {
+    "origin": "leading edge of the wing root chord at the plane of symmetry",
+    "x": "aft",
+    "y": "starboard",
+    "z": "up",
+    "angles": "incidence, dihedral, twist positive nose/tip up",
+    "twist_pivot": "section leading edge (AeroSuite convention, to verify against flow5)"
+  },
+  "origin_of_part": "M10 datum",
+  "oml_schema": "aerosuite-oml/1",
+  "out_dir": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\cad",
+  "assembly_step": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\cad\\oml-c172-like.step",
+  "component_steps": {
+    "fuselage": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\cad\\oml-c172-like-fuselage.step",
+    "wing": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\cad\\oml-c172-like-wing.step",
+    "horizontal_tail": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\cad\\oml-c172-like-horizontal_tail.step",
+    "vertical_tail": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\cad\\oml-c172-like-vertical_tail.step"
+  },
+  "te": "closed",
+  "profile_points": 11,
+  "fuselage_note": "solid of revolution of the M10 stations (frusta, equal to a loft of circles between stations)",
+  "assembly_solids": 4,
+  "assembly_bbox_mm": {
+    "x": [
+      -1600.0,
+      5870.275634667007
+    ],
+    "y": [
+      -5685.965177623,
+      5685.965177623
+    ],
+    "z": [
+      -609.6,
+      1502.8518935870002
+    ]
+  },
+  "validation": {
+    "all_ok": true,
+    "tolerances": {
+      "volume": 0.01,
+      "planform_area": 0.01,
+      "span": 1e-06,
+      "bbox": 1e-06
+    },
+    "checks": [
+      {
+        "component": "fuselage",
+        "quantity": "volume_m3",
+        "step": 4.653111148943805,
+        "reference": 4.653111148943614,
+        "relative_difference": 4.103885639587178e-14,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "fuselage",
+        "quantity": "length_m",
+        "step": 7.470275634567006,
+        "reference": 7.470275634567127,
+        "relative_difference": 1.6169719965924186e-14,
+        "tolerance": 1e-06,
+        "ok": true
+      },
+      {
+        "component": "fuselage",
+        "quantity": "max_diameter_m",
+        "step": 1.2192,
+        "reference": 1.2192,
+        "relative_difference": 0.0,
+        "tolerance": 1e-06,
+        "ok": true
+      },
+      {
+        "component": "wing",
+        "quantity": "volume_m3",
+        "step": 1.8671951298241976,
+        "reference": 1.8671951298243892,
+        "relative_difference": 1.0262692473299478e-13,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "wing",
+        "quantity": "planform_area_m2",
+        "step": 16.16451744437625,
+        "reference": 16.1651,
+        "relative_difference": 3.6037860808008506e-05,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "wing",
+        "quantity": "span_m",
+        "step": 11.371930355246,
+        "reference": 11.371930355045269,
+        "relative_difference": 1.7651521711689908e-11,
+        "tolerance": 1e-06,
+        "ok": true
+      },
+      {
+        "component": "horizontal_tail",
+        "quantity": "volume_m3",
+        "step": 0.2616323719729584,
+        "reference": 0.2616323719734244,
+        "relative_difference": 1.7811867509795213e-12,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "horizontal_tail",
+        "quantity": "planform_area_m2",
+        "step": 3.837640181627069,
+        "reference": 3.8376401814006194,
+        "relative_difference": 5.900749291062693e-11,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "horizontal_tail",
+        "quantity": "span_m",
+        "step": 3.3930694872880003,
+        "reference": 3.3930694870871507,
+        "relative_difference": 5.919406011898116e-11,
+        "tolerance": 1e-06,
+        "ok": true
+      },
+      {
+        "component": "vertical_tail",
+        "quantity": "volume_m3",
+        "step": 0.11226302449161663,
+        "reference": 0.11226302449166087,
+        "relative_difference": 3.9409580965457514e-13,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "vertical_tail",
+        "quantity": "planform_area_m2",
+        "step": 1.6730102326354408,
+        "reference": 1.673010232412228,
+        "relative_difference": 1.334198543840959e-10,
+        "tolerance": 0.01,
+        "ok": true
+      },
+      {
+        "component": "vertical_tail",
+        "quantity": "height_m",
+        "step": 1.5028518936870001,
+        "reference": 1.5028518934866828,
+        "relative_difference": 1.3329145683395788e-10,
+        "tolerance": 1e-06,
+        "ok": true
+      }
+    ],
+    "method": "STEP re-imported with CadQuery; volumes from OpenCASCADE, planform area by 41 slices, bounding boxes; references computed from M10 without CAD"
+  },
+  "versions": {
+    "cadquery": "2.8.0",
+    "numpy": "1.26.4",
+    "ocp": "7.9.3.1.1"
+  },
+  "source_project": {
+    "path": "C:\\Users\\oscar\\AppData\\Local\\Temp\\tmp.hHLfBBCMVn\\oml-c172-like.json",
+    "sha256": "4230bfc5e4d5f2e894fd37e8d845cddb3d014ad28d574d24f12a4372d166fe0c",
+    "m10_result_sha256": "6a8f7f2556b21ec0d176b789e092de726f92f22695cf804904dfee19230087e3"
+  }
+}

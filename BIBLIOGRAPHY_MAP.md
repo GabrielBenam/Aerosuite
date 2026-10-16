@@ -170,3 +170,4 @@ Convención: PDF = marcador `[p. N]` del texto convertido (`COMPLETO.md`) de cad
 | L-1 | Algoritmo de diseño conceptual, Tabla 1-4 y Fig. 1-11; Ejemplo 3-1 (cifras de comparación) | Gudmundsson, Cap. 1 y Sec. 3.2.2, PDF 109-111 |
 | M23 | 14 CFR 23.2110, 23.2120, 23.2130 (texto vigente) | eCFR, https://www.ecfr.gov/current/title-14/part-23 (leído 2026-10-16); GUD Sec. 1.3 (61 KCAS, texto anterior) |
 | M22 | Alcance de Breguet de hélice a V y h constantes (Ec. 21-25, vía M21) como problema de validación; paso 22 del algoritmo (Tabla 1-4) | Gudmundsson, Cap. 21 y Tabla 1-4 |
+| M24 | Fuselaje y superficies por solevado de secciones (Sec. 2.4.3, Sec. 4.1, Ec. 4.1) | Sobester y Forrester, *Aircraft Aerodynamic Design: Geometry and Optimization*, PDF 36-46 y 85-86 (heredado de M10) |

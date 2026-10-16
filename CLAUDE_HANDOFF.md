@@ -100,3 +100,11 @@ Deja `results\c162-full\project.loopun-001\iter-001.json` y `loop.json`. Los m�
 .\.venv\Scripts\python.exe -m aerosuite m22 --spec examples\opt-project-flow5-wing.json --out results\m22-flow5   # 3D real, opt-in
 ```
 Motor `project`: variables = entradas del proyecto, métricas = salidas de módulos; ver D-48.
+
+### M24 (F5)
+```
+.\.venv\Scripts\python.exe -m pip install --no-deps -r requirements-cad.txt     # una vez (CadQuery, PyPI)
+.\.venv\Scripts\python.exe -m aerosuite m24 --project results\c172\project.json   # lee inputs.m24 (out_dir, te, profile_points)
+.\.venv\Scripts\python.exe -m aerosuite export --project results\c172\project.json --module m24 --out results\c172\m24.json
+```
+Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49.
