@@ -71,6 +71,13 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M09a | Tabla 8-12 (clases de perfil) | GUD PDF 356-357 / impr. 311-312 | figura; solo se registra la clase elegida |
 | M09a | Sec. 8.1.4 definiciones (Cl_max, Cl_α = 2π máx., α_ZL, Cl_max/Cd_min) | GUD PDF 305-306 / impr. 260-261 | |
 | M09a | Ec. 8-64 (M_crit de Shevell) y 8-67 (Korn) | GUD PDF 355-356 | 8-64 garbleada: no usada (D-25) |
+| M09b | Ecs. 9-3, 9-8 a 9-16, 9-28 a 9-31; Ejemplo 9-3 | GUD Sec. 9.2.2 y 9.2.5, PDF 369-375 / impr. 324-330 | reproducido (b, c_r, c_t) |
+| M09b | Ecs. 9-35 y 9-36 (volumen del ala) | GUD Sec. 9.2.6, PDF 374-375 / impr. 329-330 | el ejemplo impreso es inconsistente (D-26) |
+| M09b | Tablas 9-4, 9-5; Secs. 9.3.3-9.3.5 (AR, λ, flecha, diedro, washout) | GUD PDF 377-385 / impr. 332-340 | guías |
+| M09b | Ecs. 9-37 a 9-40 y Ejemplo 9-4 (AR_e por alcance) | GUD PDF 379-380 / impr. 334-335 | reproducido |
+| M09b | Ecs. 9-68 a 9-73, Tabla 9-7 (C_Lα) | GUD Sec. 9.5.4, PDF 412-414 / impr. 367-369 | Tabla 9-7 reproducida (8 filas) |
+| M09b | Ecs. 9-74 a 9-78, Ejemplo 9-9 (CL_max) | GUD Sec. 9.5.5, PDF 415-417 / impr. 370-372 | reproducido |
+| M09b | Ecs. 9-122, 9-129; Ejemplo 9-4 y 3-1 (e) | GUD Sec. 9.5.12, PDF 428-430 / impr. 383-385 | reproducido; 9-130 no implementada |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)

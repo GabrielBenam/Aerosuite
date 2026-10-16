@@ -121,9 +121,15 @@ def _wing(project: dict, d: dict):
             if k not in w:
                 raise SystemExit(f"inputs.m08.wing is missing: {k}")
         return dict(w), []
+    if d.get("wing_from_m09b"):
+        if "m09b" not in project["outputs"]:
+            raise SystemExit("inputs.m08.wing_from_m09b is set but outputs.m09b is missing: run m09b first")
+        pf = project["outputs"]["m09b"]["result"]["planform"]
+        return {"area_m2": pf["area_m2"], "span_m": pf["span_m"], "cmgc_m": pf["cmgc_m"], "aspect_ratio": pf["aspect_ratio"],
+                "taper_ratio": pf["taper_ratio"], "source": "M09b planform"}, ["m09b"]
     src = d.get("wing_from_m04")
     if not src:
-        raise SystemExit("inputs.m08 needs 'wing' {area_m2, span_m, cmgc_m} or 'wing_from_m04' {aspect_ratio, taper_ratio}")
+        raise SystemExit("inputs.m08 needs 'wing' {area_m2, span_m, cmgc_m}, 'wing_from_m09b' or 'wing_from_m04' {aspect_ratio, taper_ratio}")
     if "m04" not in project["outputs"]:
         raise SystemExit("inputs.m08.wing_from_m04 is set but outputs.m04 is missing: run m04 first")
     depends = ["m04"]
