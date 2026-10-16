@@ -83,3 +83,6 @@ Entradas de ejemplo: `examples/projects/c162-inputs.json` (M01, M02, M04, M06; E
 
 ## Corrida F4: estado
 V-F5 terminada (D-32, D-33). M16 funcional (`python -m aerosuite m16 --project p.json`, ejemplo `examples/projects/c172-like-stability-inputs.json`; D-34 a D-36); validación con flow5 tipo 7 pendiente. M18a funcional (`m18a`, ejemplo `c172-like-gear-inputs.json`, D-37). M18b funcional (`m18b`, ejemplo `c172-like-controls-inputs.json`, D-38). M18c funcional (`m18c`, XFOIL real con flap, evidencia en `evidence/xfoil-flaps-win/`, D-39). M19 funcional (`m19`, D-40). M20 funcional (`m20`, D-41). M21 funcional (`m21`, Ejemplo 21-6 reproducido, D-42). Corrida F4 completa; M16 contrastado con flow5 7.55 en estática (D-43), con modos dinámicos y derivadas laterales pendientes.
+
+## Corrida F5: estado
+Plan en `AUTONOMOUS_RUN_F5.md` (bitácora en su §12). C-1 terminado: `m16_stability.munk_multhopp` (D-44); M16 lee la geometría de fuselaje de M10 y depende de `m10`. El modelo de flow5 de la evidencia no tiene fuselaje: la diferencia de D-43 no se cierra con este aporte.

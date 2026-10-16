@@ -39,3 +39,6 @@ Actualizado 2026-10-14. Sustituye a `docs/ROADMAP.md`.
 
 ## Etapa 4 — Interfaz integrada
 Diseñar la interfaz propia sobre los contratos JSON ya probados. No antes de cerrar la Etapa 2.
+
+## Fase F5 (corrida autónoma, `auto/f5`)
+- [x] C-1 M16: aporte del fuselaje (Munk-Multhopp)

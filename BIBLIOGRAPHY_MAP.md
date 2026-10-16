@@ -160,3 +160,8 @@ Convención: PDF = marcador `[p. N]` del texto convertido (`COMPLETO.md`) de cad
 | M19 | Línea sustentadora, perdida en envergadura, criterios | Gudmundsson, Secs. 9.5.4, 9.6, 9.7.3 (Ejemplos 9-9 y 9-10), PDF 416–452; Anderson, *Fundamentals of Aerodynamics* Sec. 5.3 (conocimiento externo, no verificado en la carpeta) |
 | M20 | Resistencia por componentes | Gudmundsson, Cap. 16 (Secs. 16.3.1 a 16.3.9; Ejemplos 16-6, 16-7, 16-11), PDF 726–758 |
 | M21 | Prestaciones, alcance, carga útil–alcance | Gudmundsson, Secs. 3.2, 7 (Gagg-Ferrar), Caps. 19–21 (Ejemplos 21-2 y 21-6), PDF 107, 253, 858–925 |
+
+## Fase F5
+| Módulo | Tema | Fuente |
+|---|---|---|
+| M16 | Fuselaje, Munk-Multhopp: Ecs. 24-100, 24-103 a 24-108, Figs. 24-29/24-30, Ejemplos 24-3 y 24-4 | Gudmundsson, *General Aviation Aircraft Design* 2.ª ed., Sec. 24.2.6, PDF 993-996 (marcadores [p. 994]-[p. 996]); verificado contra las figuras de la Tabla 24-4 (imágenes 1353-1356 de la carpeta BIBLIOGRAFIA) |
