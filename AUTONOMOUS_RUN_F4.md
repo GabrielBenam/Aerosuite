@@ -71,6 +71,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 - 2026-10-16 01:30 | M20 resistencia por componentes | TERMINADO | feat(M20) | D-41; Ejemplos 16-6 y 16-11; contraste con flow5 7.55 real
 - 2026-10-16 02:30 | M21 prestaciones | TERMINADO | feat(M21) | D-42; Ejemplo 21-6 reproducido (737/768/950 nm)
 - 2026-10-16 03:00 | Contraste M16 con flow5 7.55 (estática) | TERMINADO | docs(M16) | D-43
+- 2026-10-16 03:30 | Cierre: PR_F4.md, PR a main, FASE_COMPLETA.flag | TERMINADO | docs | todas las tareas de §1 TERMINADAS
 
 ## 8. Cierre (dispara el correo)
 Cuando todas las tareas de §1 estén TERMINADAS o BLOQUEADAS:
