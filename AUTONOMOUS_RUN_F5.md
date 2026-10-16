@@ -90,6 +90,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 - 2026-10-16 05:48 | C-1 | TERMINADO | 1da3531 | Munk-Multhopp verificado con Ej. 24-3; flow5 sin fuselaje: diferencia de D-43 permanece (D-44)
 - 2026-10-16 05:49 | C-2 | TERMINADO | e0d5eea | Tabla 6.6 de Etkin verificada en imagen; Ej. 13-3 con brazos impresos y caso dinámico (D-45)
 - 2026-10-16 05:55 | L-1 | TERMINADO | 98310e8 | loop.py + comando loop + c162-full-loop.json; cifras Ej. 3-1 (D-46)
+- 2026-10-16 06:02 | M23 | TERMINADO | 8ba15d5 | 14 CFR 23.2110/2120/2130 leídos; no evaluable donde no hay texto (D-47); fix hash np.bool_
 <!-- BITACORA -->
 
 ## 13. Cierre (dispara el correo)
