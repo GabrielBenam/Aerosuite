@@ -90,6 +90,10 @@ Convención: en `COMPLETO.md` de GUD la marca `[p. N]` es la página del PDF; im
 | M11 | Ecs. 15-24 a 15-26, Ejemplo 15-2 (diámetro, velocidad de punta) | GUD Sec. 15.3.1-15.3.2, PDF 665-666 / impr. 620-621 | reproducidos |
 | M11 | Ec. 15-30 (paso) y Ejemplo 15-3 (J) | GUD Sec. 15.3.3-15.3.5, PDF 666-669 / impr. 621-624 | errata de 1251 por 1215 (D-28) |
 | M11 | Ec. 15-32 (η_p requerida) | GUD Sec. 15.3.4, PDF 669 / impr. 624 | caso LSA reproducido |
+| M12 | Ecs. 6-43 a 6-47 (ala) y Ejemplo 6-5 | GUD Sec. 6.4.1, PDF 205-210 / impr. 160-165 | reproducidos (leídas del PDF con pdftotext) |
+| M12 | Ecs. 6-48 a 6-105 (colas, fuselaje, tren, planta motriz, sistemas), Ec. 6-106 | GUD Sec. 6.4.1-6.4.2, PDF 206-210 / impr. 161-165 | transcritas, sin ejemplo; 6-52 sospechosa (D-29) |
+| M12 | Ecs. 6-109 a 6-127, Ejemplos 6-6 y 6-7 (cajón directo, variación con AR) | GUD Sec. 6.5, PDF 212-221 / impr. 167-176 | reproducidos |
+| M12 | Sec. 6.3 (pesos conocidos, promedio de métodos, factores de escala) | GUD PDF 204-205 / impr. 159-160 | reglas de uso |
 | M08 | Sec. 11.4.2 (V_HT desde h_n) | GUD PDF 553 / impr. 508 | ecuación garbleada: no implementada (D-24) |
 
 ## 4. Optimizador (SciPy)

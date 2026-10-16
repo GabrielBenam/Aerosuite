@@ -15,6 +15,7 @@ MODULES = {
     "m09b": ("m09b", "m09b_wing", "M09b wing planform, lift-curve slope, CLmax, span efficiency, volume (step 9)"),
     "m10": ("m10", "m10_geometry", "M10 parametric OML: wing + tail + fuselage assembly (step 10)"),
     "m11": ("m11", "m11_powerplant", "M11 piston powerplant and propeller sizing (step 11)"),
+    "m12": ("m12", "m12_weights", "M12 detailed component weights, statistical and direct (step 12)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
