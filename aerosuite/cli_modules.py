@@ -24,6 +24,7 @@ MODULES = {
     "m18c": ("m18c", "m18c_highlift", "M18c high-lift and flaps: wing partition method, XFOIL flapped section (step 18)"),
     "m19": ("m19", "m19_stall", "M19 benign spanwise stall: lifting line, C_l vs C_lmax, washout study (step 19)"),
     "m20": ("m20", "m20_drag", "M20 component drag buildup: C_Dmin, polar, best L/D (step 20)"),
+    "m21": ("m21", "m21_performance", "M21 performance: speeds, climb, ceilings, range/endurance, payload-range (step 21)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
