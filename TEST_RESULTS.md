@@ -145,6 +145,9 @@ Entorno: Windows 11, `.venv` Python 3.11, NumPy 1.26.4, ADRpy 0.2.6. Línea base
 ### 8.15 M18a (N + U)
 `tests/test_m18a_gear.py`, 14 pruebas. Ejemplo 13-2: R_N estática = 357.5 lbf (W = 1320, x_M = 1.3, x_N = 3.5 ft); Ejemplo 13-3: cola 151.9 lbf = 11.5 % y principal 1168 lbf (la geometría de la figura no es legible: la razón de brazos se despeja del resultado impreso). Equilibrio independiente de fuerzas y momentos de las Ecs. 13-17 y 13-20 reescritas; identidades de radio de giro, vuelco, huella y energía de frenado (constante 0.0443, errata del libro 0.0433); velocidad de descenso contra 4.4 (W/S)^¼. Cadena M09b→…→M13→M18a, desactualización, exportación, tren convencional con rotación. Suite: 213 pruebas OK.
 
+### 8.16 M18b (N + U)
+`tests/test_m18b_controls.py`, 11 pruebas. Ejemplo 24-6 (d): τ_e(0.3) = 0.5066 y CL_δe = 2.294 1/rad (0.04004 1/°); identidades (la flotación anula C_H; el factor 1 − τ C_Hα/C_Hδ sale de la flotación; geometría de la ganancia manual; H ∝ q); cadena M09b→M08→M16→M18b, desactualización, exportación y caso sin derivadas (solo geometría). Suite: 224 pruebas OK.
+
 ## 9. V-F5: flow5 7.55 real (2026-10-15)
 Ejecutable `C:\Users\oscar\Documents\flow5_v7.55_win64\flow5_v7.55_win64\flow5.exe`, 8 898 048 bytes, SHA-256 `4254b851cbda6eaf281b145e7b509756541ee064fd4b38d6b54b79ca1a8d13e1`; la bitácora de flow5 imprime «flow5 v7.55» (no hay opción de versión por consola). El código fuente y el lector son de v7.57. Evidencia: `evidence/flow5-7.55-win/` (salidas del solucionador real, no fixtures de formato).
 * Corrida 1 (PLANFORM): aborta en 3.7 s por referencias en cero (D-32). Corrida 2 (CUSTOM): `flow5-run` código 0, 75 s, 17 puntos (α −4…12°), VLM2 + XFoil on the fly, V = 55.6 m/s, ρ = 0.9629, ν = 1.778e-5, caso `examples/flow5-c162-like.json` (S = 11.139 m², b = 9.44 m, AR = 8.0, MAC = 1.181 m).
