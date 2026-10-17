@@ -186,3 +186,6 @@ Instalación: `python -m pip install --no-deps -r requirements-cad.txt` (CadQuer
 
 ### P-1 fuselaje en flow5 (2026-10-16)
 Suite: 337 pruebas, OK (1 omitida) tras añadir `tests/test_flow5_fuselage.py` (formato del `<body>`, regresión del signo del fuselaje de M16). Corridas reales de flow5 7.55 en `evidence/flow5-7.55-win/fuselage/` (tabla en su README): el cuerpo se acepta pero ningún método de paneles da un resultado utilizable; contraste de M16 con fuselaje BLOQUEADO (D-50). Diagnóstico de estela: ∂ε/∂α implícito 0.43-0.48 contra 0.39.
+
+### P-2 LLT en flow5 7.55 (2026-10-16)
+Fallo reproducido y causa hallada (faltan polares 2D en la base de datos); con `analysis.foil_polars` LLT converge (evidencia `evidence/flow5-7.55-win/llt/`): C_Lα LLT 4.743, VLM2 4.650, M19 4.868 1/rad. Pruebas nuevas: `tests/test_flow5_llt.py` (formato del script y evidencia real). D-51.

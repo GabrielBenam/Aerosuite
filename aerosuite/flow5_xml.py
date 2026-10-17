@@ -254,7 +254,21 @@ def script_xml(job_dir: Path, foils: list[Path], plane: Path, polar: Path, cfg: 
            "            <recursive_scan>false</recursive_scan>", "        </Directories>",
            "        <MultiThreading>", "            <Allow_Multithreading>true</Allow_Multithreading>",
            f"            <max_threads>{int(a.get('max_threads', 4))}</max_threads>", "        </MultiThreading>",
-           "    </Metadata>", "    <Plane_analysis>", "        <Foil_Dat_Files>"]
+           "    </Metadata>"]
+    fp = a.get("foil_polars")
+    if fp:
+        # 2D type 1 polars (XFoil, run by flow5 itself) stored in flow5's database before the plane analysis; LLT interpolates them
+        lo, hi, inc = fp.get("alpha_range", [-8, 18, 0.5])
+        res = [float(r) for r in fp["reynolds"]]
+        # the foils analysed are the ones listed in Plane_analysis/Foil_Dat_Files (flow5 shares one raw-foil list)
+        out += ["    <Foil_analysis>", "        <Batch_Analysis_Data>", "            <Polar_Type>FIXEDSPEEDPOLAR</Polar_Type>",
+                "            <Batch_Range>", f"                <Reynolds>{', '.join(_f(r) for r in res)}</Reynolds>",
+                f"                <NCrit>{', '.join(_f(fp.get('ncrit', 9)) for _ in res)}</NCrit>",
+                f"                <Mach>{', '.join('0' for _ in res)}</Mach>", "            </Batch_Range>",
+                "        </Batch_Analysis_Data>", "        <OpPoint_Range>",
+                f"            <Alpha>{_f(lo)}, {_f(hi)}, {_f(inc)}</Alpha>", "        </OpPoint_Range>", "        <Output>",
+                "            <make_polars_text_file>true</make_polars_text_file>", "        </Output>", "    </Foil_analysis>"]
+    out += ["    <Plane_analysis>", "        <Foil_Dat_Files>"]
     out += [f"            <Foil_File_Name>{escape(str(p))}</Foil_File_Name>" for p in foils]
     out += ["        </Foil_Dat_Files>", "        <Plane_Definition_Files>",
             f"            <Plane_File_Name>{escape(str(plane))}</Plane_File_Name>", "        </Plane_Definition_Files>",

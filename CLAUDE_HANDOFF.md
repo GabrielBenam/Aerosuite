@@ -114,3 +114,4 @@ Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ej
 
 ## Corrida F6: estado
 Plan en `AUTONOMOUS_RUN_F6.md` (bitácora en su §14). P-1: `flow5_xml.py` exporta cuerpos (`fuselage` en la configuración; ejemplo `examples/flow5-c162-like-fuselage.json`); los métodos de paneles de flow5 7.55 no dieron resultados utilizables, contraste con fuselaje BLOQUEADO (D-50, `evidence/flow5-7.55-win/fuselage/`).
+P-2: LLT de flow5 7.55 funciona si el script incluye `analysis.foil_polars` (D-51, `evidence/flow5-7.55-win/llt/`).

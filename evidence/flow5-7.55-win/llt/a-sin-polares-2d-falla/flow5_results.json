@@ -1,0 +1,14 @@
+{
+  "schema": "aerosuite-flow5-results",
+  "schema_version": 1,
+  "source": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p2-llt-a\\output",
+  "engine": "flow5 v7.57 (original executable)",
+  "polars": [],
+  "operating_points": [],
+  "errors": [
+    {
+      "file": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p2-llt-a\\output\\AeroSuite_LLT_wing\\AeroSuite LLT wing\\FIXEDSPEEDPOLAR-LLT-55_6mps.csv",
+      "error": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p2-llt-a\\output\\AeroSuite_LLT_wing\\AeroSuite LLT wing\\FIXEDSPEEDPOLAR-LLT-55_6mps.csv: header found but no complete numeric data rows"
+    }
+  ]
+}

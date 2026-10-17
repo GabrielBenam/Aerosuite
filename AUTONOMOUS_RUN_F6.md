@@ -100,6 +100,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 `- AAAA-MM-DD HH:MM | tarea | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
 - 2026-10-16 19:30 | P-1 | TERMINADO (contraste con cuerpo BLOQUEADO) | ver git log | exportación de cuerpo aceptada por flow5 7.55; paneles sin resultado utilizable; diagnóstico de estela hecho (D-50)
+- 2026-10-16 20:10 | P-2 | TERMINADO | ver git log | LLT funciona si flow5 calcula antes las polares 2D del perfil (D-51); contraste con VLM2 y M19
 <!-- BITACORA -->
 
 ## 15. Cierre (dispara el correo)
