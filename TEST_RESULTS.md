@@ -185,7 +185,7 @@ Instalación: `python -m pip install --no-deps -r requirements-cad.txt` (CadQuer
 ## 11. Corrida F6 (rama `auto/f6`)
 
 ### P-1 fuselaje en flow5 (2026-10-16)
-Suite: 337 pruebas, OK (1 omitida) tras añadir `tests/test_flow5_fuselage.py` (formato del `<body>`, regresión del signo del fuselaje de M16). Corridas reales de flow5 7.55 en `evidence/flow5-7.55-win/fuselage/` (tabla en su README): el cuerpo se acepta pero ningún método de paneles da un resultado utilizable; contraste de M16 con fuselaje BLOQUEADO (D-50). Diagnóstico de estela: ∂ε/∂α implícito 0.43-0.48 contra 0.39.
+Suite: 337 pruebas, OK (1 omitida) tras añadir `tests/test_flow5_fuselage.py` (formato del `<body>`, regresión del signo del fuselaje de M16). Corridas reales de flow5 7.55 en `evidence/flow5-7.55-win/fuselage/` (tabla en su README). Hallazgo D-52: la deriva del modelo de flow5 de F4/F5 era horizontal; con la corrección el contraste estático de M16 es x_NP 0.695 m contra 0.703 m (−1.2 %), margen estático 25.0 % contra 25.7 %, C_Mα −1.227 contra −1.326 (−7.4 %). Con fuselaje (flow5 TRILINEAR, solo el incremento): ΔC_Mα +0.365 contra +0.298 de M16 y Δx_NP −0.0685 contra −0.0717 m. Estela: ∂ε/∂α implícito 0.36-0.39 contra 0.39. Pruebas `tests/test_m16_stability.py` (Flow5ContrastTests, Flow5FuselageContrastTests) actualizadas; total 343 pruebas, OK.
 
 ### P-2 LLT en flow5 7.55 (2026-10-16)
 Fallo reproducido y causa hallada (faltan polares 2D en la base de datos); con `analysis.foil_polars` LLT converge (evidencia `evidence/flow5-7.55-win/llt/`): C_Lα LLT 4.743, VLM2 4.650, M19 4.868 1/rad. Pruebas nuevas: `tests/test_flow5_llt.py` (formato del script y evidencia real). D-51.

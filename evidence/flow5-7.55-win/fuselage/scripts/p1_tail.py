@@ -3,7 +3,7 @@ from pathlib import Path
 sys.path.insert(0,'.')
 from aerosuite import m16_stability as m
 from aerosuite.m09b_wing import cl_alpha_helmbold
-z=float(sys.argv[1]); tag=f'p1-tailz-{sys.argv[1]}'
+z=float(sys.argv[1]); tag=f'q-tailz-{sys.argv[1]}'
 c=json.load(open('examples/flow5-c162-like.json',encoding='utf-8'))
 for w in c['wings']:
     if w['type'] in('ELEVATOR','FIN'): w['position_m'][2]=z

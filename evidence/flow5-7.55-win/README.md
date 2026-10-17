@@ -10,3 +10,7 @@ El ejecutable y sus DLL no se incluyen. Fecha: 2026-10-15. Python: `.venv\Script
   Comando: `python -m aerosuite flow5-export --config examples/flow5-c162-like.json --out <job>` y
   `python -m aerosuite flow5-run --job <job> --timeout 300` (script `flow5.exe -s script.xml -p`). 75 s, 17 puntos, VLM2.
   Son resultados reales de flow5 (no fixtures de formato).
+
+**Corrección F6 (D-52).** `run2-custom-ref/` se generó con la deriva horizontal (`Rx = 0`, error del ejemplo), por lo que el contraste de M16 de F4/F5 (XNP 0.66 m, +5.3 %)
+no es válido. `run3-vertical-fin/` es el mismo caso con la deriva vertical (Rx = −90°, `Two_Sided` falso, como `vendor/flow5/API_examples/PlaneRun4`): flow5 da XNP 0.70 m,
+margen estático 25.7 %, 17 puntos, 52 s, VLM2 viscoso con XFoil en el vuelo. Se conserva `run2` solo como historial.

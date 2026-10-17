@@ -1,0 +1,150 @@
+{
+  "name": "AeroSuite C162-like stability",
+  "notes": [
+    "ILLUSTRATIVE geometry: wing area 11.15 m^2 (120 ft^2) and AR 8 from Gudmundsson Example 3-1; planform, tail and CG are AeroSuite assumptions, not Cessna 162 data.",
+    "Units: SI. Analysis is computed by the official flow5 executable.",
+    "P-3 (F6): point masses give a non-zero inertia tensor (flow5 computes inertia from point masses and wing/tail masses). ILLUSTRATIVE mass distribution, AeroSuite assumption; total 598.74 kg as the MTOW of the base case.",
+    "F6 correction: the Fin is vertical (Rx = -90, single fin) as in vendor/flow5 PlaneRun4. Before F6 it was written with Rx = 0, i.e. a second horizontal surface overlapping the elevator (D-52)."
+  ],
+  "wings": [
+    {
+      "name": "Main wing",
+      "type": "MAINWING",
+      "position_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tilt_deg": 1.0,
+      "sections": [
+        {
+          "y_m": 0.0,
+          "chord_m": 1.25,
+          "foil": "NACA 2412",
+          "nx": 13,
+          "ny": 15
+        },
+        {
+          "y_m": 4.72,
+          "chord_m": 1.11,
+          "xoffset_m": 0.035,
+          "dihedral_deg": 1.5,
+          "twist_deg": -1.5,
+          "foil": "NACA 2412",
+          "nx": 13,
+          "ny": 15
+        }
+      ],
+      "mass_kg": 85.0
+    },
+    {
+      "name": "Elevator",
+      "type": "ELEVATOR",
+      "position_m": [
+        4.6,
+        0.0,
+        0.3
+      ],
+      "tilt_deg": -2.0,
+      "sections": [
+        {
+          "y_m": 0.0,
+          "chord_m": 0.8,
+          "foil": "NACA 0009",
+          "nx": 9,
+          "ny": 7
+        },
+        {
+          "y_m": 1.4,
+          "chord_m": 0.6,
+          "xoffset_m": 0.1,
+          "foil": "NACA 0009",
+          "nx": 9,
+          "ny": 7
+        }
+      ],
+      "mass_kg": 6.0
+    },
+    {
+      "name": "Fin",
+      "type": "FIN",
+      "position_m": [
+        4.5,
+        0.0,
+        0.3
+      ],
+      "symmetric": true,
+      "sections": [
+        {
+          "y_m": 0.0,
+          "chord_m": 1.0,
+          "foil": "NACA 0009",
+          "nx": 9,
+          "ny": 7
+        },
+        {
+          "y_m": 1.2,
+          "chord_m": 0.6,
+          "xoffset_m": 0.35,
+          "foil": "NACA 0009",
+          "nx": 9,
+          "ny": 7
+        }
+      ],
+      "mass_kg": 5.0,
+      "rx_deg": -90.0,
+      "two_sided": false
+    }
+  ],
+  "point_masses": [
+    {
+      "tag": "Engine and nose",
+      "mass_kg": 110.0,
+      "x_m": -0.95,
+      "y_m": 0.0,
+      "z_m": 0.0
+    },
+    {
+      "tag": "Cabin and occupants",
+      "mass_kg": 230.0,
+      "x_m": 0.45,
+      "y_m": 0.0,
+      "z_m": -0.05
+    },
+    {
+      "tag": "Fuel",
+      "mass_kg": 60.0,
+      "x_m": 0.4,
+      "y_m": 0.0,
+      "z_m": 0.15
+    },
+    {
+      "tag": "Fuselage and tail cone",
+      "mass_kg": 102.74,
+      "x_m": 2.2,
+      "y_m": 0.0,
+      "z_m": 0.05
+    }
+  ],
+  "analysis": {
+    "type": "STABILITYPOLAR",
+    "method": "VLM2",
+    "velocity_mps": 55.6,
+    "altitude_m": 2438.4,
+    "viscous": false,
+    "xfoil_on_the_fly": false,
+    "ncrit": 9,
+    "alpha_deg": [
+      -4,
+      12,
+      1
+    ],
+    "stability_derivatives": true,
+    "oppoints": true,
+    "control_range": [
+      0,
+      0,
+      1
+    ]
+  }
+}

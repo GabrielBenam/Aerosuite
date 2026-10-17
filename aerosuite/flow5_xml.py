@@ -213,7 +213,7 @@ def polar_xml(cfg: dict, density: float, viscosity: float) -> tuple[str, str]:
            "    <Polar>", f"        <Polar_Name>{escape(name)}</Polar_Name>",
            f"        <Plane_Name>{escape(cfg['name'])}</Plane_Name>",
            f"        <Type>{ptype}</Type>", f"        <Method>{method}</Method>",
-           f"        <Include_Fuse_Moments>false</Include_Fuse_Moments>",
+           f"        <Include_Fuse_Moments>{str(bool(a.get('include_fuse_moments', False))).lower()}</Include_Fuse_Moments>",
            f"        <Thin_Surfaces>{str(bool(a.get('thin_surfaces', True))).lower()}</Thin_Surfaces>",
            f"        <Ground_Effect>{str(bool(a.get('ground_effect', False))).lower()}</Ground_Effect>",
            f"        <Ground_Height>{_f(a.get('ground_height_m', 0))}</Ground_Height>",
@@ -246,6 +246,7 @@ def polar_xml(cfg: dict, density: float, viscosity: float) -> tuple[str, str]:
 def script_xml(job_dir: Path, foils: list[Path], plane: Path, polar: Path, cfg: dict) -> str:
     a = cfg.get("analysis", {})
     alpha = a.get("alpha_deg", [-4, 12, 1])
+    ctrl = a.get("control_range", [0, 0, 1])      # type 7: control parameter t (flap/control angles = gain * t); 0 = no deflection
     out = ['<?xml version="1.0" encoding="UTF-8"?>', "<!DOCTYPE flow5>", '<xflscript version="1.0">',
            "    <Metadata>", "        <make_project_file>true</make_project_file>",
            f"        <project_file_name>{escape(_safe(cfg['name']))}.fl5</project_file_name>",
@@ -274,7 +275,8 @@ def script_xml(job_dir: Path, foils: list[Path], plane: Path, polar: Path, cfg: 
             f"            <Plane_File_Name>{escape(str(plane))}</Plane_File_Name>", "        </Plane_Definition_Files>",
             "        <Plane_Analysis_Files>", f"            <Analysis_File_Name>{escape(str(polar))}</Analysis_File_Name>",
             "        </Plane_Analysis_Files>", "        <Plane_Analysis_Data>",
-            f"            <Alpha>{_f(alpha[0])}, {_f(alpha[1])}, {_f(alpha[2])}</Alpha>",
+            (f"            <Control>{_f(ctrl[0])}, {_f(ctrl[1])}, {_f(ctrl[2])}</Control>" if a.get("type") == "STABILITYPOLAR"
+             else f"            <Alpha>{_f(alpha[0])}, {_f(alpha[1])}, {_f(alpha[2])}</Alpha>"),
             "        </Plane_Analysis_Data>", "        <Plane_Analysis_Output>",
             "            <make_polars_text_file>true</make_polars_text_file>",
             f"            <make_oppoints>{str(bool(a.get('oppoints', False))).lower()}</make_oppoints>",

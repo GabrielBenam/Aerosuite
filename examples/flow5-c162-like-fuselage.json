@@ -3,7 +3,8 @@
   "notes": [
     "ILLUSTRATIVE geometry: wing area 11.15 m^2 (120 ft^2) and AR 8 from Gudmundsson Example 3-1; planform, tail and CG are AeroSuite assumptions, not Cessna 162 data.",
     "Units: SI. Analysis is computed by the official flow5 executable.",
-    "P-1 (F6): fuselage added as a flow5 NURBS body (elliptical frames). ILLUSTRATIVE geometry, AeroSuite assumption. VLM1/VLM2 ignore body panels (flow5 UI text), so the panel method QUADS is used."
+    "P-1 (F6): fuselage added as a flow5 NURBS body (elliptical frames). ILLUSTRATIVE geometry, AeroSuite assumption. VLM1/VLM2 ignore body panels (flow5 UI text), so the panel method QUADS is used.",
+    "F6 correction: the Fin is vertical (Rx = -90, single fin) as in vendor/flow5 PlaneRun4. Before F6 it was written with Rx = 0, i.e. a second horizontal surface overlapping the elevator (D-52)."
   ],
   "wings": [
     {
@@ -70,7 +71,7 @@
         0.0,
         0.3
       ],
-      "symmetric": false,
+      "symmetric": true,
       "sections": [
         {
           "y_m": 0.0,
@@ -87,7 +88,9 @@
           "nx": 9,
           "ny": 7
         }
-      ]
+      ],
+      "rx_deg": -90.0,
+      "two_sided": false
     }
   ],
   "point_masses": [

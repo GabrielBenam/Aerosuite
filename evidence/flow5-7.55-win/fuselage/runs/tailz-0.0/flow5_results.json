@@ -1,0 +1,662 @@
+{
+  "schema": "aerosuite-flow5-results",
+  "schema_version": 1,
+  "source": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\q-tailz-0.0\\output",
+  "engine": "flow5 v7.57 (original executable)",
+  "polars": [
+    {
+      "path": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\q-tailz-0.0\\output\\AeroSuite_C162-like_wing-tail\\AeroSuite C162-like wing-tail\\FIXEDSPEEDPOLAR-VLM2-55_6mps.csv",
+      "plane": "AeroSuite C162-like wing-tail",
+      "polar": "FIXEDSPEEDPOLAR-VLM2-55.6mps",
+      "polar_type": "Type 1: Fixed speed",
+      "condition_line": "Freestream speed = 55.600 m/s",
+      "properties_text": "Type 1: Fixed speed\nV∞ = 56m/s\nQuads/VLM2\nWings as thin surfaces\nB.C. = Neumann\nLift & drag: in the far field plane\nInviscid analysis\nRef. dimensions = Custom\n   Area  =   11.139 m²\n   Span  =    9.440 m\n   Chord =    1.181 m\nFluid properties:\n   ρ =   0.96287 kg/m³\n   ν = 1.7779e-05 m²/s\nInertia:\n   Using plane inertia\n   Mass =  598.740 kg\n   CoG = (0.400, 0.000, 0.000)m\nFlat panel wake:\n   Nb. of wake panels = 5\n   Length             = 30 x MAC\n   Progression factor =    1.10\n\nXNP = d(XCp.Cl)/dCl =     0.69 m\nStatic margin       = 24.9519\nNbr. of data points = 5\nAeroSuite C162-like wing-tail",
+      "columns": [
+        {
+          "label": "Ctrl",
+          "key": "ctrl",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "α (°)",
+          "key": "alpha_deg",
+          "unit_read": "°",
+          "unit_si": "deg"
+        },
+        {
+          "label": "β (°)",
+          "key": "beta_deg",
+          "unit_read": "°",
+          "unit_si": "deg"
+        },
+        {
+          "label": "φ (°)",
+          "key": "phi_deg",
+          "unit_read": "°",
+          "unit_si": "deg"
+        },
+        {
+          "label": "CL",
+          "key": "CL",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "CD",
+          "key": "CD",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "CD_viscous",
+          "key": "CD_viscous",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "CD_induced",
+          "key": "CD_induced",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "CY",
+          "key": "CY",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cm",
+          "key": "Cm",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cm_viscous",
+          "key": "Cm_viscous",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cm_pressure",
+          "key": "Cm_pressure",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cl",
+          "key": "Cl_roll",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cn",
+          "key": "Cn",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cn_viscous",
+          "key": "Cn_viscous",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Cn_pressure",
+          "key": "Cn_pressure",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "CL/CD",
+          "key": "CL_CD",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "CL^(3/2)/CD",
+          "key": "CL32_CD",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "1/sqrt(CL)",
+          "key": "inv_sqrt_CL",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Lift (N)",
+          "key": "lift_N",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Drag (N)",
+          "key": "drag_N",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fx_FF (N)",
+          "key": "Fx_FF",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fy_FF (N)",
+          "key": "Fy_FF",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fz_FF (N)",
+          "key": "Fz_FF",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fx_sum (N)",
+          "key": "Fx_sum",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fy_sum (N)",
+          "key": "Fy_sum",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fz_sum (N)",
+          "key": "Fz_sum",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Extra drag (N)",
+          "key": "extra_drag_N",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Fuse drag (N)",
+          "key": "fuse_drag_N",
+          "unit_read": "N",
+          "unit_si": "N"
+        },
+        {
+          "label": "Cf_Fuse",
+          "key": "Cf_fuse",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Vx (m/s)",
+          "key": "Vx_mps",
+          "unit_read": "m/s",
+          "unit_si": "m/s"
+        },
+        {
+          "label": "Vz (m/s)",
+          "key": "Vz_mps",
+          "unit_read": "m/s",
+          "unit_si": "m/s"
+        },
+        {
+          "label": "V (m/s)",
+          "key": "V_mps",
+          "unit_read": "m/s",
+          "unit_si": "m/s"
+        },
+        {
+          "label": "Gamma",
+          "key": "glide_angle_deg",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "L (N.m)",
+          "key": "L_roll_Nm",
+          "unit_read": "N.m",
+          "unit_si": "N.m"
+        },
+        {
+          "label": "M (N.m)",
+          "key": "M_pitch_Nm",
+          "unit_read": "N.m",
+          "unit_si": "N.m"
+        },
+        {
+          "label": "N (N.m)",
+          "key": "N_yaw_Nm",
+          "unit_read": "N.m",
+          "unit_si": "N.m"
+        },
+        {
+          "label": "CPx (m)",
+          "key": "CPx_m",
+          "unit_read": "m",
+          "unit_si": "m"
+        },
+        {
+          "label": "CPy (m)",
+          "key": "CPy_m",
+          "unit_read": "m",
+          "unit_si": "m"
+        },
+        {
+          "label": "CPz (m)",
+          "key": "CPz_m",
+          "unit_read": "m",
+          "unit_si": "m"
+        },
+        {
+          "label": "BM (N.m)",
+          "key": "root_bending_Nm",
+          "unit_read": "N.m",
+          "unit_si": "N.m"
+        },
+        {
+          "label": "m.g.Vz (W)",
+          "key": "mgVz_W",
+          "unit_read": "W",
+          "unit_si": "W"
+        },
+        {
+          "label": "Drag x V (W)",
+          "key": "dragV_W",
+          "unit_read": "W",
+          "unit_si": "W"
+        },
+        {
+          "label": "Efficiency",
+          "key": "span_efficiency",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "XCp.Cl",
+          "key": "XCp_Cl",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "XNP (m)",
+          "key": "XNP_m",
+          "unit_read": "m",
+          "unit_si": "m"
+        },
+        {
+          "label": "Phugoid Freq. (Hz)",
+          "key": "phugoid_freq_Hz",
+          "unit_read": "Hz",
+          "unit_si": "Hz"
+        },
+        {
+          "label": "Phugoid Damping",
+          "key": "phugoid_damping",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Short Period Freq. (Hz)",
+          "key": "short_period_freq_Hz",
+          "unit_read": "Hz",
+          "unit_si": "Hz"
+        },
+        {
+          "label": "Short Period Damping Ratio",
+          "key": "short_period_damping_ratio",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Dutch Roll Freq. (Hz)",
+          "key": "dutch_roll_freq_Hz",
+          "unit_read": "Hz",
+          "unit_si": "Hz"
+        },
+        {
+          "label": "Dutch Roll Damping",
+          "key": "dutch_roll_damping",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Roll Damping",
+          "key": "roll_damping",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Spiral Damping",
+          "key": "spiral_damping",
+          "unit_read": null,
+          "unit_si": null
+        },
+        {
+          "label": "Mass (kg)",
+          "key": "mass_kg",
+          "unit_read": "kg",
+          "unit_si": "kg"
+        },
+        {
+          "label": "CoG_x (m)",
+          "key": "CoG_x_m",
+          "unit_read": "m",
+          "unit_si": "m"
+        },
+        {
+          "label": "CoG_z (m)",
+          "key": "CoG_z_m",
+          "unit_read": "m",
+          "unit_si": "m"
+        }
+      ],
+      "rows": [
+        {
+          "ctrl": 0.0,
+          "alpha_deg": -2.0,
+          "beta_deg": 0.0,
+          "phi_deg": 0.0,
+          "CL": -0.024467,
+          "CD": 0.00093826,
+          "CD_viscous": 0.0,
+          "CD_induced": 0.00093826,
+          "CY": -9.7108e-08,
+          "Cm": 0.1433,
+          "Cm_viscous": 0.0,
+          "Cm_pressure": 0.1433,
+          "Cl_roll": 7.3894e-09,
+          "Cn": -5.4796e-08,
+          "Cn_viscous": 0.0,
+          "Cn_pressure": -5.4796e-08,
+          "CL_CD": -26.077,
+          "CL32_CD": -4.079,
+          "inv_sqrt_CL": 0.0,
+          "lift_N": -405.63,
+          "drag_N": 15.555,
+          "Fx_FF": 1.3892,
+          "Fy_FF": -0.0016099,
+          "Fz_FF": -405.92,
+          "Fx_sum": -14.173,
+          "Fy_sum": -0.0016,
+          "Fz_sum": -405.86,
+          "extra_drag_N": 0.0,
+          "fuse_drag_N": 0.0,
+          "Cf_fuse": 0.0,
+          "Vx_mps": 55.559,
+          "Vz_mps": -8.1134,
+          "V_mps": 55.6,
+          "glide_angle_deg": -2.1961,
+          "L_roll_Nm": 0.00085646,
+          "M_pitch_Nm": 2806.6,
+          "N_yaw_Nm": -0.0086107,
+          "CPx_m": 7.3144,
+          "CPy_m": 8.4786e-08,
+          "CPz_m": -0.025392,
+          "root_bending_Nm": 256.85,
+          "mgVz_W": -47655.0,
+          "dragV_W": 864.85,
+          "span_efficiency": 0.025387,
+          "XCp_Cl": -0.17896,
+          "XNP_m": 0.6919,
+          "phugoid_freq_Hz": 0.0,
+          "phugoid_damping": 0.0,
+          "short_period_freq_Hz": 0.0,
+          "short_period_damping_ratio": 0.0,
+          "dutch_roll_freq_Hz": 0.0,
+          "dutch_roll_damping": 0.0,
+          "roll_damping": 0.0,
+          "spiral_damping": 0.0,
+          "mass_kg": 598.74,
+          "CoG_x_m": 0.4,
+          "CoG_z_m": 0.0
+        },
+        {
+          "ctrl": 0.0,
+          "alpha_deg": 0.0,
+          "beta_deg": 0.0,
+          "phi_deg": 0.0,
+          "CL": 0.15654,
+          "CD": 0.0016811,
+          "CD_viscous": 0.0,
+          "CD_induced": 0.0016811,
+          "CY": -9.6945e-08,
+          "Cm": 0.098492,
+          "Cm_viscous": 0.0,
+          "Cm_pressure": 0.098492,
+          "Cl_roll": 5.5381e-09,
+          "Cn": -5.5286e-08,
+          "Cn_viscous": 0.0,
+          "Cn_pressure": -5.5286e-08,
+          "CL_CD": 93.12,
+          "CL32_CD": 36.843,
+          "inv_sqrt_CL": 2.5275,
+          "lift_N": 2595.2,
+          "drag_N": 27.87,
+          "Fx_FF": 27.87,
+          "Fy_FF": -0.0016072,
+          "Fz_FF": 2595.2,
+          "Fx_sum": 0.0,
+          "Fy_sum": -0.0016067,
+          "Fz_sum": 2595.7,
+          "extra_drag_N": 0.0,
+          "fuse_drag_N": 0.0,
+          "Cf_fuse": 0.0,
+          "Vx_mps": 55.597,
+          "Vz_mps": 0.89825,
+          "V_mps": 55.6,
+          "glide_angle_deg": 0.61527,
+          "L_roll_Nm": 0.00086672,
+          "M_pitch_Nm": 1929.0,
+          "N_yaw_Nm": -0.0086522,
+          "CPx_m": -0.34315,
+          "CPy_m": -1.1686e-08,
+          "CPz_m": 0.012721,
+          "root_bending_Nm": 2965.0,
+          "mgVz_W": 5276.0,
+          "dragV_W": 1549.6,
+          "span_efficiency": 0.58001,
+          "XCp_Cl": -0.053718,
+          "XNP_m": 0.69337,
+          "phugoid_freq_Hz": 0.0,
+          "phugoid_damping": 0.0,
+          "short_period_freq_Hz": 0.0,
+          "short_period_damping_ratio": 0.0,
+          "dutch_roll_freq_Hz": 0.0,
+          "dutch_roll_damping": 0.0,
+          "roll_damping": 0.0,
+          "spiral_damping": 0.0,
+          "mass_kg": 598.74,
+          "CoG_x_m": 0.4,
+          "CoG_z_m": 0.0
+        },
+        {
+          "ctrl": 0.0,
+          "alpha_deg": 2.0,
+          "beta_deg": 0.0,
+          "phi_deg": 0.0,
+          "CL": 0.33725,
+          "CD": 0.0048066,
+          "CD_viscous": 0.0,
+          "CD_induced": 0.0048066,
+          "CY": -9.6547e-08,
+          "Cm": 0.053363,
+          "Cm_viscous": 0.0,
+          "Cm_pressure": 0.053363,
+          "Cl_roll": 3.6533e-09,
+          "Cn": -5.5584e-08,
+          "Cn_viscous": 0.0,
+          "Cn_pressure": -5.5584e-08,
+          "CL_CD": 70.164,
+          "CL32_CD": 40.747,
+          "inv_sqrt_CL": 1.722,
+          "lift_N": 5591.1,
+          "drag_N": 79.686,
+          "Fx_FF": -115.49,
+          "Fy_FF": -0.0016006,
+          "Fz_FF": 5590.5,
+          "Fx_sum": -195.24,
+          "Fy_sum": -0.0016097,
+          "Fz_sum": 5590.9,
+          "extra_drag_N": 0.0,
+          "fuse_drag_N": 0.0,
+          "Cf_fuse": 0.0,
+          "Vx_mps": 55.594,
+          "Vz_mps": 0.8122,
+          "V_mps": 55.6,
+          "glide_angle_deg": 0.81654,
+          "L_roll_Nm": 0.00087498,
+          "M_pitch_Nm": 1045.1,
+          "N_yaw_Nm": -0.0086736,
+          "CPx_m": 0.21272,
+          "CPy_m": -4.6832e-09,
+          "CPz_m": 0.0099543,
+          "root_bending_Nm": 5666.1,
+          "mgVz_W": 4770.6,
+          "dragV_W": 4430.5,
+          "span_efficiency": 0.94152,
+          "XCp_Cl": 0.07174,
+          "XNP_m": 0.69475,
+          "phugoid_freq_Hz": 0.0,
+          "phugoid_damping": 0.0,
+          "short_period_freq_Hz": 0.0,
+          "short_period_damping_ratio": 0.0,
+          "dutch_roll_freq_Hz": 0.0,
+          "dutch_roll_damping": 0.0,
+          "roll_damping": 0.0,
+          "spiral_damping": 0.0,
+          "mass_kg": 598.74,
+          "CoG_x_m": 0.4,
+          "CoG_z_m": 0.0
+        },
+        {
+          "ctrl": 0.0,
+          "alpha_deg": 4.0,
+          "beta_deg": 0.0,
+          "phi_deg": 0.0,
+          "CL": 0.51719,
+          "CD": 0.010287,
+          "CD_viscous": 0.0,
+          "CD_induced": 0.010287,
+          "CY": -9.5915e-08,
+          "Cm": 0.0081325,
+          "Cm_viscous": 0.0,
+          "Cm_pressure": 0.0081325,
+          "Cl_roll": 1.7505e-09,
+          "Cn": -5.5688e-08,
+          "Cn_viscous": 0.0,
+          "Cn_pressure": -5.5688e-08,
+          "CL_CD": 50.279,
+          "CL32_CD": 36.158,
+          "inv_sqrt_CL": 1.3905,
+          "lift_N": 8574.2,
+          "drag_N": 170.53,
+          "Fx_FF": -427.99,
+          "Fy_FF": -0.0015901,
+          "Fz_FF": 8565.2,
+          "Fx_sum": -598.94,
+          "Fy_sum": -0.0016092,
+          "Fz_sum": 8565.3,
+          "extra_drag_N": 0.0,
+          "fuse_drag_N": 0.0,
+          "Cf_fuse": 0.0,
+          "Vx_mps": 55.589,
+          "Vz_mps": 0.91527,
+          "V_mps": 55.6,
+          "glide_angle_deg": 1.1394,
+          "L_roll_Nm": 0.00088122,
+          "M_pitch_Nm": 159.28,
+          "N_yaw_Nm": -0.0086748,
+          "CPx_m": 0.38077,
+          "CPy_m": -2.5661e-09,
+          "CPz_m": 0.0091179,
+          "root_bending_Nm": 8347.1,
+          "mgVz_W": 5375.9,
+          "dragV_W": 9481.7,
+          "span_efficiency": 1.0347,
+          "XCp_Cl": 0.19693,
+          "XNP_m": 0.69605,
+          "phugoid_freq_Hz": 0.0,
+          "phugoid_damping": 0.0,
+          "short_period_freq_Hz": 0.0,
+          "short_period_damping_ratio": 0.0,
+          "dutch_roll_freq_Hz": 0.0,
+          "dutch_roll_damping": 0.0,
+          "roll_damping": 0.0,
+          "spiral_damping": 0.0,
+          "mass_kg": 598.74,
+          "CoG_x_m": 0.4,
+          "CoG_z_m": 0.0
+        },
+        {
+          "ctrl": 0.0,
+          "alpha_deg": 6.0,
+          "beta_deg": 0.0,
+          "phi_deg": 0.0,
+          "CL": 0.6959,
+          "CD": 0.018064,
+          "CD_viscous": 0.0,
+          "CD_induced": 0.018064,
+          "CY": -9.5051e-08,
+          "Cm": -0.036978,
+          "Cm_viscous": 0.0,
+          "Cm_pressure": -0.036978,
+          "Cl_roll": -1.5474e-10,
+          "Cn": -5.5596e-08,
+          "Cn_viscous": 0.0,
+          "Cn_pressure": -5.5596e-08,
+          "CL_CD": 38.525,
+          "CL32_CD": 32.138,
+          "inv_sqrt_CL": 1.1987,
+          "lift_N": 11537.0,
+          "drag_N": 299.47,
+          "Fx_FF": -908.11,
+          "Fy_FF": -0.0015758,
+          "Fz_FF": 11505.0,
+          "Fx_sum": -1209.1,
+          "Fy_sum": -0.001605,
+          "Fz_sum": 11504.0,
+          "extra_drag_N": 0.0,
+          "fuse_drag_N": 0.0,
+          "Cf_fuse": 0.0,
+          "Vx_mps": 55.581,
+          "Vz_mps": 1.0298,
+          "V_mps": 55.6,
+          "glide_angle_deg": 1.4869,
+          "L_roll_Nm": 0.0008854,
+          "M_pitch_Nm": -724.23,
+          "N_yaw_Nm": -0.0086557,
+          "CPx_m": 0.46204,
+          "CPy_m": -1.5422e-09,
+          "CPz_m": 0.0087134,
+          "root_bending_Nm": 10995.0,
+          "mgVz_W": 6048.6,
+          "dragV_W": 16650.0,
+          "span_efficiency": 1.0667,
+          "XCp_Cl": 0.32153,
+          "XNP_m": 0.69727,
+          "phugoid_freq_Hz": 0.0,
+          "phugoid_damping": 0.0,
+          "short_period_freq_Hz": 0.0,
+          "short_period_damping_ratio": 0.0,
+          "dutch_roll_freq_Hz": 0.0,
+          "dutch_roll_damping": 0.0,
+          "roll_damping": 0.0,
+          "spiral_damping": 0.0,
+          "mass_kg": 598.74,
+          "CoG_x_m": 0.4,
+          "CoG_z_m": 0.0
+        }
+      ],
+      "unconverted": [],
+      "schema": "aerosuite-flow5-results",
+      "schema_version": 1
+    }
+  ],
+  "operating_points": [],
+  "errors": []
+}

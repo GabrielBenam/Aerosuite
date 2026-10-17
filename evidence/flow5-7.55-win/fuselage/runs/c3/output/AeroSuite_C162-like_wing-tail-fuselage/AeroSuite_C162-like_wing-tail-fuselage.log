@@ -1,0 +1,439 @@
+
+flow5 v7.55
+16.10.2026  19:11:47
+Reading foil .dat files
+   added foil: NACA 2412
+   added foil: NACA 0009
+
+Making foil analysis list
+No foil analysis requested
+
+
+Available foils:
+   NACA 0009
+   NACA 2412
+
+
+
+-----Starting plane analyses-----
+
+Adding planes from the .xml files
+   added the plane: AeroSuite C162-like wing-tail-fuselage from file AeroSuite_C162-like_wing-tail-fuselage.xml
+
+
+Adding the plane analyses from the xml files
+   the analysis FIXEDSPEEDPOLAR-TRILINEAR-55.6mps has been added for AeroSuite C162-like wing-tail-fuselage
+
+Making the analysis pairs (plane, analysis)
+   added analysis for (AeroSuite C162-like wing-tail-fuselage, FIXEDSPEEDPOLAR-TRILINEAR-55.6mps)
+   Made 1 valid analysis pairs (plane, polar) to run
+
+Launching plane analysis: AeroSuite C162-like wing-tail-fuselage / FIXEDSPEEDPOLAR-TRILINEAR-55.6mps
+Initializing task
+
+AeroSuite C162-like wing-tail-fuselage
+FIXEDSPEEDPOLAR-TRILINEAR-55.6mps
+
+Checking plane and polar data
+   ...done
+
+FIXEDSPEEDPOLAR-TRILINEAR-55.6mps
+Type 1 - Fixed speed polar
+
+ρ =   0.96287 kg/m³
+ν = 1.7779e-05 m²/s
+
+RFF         = 10
+Core radius = 1e-06 m
+
+Running in multi-threaded mode
+
+Linear system calculations in floating point double precision
+
+Using S. Nintcheu-Fata's method for off-plane integrals
+
+Initializing the triangle analysis
+Checking element sizes
+   ...done
+
+Setting flap positions
+
+Connecting triangular panels...   done in 0.106 s
+Counted 2648 elements
+Matrix size = 7944
+
+Allocating result arrays
+
+Solving the problem... 
+
+   Making the unit RHS vectors...       done in 0.903 s
+   Making the influence matrix...       done in 4.204 s
+   Adding the wake's contribution...    done in 1.368 s
+   LAPACK - LU factorization...         done in 2.849 s
+   Back-substituting RHS...             done in 0.113 s
+   Making unit panel velocities...      done
+
+   Calculating 7 operating points
+     α=-4°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -1.7306         Cxu  =  -0.0058039
+                Xw  =     -21.024         Cxa  =   -0.070511
+                Xq  =      184.09         Cxq  =      1.0452
+                Zu  =      107.88         Czu  =      1.0704
+                Zw  =     -1383.5         CZa  =     -4.6399
+                Zq  =       -1544         CZq  =     -8.7667
+                Mu  =      103.72         Cmu  =     0.29445
+                Mw  =     -503.92         Cma  =     -1.4306
+                Mq  =     -3575.8         Cmq  =     -17.185
+                Neutral Point position = 0.764239 m
+
+             Lateral derivatives
+                Yv  =     0.12313         CYb  =  0.00041295
+                Yp  =      -12.38         CYp  =  -0.0087966
+                Yr  =     -0.1706         CYr  = -0.00012122
+                Lv  =      75.259         Clb  =    0.026737
+                Lp  =     -6847.7         Clp  =    -0.51542
+                Lr  =      23.711         Clr  =   0.0017847
+                Nv  =      14.903         Cnb  =   0.0052948
+                Np  =     -46.556         Cnp  =  -0.0035043
+                Nr  =      235.12         Cnr  =    0.017697
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+          -0.00289032         -0.0351141                  0              -9.81
+             0.180176           -2.31066            53.0212                  0
+                  inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          0.000205647         -0.0206769           -55.6003               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=-2°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =    -0.58527         Cxu  =  -0.0019629
+                Xw  =     -5.7523         Cxa  =   -0.019292
+                Xq  =      92.213         Cxq  =     0.52356
+                Zu  =      11.173         Czu  =     0.74606
+                Zw  =     -1387.2         CZa  =     -4.6525
+                Zq  =     -1556.3         CZq  =     -8.8362
+                Mu  =       69.65         Cmu  =     0.19773
+                Mw  =     -471.79         Cma  =     -1.3393
+                Mq  =     -3547.9         Cmq  =     -17.051
+                Neutral Point position = 0.740089 m
+
+             Lateral derivatives
+                Yv  =    0.099563         CYb  =  0.00033391
+                Yp  =     -10.713         CYp  =  -0.0076124
+                Yr  =    -0.11309         CYr  = -8.0357e-05
+                Lv  =      35.321         Clb  =    0.012548
+                Lp  =       -6818         Clp  =    -0.51319
+                Lr  =      59.596         Clr  =   0.0044858
+                Nv  =      11.562         Cnb  =   0.0041078
+                Np  =     -36.174         Cnp  =  -0.0027228
+                Nr  =         200         Cnr  =    0.015054
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+         -0.000977502        -0.00960731                  0              -9.81
+              0.01866           -2.31694            53.0007                  0
+                  inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          0.000166288         -0.0178934           -55.6002               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=0°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -1.7575         Cxu  =  -0.0058943
+                Xw  =      9.4181         Cxa  =    0.031586
+                Xq  =    -0.28964         Cxq  =  -0.0016445
+                Zu  =     -85.656         Czu  =     0.42132
+                Zw  =       -1387         CZa  =     -4.6517
+                Zq  =     -1562.1         CZq  =     -8.8692
+                Mu  =      37.902         Cmu  =      0.1076
+                Mw  =     -437.36         Cma  =     -1.2416
+                Mq  =     -3515.7         Cmq  =     -16.896
+                Neutral Point position = 0.715326 m
+
+             Lateral derivatives
+                Yv  =    0.075876         CYb  =  0.00025447
+                Yp  =     -9.0469         CYp  =  -0.0064282
+                Yr  =    -0.17199         CYr  =  -0.0001222
+                Lv  =     -4.7534         Clb  =  -0.0016887
+                Lp  =     -6794.2         Clp  =     -0.5114
+                Lr  =      91.627         Clr  =   0.0068968
+                Nv  =      11.016         Cnb  =   0.0039135
+                Np  =     -29.528         Cnp  =  -0.0022226
+                Nr  =      178.79         Cnr  =    0.013457
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+          -0.00293537          0.0157299                  0              -9.81
+             -0.14306           -2.31652             52.991                  0
+                  inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          0.000126726         -0.0151099           -55.6003               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=2°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -5.2445         Cxu  =   -0.017589
+                Xw  =      24.711         Cxa  =    0.082876
+                Xq  =     -92.972         Cxq  =    -0.52787
+                Zu  =     -182.25         Czu  =    0.097381
+                Zw  =     -1382.7         CZa  =     -4.6374
+                Zq  =     -1561.4         CZq  =     -8.8655
+                Mu  =       8.633         Cmu  =    0.024508
+                Mw  =     -400.79         Cma  =     -1.1378
+                Mq  =     -3479.2         Cmq  =     -16.721
+                Neutral Point position = 0.689855 m
+
+             Lateral derivatives
+                Yv  =    0.052097         CYb  =  0.00017472
+                Yp  =     -7.3885         CYp  =  -0.0052499
+                Yr  =    -0.34699         CYr  = -0.00024655
+                Lv  =     -44.768         Clb  =   -0.015905
+                Lp  =     -6776.6         Clp  =    -0.51008
+                Lr  =      121.27         Clr  =   0.0091278
+                Nv  =      13.265         Cnb  =   0.0047128
+                Np  =     -25.127         Cnp  =  -0.0018913
+                Nr  =      171.83         Cnr  =    0.012934
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+          -0.00875927          0.0412722                  0              -9.81
+            -0.304382           -2.30942            52.9921                  0
+                  inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          8.70103e-05         -0.0123401           -55.6006               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=4°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -11.015         Cxu  =   -0.036943
+                Xw  =       40.35         Cxa  =     0.13533
+                Xq  =     -185.38         Cxq  =     -1.0526
+                Zu  =     -278.24         Czu  =    -0.22455
+                Zw  =     -1374.5         CZa  =     -4.6098
+                Zq  =     -1554.3         CZq  =      -8.825
+                Mu  =     -18.014         Cmu  =   -0.051139
+                Mw  =     -362.28         Cma  =     -1.0285
+                Mq  =     -3438.5         Cmq  =     -16.525
+                Neutral Point position = 0.66357 m
+
+             Lateral derivatives
+                Yv  =    0.028254         CYb  =  9.4756e-05
+                Yp  =     -5.7463         CYp  =   -0.004083
+                Yr  =    -0.63725         CYr  =  -0.0004528
+                Lv  =     -84.528         Clb  =    -0.03003
+                Lp  =     -6765.4         Clp  =    -0.50923
+                Lr  =      150.01         Clr  =    0.011291
+                Nv  =      18.301         Cnb  =   0.0065018
+                Np  =     -21.448         Cnp  =  -0.0016144
+                Nr  =      179.31         Cnr  =    0.013496
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+           -0.0183975          0.0673919                  0              -9.81
+            -0.464705           -2.29567             53.004                  0
+                 -inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          4.71883e-05        -0.00959739           -55.6011               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=6°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -19.011         Cxu  =   -0.063759
+                Xw  =      56.553         Cxa  =     0.18967
+                Xq  =     -277.07         Cxq  =     -1.5731
+                Zu  =     -373.28         Czu  =     -0.5433
+                Zw  =     -1362.4         CZa  =     -4.5691
+                Zq  =     -1540.8         CZq  =     -8.7481
+                Mu  =      -41.91         Cmu  =    -0.11898
+                Mw  =        -322         Cma  =    -0.91411
+                Mq  =     -3393.5         Cmq  =     -16.309
+                Neutral Point position = 0.636353 m
+
+             Lateral derivatives
+                Yv  =   0.0043761         CYb  =  1.4676e-05
+                Yp  =     -4.1284         CYp  =  -0.0029334
+                Yr  =     -1.0414         CYr  = -0.00073993
+                Lv  =     -123.84         Clb  =   -0.043997
+                Lp  =     -6760.6         Clp  =    -0.50887
+                Lr  =      179.34         Clr  =    0.013499
+                Nv  =      26.098         Cnb  =   0.0092718
+                Np  =     -16.965         Cnp  =  -0.0012769
+                Nr  =      201.19         Cnr  =    0.015144
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+           -0.0317517          0.0944535                  0              -9.81
+            -0.623438           -2.27539            53.0266                  0
+                 -inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          7.30886e-06         -0.0068952           -55.6017               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=8°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Adding interpolated viscous drag...
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -29.146         Cxu  =   -0.097747
+                Xw  =      73.531         Cxa  =     0.24661
+                Xq  =     -367.59         Cxq  =     -2.0871
+                Zu  =     -467.02         Czu  =    -0.85768
+                Zw  =     -1346.4         CZa  =     -4.5155
+                Zq  =     -1520.9         CZq  =      -8.635
+                Mu  =     -62.937         Cmu  =    -0.17867
+                Mw  =     -280.15         Cma  =    -0.79531
+                Mq  =     -3344.5         Cmq  =     -16.074
+                Neutral Point position = 0.608074 m
+
+             Lateral derivatives
+                Yv  =   -0.019507         CYb  = -6.5421e-05
+                Yp  =     -2.5427         CYp  =  -0.0018067
+                Yr  =     -1.5573         CYr  =  -0.0011066
+                Lv  =     -162.51         Clb  =   -0.057736
+                Lp  =       -6762         Clp  =    -0.50897
+                Lr  =      210.76         Clr  =    0.015864
+                Nv  =      36.618         Cnb  =    0.013009
+                Np  =     -10.156         Cnp  = -0.00076443
+                Nr  =       237.3         Cnr  =    0.017862
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+           -0.0486781           0.122809                  0              -9.81
+            -0.780003           -2.24872            53.0599                  0
+                 -inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+         -3.25795e-05        -0.00424667           -55.6026               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+
+Done plane task.
+
+Panel analysis completed successfully
+
+_____Plane analyses completed_____
+
+
+
+-----Starting boat analyses-----
+
+No xml Boat files to load
+
+Making the analysis pairs (boat, analysis)
+
+Made 0 valid analysis pairs (boat, polar) to run
+
+_____ Boat analyses completed_____
+
+
