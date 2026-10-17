@@ -1,0 +1,151 @@
+
+flow5 v7.55
+16.10.2026  19:18:19
+Reading foil .dat files
+   added foil: NACA 2412
+   added foil: NACA 0009
+
+Making foil analysis list
+No foil analysis requested
+
+
+Available foils:
+   NACA 0009
+   NACA 2412
+
+
+
+-----Starting plane analyses-----
+
+Adding planes from the .xml files
+   added the plane: AeroSuite C162-like stability from file AeroSuite_C162-like_stability.xml
+
+
+Adding the plane analyses from the xml files
+   the analysis STABILITYPOLAR-VLM2-55.6mps has been added for AeroSuite C162-like stability
+
+Making the analysis pairs (plane, analysis)
+   added analysis for (AeroSuite C162-like stability, STABILITYPOLAR-VLM2-55.6mps)
+   Made 1 valid analysis pairs (plane, polar) to run
+
+Launching plane analysis: AeroSuite C162-like stability / STABILITYPOLAR-VLM2-55.6mps
+Initializing task
+
+AeroSuite C162-like stability
+STABILITYPOLAR-VLM2-55.6mps
+
+Checking plane and polar data
+   ...done
+
+STABILITYPOLAR-VLM2-55.6mps
+Type 7 - Stability polar
+
+ρ =   0.96287 kg/m³
+ν = 1.7779e-05 m²/s
+
+RFF         = 10
+Core radius = 1e-06 m
+
+Running in multi-threaded mode
+
+Linear system calculations in floating point double precision
+
+Using S. Nintcheu-Fata's method for off-plane integrals
+
+Initializing the quad analysis
+Setting flap positions
+
+Connecting triangular panels...   done in 0.059 s
+Counted 579 elements
+Matrix size = 579
+
+Allocating result arrays
+
+Solving the problem... 
+
+   Making the unit RHS vectors...       done in 0.001 s
+   Making the influence matrix...       done in 0.015 s
+   LAPACK - LU factorization...         done in 0.002 s
+   Back-substituting RHS...             done in 0.000 s
+   Making unit panel velocities...   done
+      Calculating trimmed conditions
+      Calculating far field forces...
+      Calculating Plane for α=1.50°
+          Adding interpolated viscous drag...
+             ...done.
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -2.4993         Cxu  =  -0.0080178
+                Xw  =      60.759         Cxa  =     0.19491
+                Xq  =     -109.43         Cxq  =    -0.59429
+                Zu  =      -202.1         Czu  = -1.1713e-05
+                Zw  =     -1616.1         CZa  =     -5.1844
+                Zq  =     -1480.3         CZq  =     -8.0396
+                Mu  =  3.0386e-09         Cmu  =  8.2511e-12
+                Mw  =     -195.33         Cma  =     -0.5304
+                Mq  =     -4017.8         Cmq  =      -18.47
+                Neutral Point position = 0.700775 m
+
+             Lateral derivatives
+                Yv  =     -80.632         CYb  =    -0.25867
+                Yp  =      25.189         CYp  =     0.01712
+                Yr  =      375.99         CYr  =     0.25554
+                Lv  =     -42.637         Clb  =   -0.014489
+                Lp  =     -7528.2         Clp  =    -0.54201
+                Lr  =       64.61         Clr  =   0.0046518
+                Nv  =      344.09         Cnb  =     0.11693
+                Np  =     -137.57         Cnp  =  -0.0099051
+                Nr  =     -1612.8         Cnr  =    -0.11612
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+          -0.00417431           0.101478                  0              -9.81
+            -0.337545           -2.69917            55.6543                  0
+          4.00767e-12          -0.257621           -5.29917                  0
+                    0                  0                  1                  0
+       Lateral state matrix
+            -0.134669          0.0420708           -57.4987               9.81
+           -0.0648124           -12.5042          0.0792028                  0
+             0.254145          -0.233044            -1.1936                  0
+                    0                  1                  0                  0
+
+          Eigenthings computed successfully
+      ___Longitudinal modes___
+
+      Eigenvalue:         -4 +    -3.558i   |          -4 +     3.558i   |   -0.001098 +   -0.1725i   |   -0.001098 +    0.1725i
+                    _____________________________________________________________________________________________________
+      Eigenvector:         1 +         0i   |           1 +         0i   |           1 +         0i   |           1 +         0i
+                       68.36 +    -58.09i   |       68.36 +     58.09i   |    -0.06248 + -0.0009773i   |    -0.06248 + 0.0009773i
+                      -5.306 +    -3.013i   |      -5.306 +     3.013i   |    0.003033 + 0.0001463i   |    0.003033 + -0.0001463i
+                       1.115 +   -0.2382i   |       1.115 +    0.2382i   |   -0.0009598 +   0.01758i   |   -0.0009598 +  -0.01758i
+
+      ___Lateral modes___
+
+      Eigenvalue:     -12.51 +         0i   |     -0.6588 +      -3.8i   |     -0.6588 +       3.8i   |   -0.003016 +         0i
+                    _____________________________________________________________________________________________________
+      Eigenvector:         1 +         0i   |           1 +         0i   |           1 +         0i   |           1 +         0i
+                       7.097 +         0i   |   -0.005033 + -0.001174i   |   -0.005033 +  0.001174i   |   -0.003827 +         0i
+                      0.1237 +         0i   |      0.0092 +   0.06589i   |      0.0092 +  -0.06589i   |      0.2142 +         0i
+                     -0.5672 +         0i   |   0.0005228 + -0.001234i   |   0.0005228 +  0.001234i   |       1.269 +         0i
+
+       Done operating point
+
+
+Panel analysis completed successfully
+
+_____Plane analyses completed_____
+
+
+
+-----Starting boat analyses-----
+
+No xml Boat files to load
+
+Making the analysis pairs (boat, analysis)
+
+Made 0 valid analysis pairs (boat, polar) to run
+
+_____ Boat analyses completed_____
+
+

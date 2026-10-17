@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow5>
+<xflPlanePolar version="1.0">
+    <Units>
+        <length_unit_to_meter>1</length_unit_to_meter>
+        <area_unit_to_m2>1</area_unit_to_m2>
+        <mass_unit_to_kg>1</mass_unit_to_kg>
+        <speed_unit_to_ms>1</speed_unit_to_ms>
+        <inertia_unit_to_kgm2>1</inertia_unit_to_kgm2>
+    </Units>
+    <Polar>
+        <Polar_Name>FIXEDSPEEDPOLAR-VLM2-55.6mps</Polar_Name>
+        <Plane_Name>AeroSuite wing only</Plane_Name>
+        <Type>FIXEDSPEEDPOLAR</Type>
+        <Method>VLM2</Method>
+        <Include_Fuse_Moments>false</Include_Fuse_Moments>
+        <Thin_Surfaces>true</Thin_Surfaces>
+        <Ground_Effect>false</Ground_Effect>
+        <Ground_Height>0</Ground_Height>
+        <Wake>
+            <FlatPanelWake>true</FlatPanelWake>
+            <NX>5</NX>
+            <ProgressionFactor>1.1</ProgressionFactor>
+            <LengthFactor>30</LengthFactor>
+        </Wake>
+        <Reference_Dimensions>
+            <Reference_Dimensions>CUSTOM</Reference_Dimensions>
+            <Reference_Area>11.1392</Reference_Area>
+            <Reference_Span_Length>9.44</Reference_Span_Length>
+            <Reference_Chord_Length>1.18138</Reference_Chord_Length>
+        </Reference_Dimensions>
+        <Fluid>
+            <Viscosity>1.777884e-05</Viscosity>
+            <Density>0.962870</Density>
+        </Fluid>
+        <Viscous_Analysis>
+            <Is_Viscous_Analysis>false</Is_Viscous_Analysis>
+            <XFoil_OnTheFly>false</XFoil_OnTheFly>
+            <From_CL>false</From_CL>
+            <NCrit>9</NCrit>
+            <XTrTop>1</XTrTop>
+            <XTrBot>1</XTrBot>
+        </Viscous_Analysis>
+        <Use_plane_inertia>true</Use_plane_inertia>
+        <Fixed_Velocity>55.6</Fixed_Velocity>
+    </Polar>
+</xflPlanePolar>

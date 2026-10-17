@@ -4,7 +4,8 @@
     "ILLUSTRATIVE geometry: wing area 11.15 m^2 (120 ft^2) and AR 8 from Gudmundsson Example 3-1; planform, tail and CG are AeroSuite assumptions, not Cessna 162 data.",
     "Units: SI. Analysis is computed by the official flow5 executable.",
     "P-3 (F6): point masses give a non-zero inertia tensor (flow5 computes inertia from point masses and wing/tail masses). ILLUSTRATIVE mass distribution, AeroSuite assumption; total 598.74 kg as the MTOW of the base case.",
-    "F6 correction: the Fin is vertical (Rx = -90, single fin) as in vendor/flow5 PlaneRun4. Before F6 it was written with Rx = 0, i.e. a second horizontal surface overlapping the elevator (D-52)."
+    "F6 correction: the Fin is vertical (Rx = -90, single fin) as in vendor/flow5 PlaneRun4. Before F6 it was written with Rx = 0, i.e. a second horizontal surface overlapping the elevator (D-52).",
+    "Elevator incidence 0.5 deg chosen so that the type 7 trim (Cm = 0, L = W) falls at alpha about 1.5 deg; with -2 deg the trim is at 12 deg."
   ],
   "wings": [
     {
@@ -45,7 +46,7 @@
         0.0,
         0.3
       ],
-      "tilt_deg": -2.0,
+      "tilt_deg": 0.5,
       "sections": [
         {
           "y_m": 0.0,

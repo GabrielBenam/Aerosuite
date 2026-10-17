@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow5>
+<xflplane version="1.0">
+    <Units>
+        <length_unit_to_meter>1</length_unit_to_meter>
+        <area_unit_to_m2>1</area_unit_to_m2>
+        <mass_unit_to_kg>1</mass_unit_to_kg>
+        <speed_unit_to_ms>1</speed_unit_to_ms>
+        <inertia_unit_to_kgm2>1</inertia_unit_to_kgm2>
+    </Units>
+    <Plane>
+        <Name>AeroSuite wing only</Name>
+        <wing>
+            <Name>Main wing</Name>
+            <Type>MAINWING</Type>
+            <Position>0, 0, 0</Position>
+            <Tip_Strips>1</Tip_Strips>
+            <Rx_angle>0</Rx_angle>
+            <Ry_angle>1</Ry_angle>
+            <symmetric>true</symmetric>
+            <Two_Sided>true</Two_Sided>
+            <Inertia>
+                <Mass>0</Mass>
+            </Inertia>
+            <Sections>
+                <Section>
+                    <y_position>0</y_position>
+                    <Chord>1.25</Chord>
+                    <xOffset>0</xOffset>
+                    <Dihedral>0</Dihedral>
+                    <Twist>0</Twist>
+                    <x_number_of_panels>13</x_number_of_panels>
+                    <x_panel_distribution>COSINE</x_panel_distribution>
+                    <y_number_of_panels>15</y_number_of_panels>
+                    <y_panel_distribution>UNIFORM</y_panel_distribution>
+                    <Left_Side_FoilName>NACA 2412</Left_Side_FoilName>
+                    <Right_Side_FoilName>NACA 2412</Right_Side_FoilName>
+                </Section>
+                <Section>
+                    <y_position>4.72</y_position>
+                    <Chord>1.11</Chord>
+                    <xOffset>0.035</xOffset>
+                    <Dihedral>1.5</Dihedral>
+                    <Twist>-1.5</Twist>
+                    <x_number_of_panels>13</x_number_of_panels>
+                    <x_panel_distribution>COSINE</x_panel_distribution>
+                    <y_number_of_panels>15</y_number_of_panels>
+                    <y_panel_distribution>UNIFORM</y_panel_distribution>
+                    <Left_Side_FoilName>NACA 2412</Left_Side_FoilName>
+                    <Right_Side_FoilName>NACA 2412</Right_Side_FoilName>
+                </Section>
+            </Sections>
+        </wing>
+    </Plane>
+</xflplane>

@@ -115,3 +115,4 @@ Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ej
 ## Corrida F6: estado
 Plan en `AUTONOMOUS_RUN_F6.md` (bitácora en su §14). P-1: `flow5_xml.py` exporta cuerpos (`fuselage` en la configuración; ejemplo `examples/flow5-c162-like-fuselage.json`); contraste del incremento del fuselaje con flow5 TRILINEAR hecho (D-50). Importante (D-52): la deriva de los modelos de flow5 de F4/F5 era horizontal; los ejemplos están corregidos (`rx_deg −90`, `two_sided false`) y el contraste estático de M16 pasó a −1.2 % en el punto neutro.
 P-2: LLT de flow5 7.55 funciona si el script incluye `analysis.foil_polars` (D-51, `evidence/flow5-7.55-win/llt/`).
+P-3: polar de estabilidad tipo 7 y comparación (`aerosuite/m16_flow5_contrast.py`, `evidence/flow5-7.55-win/stability-t7` y `m19-distribution`, D-53). Pendiente de M16 anotado en D-53 (volumen de cola desde el CG en el punto neutro).

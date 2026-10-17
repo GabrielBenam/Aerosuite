@@ -1,0 +1,32 @@
+Type 7: Stability analysis
+Quads/VLM2
+Wings as thin surfaces
+B.C. = Neumann
+Lift & drag: in the far field plane
+Inviscid analysis
+Ref. dimensions = Custom
+   Area  =   11.139 m²
+   Span  =    9.440 m
+   Chord =    1.181 m
+Fluid properties:
+   ρ =   0.96287 kg/m³
+   ν = 1.7779e-05 m²/s
+Inertia:
+   Using plane inertia
+   Mass =  598.740 kg
+   CoG = (0.580, 0.000, 0.016)m
+   Ixx =   603.6 kg.m²
+   Iyy =   758.2 kg.m²
+   Izz =    1349 kg.m²
+   Ixz =   33.67 kg.m²
+Flat panel wake:
+   Nb. of wake panels = 5
+   Length             = 30 x MAC
+   Progression factor =    1.10
+Nbr. of data points = 1
+AeroSuite C162-like stability
+STABILITYPOLAR-VLM2-55.6mps
+
+
+ Ctrl        α (°)        β (°)        φ (°)        CL           CD           CD_viscous   CD_induced   CY           Cm           Cm_viscous   Cm_pressure  Cl           Cn           Cn_viscous   Cn_pressure  CL/CD        CL^(3/2)/CD  1/sqrt(CL)   Lift (N)     Drag (N)     Fx_FF (N)    Fy_FF (N)    Fz_FF (N)    Fx_sum (N)   Fy_sum (N)   Fz_sum (N)   Extra drag (N)  Fuse drag (N)  Cf_Fuse      Vx (m/s)     Vz (m/s)     V (m/s)      Gamma        L (N.m)      M (N.m)      N (N.m)      CPx (m)      CPy (m)      CPz (m)      BM (N.m)     m.g.Vz (W)   Drag x V (W)  Efficiency   XCp.Cl       XNP (m)      Phugoid Freq. (Hz)  Phugoid Damping  Short Period Freq. (Hz)  Short Period Damping Ratio  Dutch Roll Freq. (Hz)  Dutch Roll Damping  Roll Damping  Spiral Damping  Mass (kg)    CoG_x (m)    CoG_z (m)    
+          0       1.4963            0            0      0.32417    0.0040089            0    0.0040089  -9.4532e-08   4.2717e-12            0   4.2717e-12   6.9389e-09  -5.2797e-08            0  -5.2797e-08       80.862        46.04       1.7564       5873.7       72.639      -80.765   -0.0017129       5873.6      -153.43   -0.0017208       5873.6            0            0            0       58.122      0.71883       58.127      0.70852    0.0014223   9.1439e-08   -0.0089967      0.57993  -7.3766e-09     0.015233       5479.6       4222.1       4222.3        1.043      0.18799      0.70077     0.027458    0.0063658      0.85206      0.74719      0.61389      0.17079     0.055399       229.82       598.74      0.57991     0.015756  

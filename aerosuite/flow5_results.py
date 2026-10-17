@@ -308,17 +308,45 @@ def parse_plane_opp(path: Path) -> Flow5OperatingPoint:
     return Flow5OperatingPoint(str(path), plane, polar, scalars, derivs, controls, flaps, span, unconverted)
 
 
+# ------------------------------------------------------------------ 2D foil polars written by flow5 (XFoil batch)
+FOIL_POLAR_COLUMNS = ["alpha_deg", "CL", "CD", "CDp", "Cm", "xtr_top", "xtr_bottom", "Cpmin", "Chinge", "XCp"]
+
+
+def parse_foil_polar(path: Path) -> dict:
+    """XFoil-format polar that flow5 writes in ``<output>/<plane>/Foil_polars/<foil>/T1-Re<Re>-N<Ncrit>.csv`` (7.55: XFoil text, one row per alpha)."""
+    text = Path(path).read_text(encoding="utf-8-sig", errors="replace")
+    foil = re.search(r"Calculated polar for:\s*(.+)", text)
+    cond = re.search(r"Mach\s*=\s*([-+\d.eE]+)\s+Re\s*=\s*([-+\d.]+)\s*e\s*([-+\d]+)\s+Ncrit\s*=\s*([-+\d.eE]+)", text)
+    if not (foil and cond):
+        raise ValueError(f"{path}: not a flow5 foil polar")
+    rows = []
+    for line in text.splitlines():
+        tok = line.split()
+        if len(tok) == len(FOIL_POLAR_COLUMNS) and all(_is_number(t) for t in tok):
+            rows.append(dict(zip(FOIL_POLAR_COLUMNS, (float(t) for t in tok))))
+    if not rows:
+        raise ValueError(f"{path}: foil polar without data rows")
+    return {"path": str(path), "foil": foil.group(1).strip(), "mach": float(cond.group(1)),
+            "reynolds": float(cond.group(2)) * 10.0 ** int(cond.group(3)), "ncrit": float(cond.group(4)), "rows": rows}
+
+
 # ------------------------------------------------------------------ job scan
 def collect(output_dir: Path) -> dict:
     """Read every polar and operating point that flow5 wrote under ``output_dir``."""
     output_dir = Path(output_dir)
-    polars, opps, errors = [], [], []
+    polars, opps, errors, foil_polars = [], [], [], []
     # flow5 7.55 (real run, evidence/flow5-7.55-win) nests the files one level deeper than the 7.57 source suggests:
     # <output>/<plane>/<plane name>/<polar>.csv; search recursively and classify each file by its content.
     files = sorted(f for f in output_dir.rglob("*") if f.is_file() and f.suffix.lower() in (".csv", ".txt")
                    and f.name != "flow5_results.json") if output_dir.is_dir() else []
     for f in files:
         text = f.read_text(encoding="utf-8-sig", errors="replace")
+        if "Foil_polars" in f.parts or text.lstrip().startswith("flow5") and "Calculated polar for:" in text:
+            try:
+                foil_polars.append(parse_foil_polar(f))
+            except ValueError as exc:
+                errors.append({"file": str(f), "error": str(exc)})
+            continue
         sep = detect_separator(text)
         is_polar = any(_split(l, sep)[:1] == ["Ctrl"] for l in text.splitlines())
         try:
@@ -333,7 +361,7 @@ def collect(output_dir: Path) -> dict:
             errors.append({"file": str(f), "error": str(exc)})
     return {"schema": SCHEMA, "schema_version": SCHEMA_VERSION, "source": str(output_dir),
             "engine": "flow5 v7.57 (original executable)", "polars": polars,
-            "operating_points": opps, "errors": errors}
+            "operating_points": opps, "foil_polars": foil_polars, "errors": errors}
 
 
 # ------------------------------------------------------------------ derived quantities

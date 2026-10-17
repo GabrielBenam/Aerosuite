@@ -189,3 +189,6 @@ Suite: 337 pruebas, OK (1 omitida) tras añadir `tests/test_flow5_fuselage.py` (
 
 ### P-2 LLT en flow5 7.55 (2026-10-16)
 Fallo reproducido y causa hallada (faltan polares 2D en la base de datos); con `analysis.foil_polars` LLT converge (evidencia `evidence/flow5-7.55-win/llt/`): C_Lα LLT 4.743, VLM2 4.650, M19 4.868 1/rad. Pruebas nuevas: `tests/test_flow5_llt.py` (formato del script y evidencia real). D-51.
+
+### P-3 contrastes con flow5 (2026-10-16)
+M16 dinámica (tipo 7, `stability-t7`): matrices de M16 con derivadas de flow5 reproducen sus modos (fugoide f 0.02745 contra 0.02746 Hz, periodo corto 0.8531 contra 0.8521, balanceo holandés 0.6139 contra 0.6139, espiral T½ 229.8 s contra 229.8); derivadas propias de M16: C_mα +27 %, C_Zq +39 %, el resto ≤ 5 %. M19 C_l(η): VLM2 RMS 0.010-0.066, C_L +4 a +5 %; pérdida desde la raíz en ambos (M19 α = 15°, flow5 LLT ≈ 20°). Lector M-F5R: polares 2D de perfil. Pruebas nuevas `tests/test_p3_flow5_contrast.py` y regresiones en `tests/test_flow5_results.py`. D-53.
