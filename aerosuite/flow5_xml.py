@@ -20,6 +20,9 @@ Input (JSON, SI units):
              "tilt_deg": 0, "symmetric": true,
              "sections": [{"y_m": 0, "chord_m": 1.5, "xoffset_m": 0, "dihedral_deg": 0,
                            "twist_deg": 0, "foil": "NACA 2412", "nx": 13, "ny": 15}]}],
+  "fuselage": {"name": "Fuselage", "position_m": [0, 0, 0], "x_panels": 19, "hoop_panels": 7, "mass_kg": 0,
+               "stations": [{"x_m": -1.0, "width_m": 0, "height_m": 0, "zc_m": 0},
+                            {"x_m": 0.5, "width_m": 1.1, "height_m": 1.3, "zc_m": 0}]},
   "point_masses": [{"tag": "...", "mass_kg": 600, "x_m": 0.4, "y_m": 0, "z_m": 0}],
   "analysis": {"method": "VLM2", "type": "FIXEDSPEEDPOLAR", "velocity_mps": 50,
                "altitude_m": 0, "viscous": true, "xfoil_on_the_fly": true,
@@ -29,6 +32,7 @@ Input (JSON, SI units):
 from __future__ import annotations
 
 import json
+import math
 import re
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -102,6 +106,39 @@ def write_foil(name: str, folder: Path, points: int = 81) -> Path:
     return path
 
 
+def fuselage_xml(fus: dict) -> list[str]:
+    """<body> element (NURBS type, as written by flow5's XflXmlWriter and read by XflXmlReader::readFuseXfl).
+
+    Each station is an ellipse (width_m x height_m, centre at zc_m) described, as flow5 does, by the five points
+    of the +y half-section from the top (y = 0) to the bottom (y = 0); width 0 and height 0 give a point (nose/tail tip).
+    """
+    st = fus["stations"]
+    if len(st) < 2 or [float(s["x_m"]) for s in st] != sorted(float(s["x_m"]) for s in st):
+        raise ValueError("fuselage needs at least two stations with increasing x_m")
+    pos = fus.get("position_m", [0, 0, 0])
+    out = ["        <body>", f"            <Name>{escape(fus.get('name', 'Fuselage'))}</Name>",
+           f"            <Position>{_f(pos[0])}, {_f(pos[1])}, {_f(pos[2])}</Position>",
+           "            <Type>NURBS</Type>",
+           f"            <x_panels>{int(fus.get('x_panels', 19))}</x_panels>",
+           f"            <hoop_panels>{int(fus.get('hoop_panels', 7))}</hoop_panels>",
+           "            <Inertia>", f"                <Volume_Mass>{_f(fus.get('mass_kg', 0))}</Volume_Mass>", "            </Inertia>",
+           "            <NURBS>", "                <u_degree>3</u_degree>", "                <v_degree>3</v_degree>",
+           "                <uAxis>0</uAxis>", "                <vAxis>2</vAxis>",
+           "                <uEdgeWeight>1</uEdgeWeight>", "                <vEdgeWeight>1</vEdgeWeight>",
+           "                <Bunch_amplitude>0</Bunch_amplitude>", "                <Bunch_distribution>0.5</Bunch_distribution>"]
+    for s in st:
+        x, a, c = float(s["x_m"]), 0.5 * float(s["width_m"]), float(s.get("zc_m", 0))
+        h = 0.5 * float(s["height_m"])
+        out += ["                <frame>", "                    <Angle>0</Angle>", "                    <x_panels>1</x_panels>",
+                f"                    <Position>{_f(x)}, 0, 0</Position>"]
+        for ang in (90, 45, 0, -45, -90):
+            t = math.radians(ang)
+            out.append(f"                    <point>{_f(x)}, {_f(a * math.cos(t))}, {_f(c + h * math.sin(t))}</point>")
+        out.append("                </frame>")
+    out += ["            </NURBS>", "        </body>"]
+    return out
+
+
 def plane_xml(cfg: dict) -> str:
     out = ['<?xml version="1.0" encoding="UTF-8"?>', "<!DOCTYPE flow5>", '<xflplane version="1.0">', UNITS_SI.rstrip("\n"),
            "    <Plane>", f"        <Name>{escape(cfg['name'])}</Name>"]
@@ -114,6 +151,8 @@ def plane_xml(cfg: dict) -> str:
                     f"                <coordinates>{_f(m.get('x_m', 0))}, {_f(m.get('y_m', 0))}, {_f(m.get('z_m', 0))}</coordinates>",
                     "            </Point_Mass>"]
         out.append("        </Inertia>")
+    if cfg.get("fuselage"):
+        out += fuselage_xml(cfg["fuselage"])
     for w in cfg["wings"]:
         pos = w.get("position_m", [0, 0, 0])
         out += ["        <wing>", f"            <Name>{escape(w.get('name', 'Wing'))}</Name>",

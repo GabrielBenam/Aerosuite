@@ -1,0 +1,35 @@
+{
+  "engine": "flow5 v7.57 (official executable, batch script mode)",
+  "input_config": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8.json",
+  "plane_xml": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\planes\\AeroSuite_C162-like_wing-tail.xml",
+  "polar_xml": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\analyses\\FIXEDSPEEDPOLAR-VLM2-55.6mps.xml",
+  "polar_name": "FIXEDSPEEDPOLAR-VLM2-55.6mps",
+  "foil_files": [
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\foils\\NACA_2412.dat",
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\foils\\NACA_0009.dat"
+  ],
+  "script_xml": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\script.xml",
+  "fluid": {
+    "density_kgm3": 0.9628698961947216,
+    "kinematic_viscosity_m2s": 1.7778839852797244e-05,
+    "source": "ADRpy ISA + Sutherland (AeroSuite)"
+  },
+  "run_command": "flow5.exe -s \"C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\script.xml\" -p",
+  "status": "EXECUTED",
+  "parsed_results": {
+    "file": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\flow5_results.json",
+    "polars": 1,
+    "operating_points": 0,
+    "parse_errors": []
+  },
+  "flow5_executable": "C:\\Users\\oscar\\Documents\\flow5_v7.55_win64\\flow5_v7.55_win64\\flow5.exe",
+  "return_code": 0,
+  "duration_s": 4.14,
+  "outputs": [
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\output\\AeroSuite_C162-like_wing-tail\\AeroSuite C162-like wing-tail\\FIXEDSPEEDPOLAR-VLM2-55_6mps.csv",
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\output\\AeroSuite_C162-like_wing-tail\\AeroSuite_C162-like_wing-tail.fl5",
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-tailz-0.8\\output\\AeroSuite_C162-like_wing-tail\\AeroSuite_C162-like_wing-tail.log"
+  ],
+  "results_verified": false,
+  "note": "Outputs are flow5's own files; inspect them before using any number."
+}

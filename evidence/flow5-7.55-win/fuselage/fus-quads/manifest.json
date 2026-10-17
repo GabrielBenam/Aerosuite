@@ -1,0 +1,19 @@
+{
+  "engine": "flow5 v7.57 (official executable, batch script mode)",
+  "input_config": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\examples\\flow5-c162-like-fuselage.json",
+  "plane_xml": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-fus-quads\\planes\\AeroSuite_C162-like_wing-tail-fuselage.xml",
+  "polar_xml": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-fus-quads\\analyses\\FIXEDSPEEDPOLAR-QUADS-55.6mps.xml",
+  "polar_name": "FIXEDSPEEDPOLAR-QUADS-55.6mps",
+  "foil_files": [
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-fus-quads\\foils\\NACA_2412.dat",
+    "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-fus-quads\\foils\\NACA_0009.dat"
+  ],
+  "script_xml": "C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-fus-quads\\script.xml",
+  "fluid": {
+    "density_kgm3": 0.9628698961947216,
+    "kinematic_viscosity_m2s": 1.7778839852797244e-05,
+    "source": "ADRpy ISA + Sutherland (AeroSuite)"
+  },
+  "run_command": "flow5.exe -s \"C:\\Users\\oscar\\Desktop\\ESPACIO COWORK\\Aerosuite-main\\Aerosuite\\results\\p1-fus-quads\\script.xml\" -p",
+  "status": "EXPORTED (not yet executed)"
+}

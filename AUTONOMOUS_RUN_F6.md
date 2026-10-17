@@ -99,6 +99,7 @@ Nadie responde durante la corrida: no hagas preguntas. Ante una duda técnica el
 La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retoma donde quedó. Al terminar cada tarea o al detenerte añade una línea:
 `- AAAA-MM-DD HH:MM | tarea | TERMINADO / EN CURSO / BLOQUEADO | commit | nota breve`
 
+- 2026-10-16 19:30 | P-1 | TERMINADO (contraste con cuerpo BLOQUEADO) | ver git log | exportación de cuerpo aceptada por flow5 7.55; paneles sin resultado utilizable; diagnóstico de estela hecho (D-50)
 <!-- BITACORA -->
 
 ## 15. Cierre (dispara el correo)
