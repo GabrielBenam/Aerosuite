@@ -201,3 +201,8 @@ Cambios: marco de salida de SolidWorks (X atrás, Y arriba, Z envergadura), perf
 
 ## 14. M26 cargas aerodinámicas (2026-10-20, D-56)
 `tests/test_m26_loads.py` (10 pruebas): total n W, equilibrio de fuerzas y de cabeceo (cierre analítico y desde las estaciones), flector independiente, estaciones de la esquina A en C_lmax, C_m,ac de perfil delgado (NACA 0012 = 0; 2412 = -0.053), exportación (SHA-256, 252 filas, ejes CAD), contraste con el punto de operación real de flow5 7.55 (acepta C_L coincidente, rechaza el que no). Suite completa: 373 pruebas, OK (1 omitida).
+
+## 15. P-4, P-5 y T-1 (2026-10-20, D-57, D-58)
+- P-4 `tests/test_m22_wing_weight.py`: 2 rápidas + 2 lentas (`AEROSUITE_SLOW=1`, 300 s, OK). Cifras: alcance con carga máxima vs AR (584.9 / 614.4 / 619.6 / 613.0 / 599.9 km en AR 4/6/8/10/12); malla 15 puntos AR* = 7.5 (619.69 km); DE AR* = 7.72 (619.749 km, 29 evaluaciones); SLSQP AR* = 7.70 (619.750 km, 11 evaluaciones). Nivel conceptual.
+- P-5 `tests/test_m23_verification.py`: nueva prueba de umbrales de 23.2145 (signos en ±0.01, balanceo holandés inestable, fugoide inestable, acrobático).
+- T-1 `tests/test_handoff.py` (6 pruebas): paquete del ejemplo completo con STEP real de CadQuery, cargas, envolvente, M23, nota de costos de 2012, SHA-256 verificados, sin libros ni binarios.

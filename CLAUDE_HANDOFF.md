@@ -123,3 +123,6 @@ P-3: polar de estabilidad tipo 7 y comparación (`aerosuite/m16_flow5_contrast.p
 
 ### M26 (F6)
 `aerosuite/m26_loads.py`, comando `m26` (escribe `loads/<proyecto>/` o `inputs.m26.out_dir`). Requiere m25, m09b, m10, m13 (y m20, m19, m08 si existen). Siguiente: P-4 (acople de peso del ala en M22).
+
+### P-4, P-5, T-1, V-1 (F6)
+M21 `weights.oew_from_m12` (D-57) y `examples/opt-project-wing-weight.json`; M23 con 23.2145 (D-58); `python -m aerosuite handoff --project p.json --out paquete/` (`aerosuite/handoff.py`); VERIFICAR.md con M25, M26, T-1, P-4, contrastes F6 y apertura del STEP en Ansys.

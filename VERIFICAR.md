@@ -36,6 +36,11 @@ Convención de estados en la tabla (a):
 | M22 Optimizador | Motor `project` (conceptual; 3D opt-in) | Validado por **malla** (551 puntos): DE y SLSQP dan V* = 34.003 m/s y 934.2186 km frente a 34.000 y 934.2185 de la malla. 3D con flow5 7.55 real solo con bandera explícita (ala sola). |
 | M23 Verificación | cumple / no cumple / no evaluable | Solo criterios con texto leído: 14 CFR 23.2110, 23.2120, 23.2130 (eCFR vigente), Tablas 1-2/1-3 y reglas del libro. El resto: `no evaluable`. No es una demostración de cumplimiento. |
 | M24 STEP | OML de M10 a CAD (mm) | Reimportado con OpenCASCADE y comparado con M10 (volúmenes, áreas, envergadura, caja). **No abierto en Ansys.** |
+| M25 Envolvente V-n | Maniobra + ráfaga, esquinas, carga última | LIBRO (Ejemplo 17.4.1, Tabla 17-6: V_Cmin 105.2, V_G 67.5, μ_g 14.77, K_g 0.6476, n_g +4.60/−2.60, V_A nueva 94.6 KEAS). Umbrales de categorías utilitaria/acrobática y factores de V_C/V_D por carga alar: de ADRpy 0.2.6, SIN verificar en el libro. Con flaps solo la línea de pérdida (D-55). |
+| M26 Cargas para Ansys | Cargas aerodinámicas externas en las esquinas de M25 | ARITMÉTICA (equilibrio de fuerzas y de cabeceo < 1e-6, flector recalculado). SIN ejemplo del libro. MOTOR REAL (flow5 7.55 VLM2): contraste de C_l(y) solo si el C_L coincide. Solo aerodinámicas: sin estructura ni alivio de masa (D-56). |
+| T-1 Traspaso | `handoff`: paquete con manifiesto SHA-256 | Prueba de integración con el ejemplo completo (no valida física). |
+| P-4 M22 con peso de ala | AR con OEW de M12 | Óptimo interior verificado contra malla en el motor `project` (prueba lenta `AEROSUITE_SLOW=1`, D-57). Nivel conceptual. |
+| M23 (F6) | 23.2145 | Se añadió 23.2145(a)/(b) como comprobación de signos (texto leído 2026-10-20); 23.2135 y 23.2150 siguen `no evaluable` (D-58). |
 
 ## (b) Comprobaciones que debes hacer en tu ejemplar
 
@@ -92,6 +97,18 @@ Comando: `.\.venv\Scripts\python.exe -m unittest tests.test_m16_stability -v`.
 
 **M23 — 14 CFR Part 23**: lee tú mismo en https://www.ecfr.gov/current/title-14/part-23 los §23.2110, §23.2120 (8.3 % / 4 % / 3 %) y §23.2130 (50 ft) y compáralos con `python -m aerosuite m23` (cada elemento trae su referencia). Todo lo demás sale `no evaluable` a propósito.
 
+**M25 — Cap. 17, Sec. 17.4.1, Tabla 17-6 (W = 1320 lbf, S = 130 ft²)**: comprueba (1) Paso 7: μ_g = 2(W/S)/(ρ c_MGC C_Lα g) = 14.77 y K_g = 0.88 μ_g/(5.3 + μ_g) = 0.6476 (Ec. 17-42/17-43); (2) Paso 8: n_g(V_C = 107 KEAS) = 1 + K_g U_de V C_Lα/(498 W/S) = +4.60 y −2.60 (Ec. 17-44); (3) Paso 10: la cuadrática 2.362 V² − 170.0 V − 5057 = 0 da V_A = 94.6 KEAS (Ec. 17-45). Páginas impresas ≈ 775-777 (PDF 820-822, ±1). **Errata**: la Tabla 17-6 imprime C_Lmax = 1.45, pero V_S+ = 46.3 KEAS y el Paso 10 implican 1.4 (se usó 1.4). El punto A queda en n = 4.18 (línea de pérdida a 94.6 KEAS); la Fig. 17-21 lo rotula 4.22. Comando: `python -m aerosuite m25 --project p.json`; prueba: `tests.test_m25_envelope`.
+
+**M26 — sin cifras del libro**: comprueba (1) que la suma de fuerzas por estación de `stations.csv` (ambos semiplanos, una condición) es la sustentación del ala de `loads.json` (`totals.lift_wing_n`); (2) que n·W de cada condición es sustentación del ala + carga de cola (`tail_load_n`, negativa si es hacia abajo); (3) que el flector en la raíz es ≈ 0.42 × (fuerza de la semiala × b/2) (elíptica: 4/(3π) = 0.424) en condiciones con |C_L| > 1. Comando: `m26`; prueba: `tests.test_m26_loads`. Las columnas `cad_*_mm` usan la transformación (x, y, z) → (1000 x, 1000 z, −1000 y) del STEP de M24.
+
+**T-1 — traspaso**: `python -m aerosuite handoff --project p.json --out paquete\` y revisa `LEEME.md`, `SUPUESTOS.md` y que `manifest.json` lista el SHA-256 de cada archivo (`Get-FileHash`). Prueba: `tests.test_handoff`.
+
+**P-4 — M22 con peso de ala**: `python -m aerosuite m22 --spec examples\opt-project-wing-weight.json --out results\m22-wing` (≈ 5 s por evaluación). Comprueba en `evaluations.csv` que el alcance con carga máxima sube y luego baja con AR y que el peso del ala de M12 (Ecs. 6-43 a 6-47, ya validadas con el Ejemplo 6-5) crece con AR.
+
+**M23 (F6)**: lee 14 CFR 23.2145 en el eCFR (estabilidad estática en los tres ejes y dinámica de corto periodo y balanceo holandés, texto cualitativo sin umbrales) y compara con los elementos `stability_23_2145a` y `longitudinal_divergence_23_2145b` de `python -m aerosuite m23`: solo comprueban el signo, no las fuerzas de mando.
+
+**Contrastes con flow5 7.55 (F6)**: P-1 fuselaje (D-50, D-52): punto neutro de M16 contra flow5 con cuerpo, −1.2 % tras corregir la deriva; P-2 LLT (D-51); P-3 dinámica de M16 y C_l(η) de M19 (D-53). Las salidas reales están en `evidence/flow5-7.55-win/` (versión 7.55; el código fuente es 7.57). Puedes reproducirlas con `flow5-export` y `flow5-run`.
+
 **M22 y M24**: no tienen cifras del libro; verifica (1) que la malla y el optimizador coinciden (`python -m unittest tests.test_m22_project_optimizer -v`) y (2) abre los STEP en tu CAD o en Ansys y comprueba que las unidades son milímetros y que la envergadura y la longitud son las de M10 (`manifest.json` las lista).
 
 ## (c) Supuestos del proyecto y erratas detectadas
@@ -116,6 +133,8 @@ Comando: `.\.venv\Scripts\python.exe -m unittest tests.test_m16_stability -v`.
 10. «§23.2110(c) = 61 KCAS» (cita del libro): ya no figura en el eCFR vigente (D-47).
 11. Ej. 13-3: el texto digitalizado pierde el signo de R_T (la rueda de cola está en el aire).
 
+**Supuestos añadidos en F6.** M25: umbrales de ADRpy (ver arriba) y Part 23 vigente sin cifras (se usan las del libro, del Part 23 anterior a la Enmienda 23-64); M26: C_m,ac del ala por teoría de perfil delgado del perfil de raíz (−0.053 para NACA 2412), centro aerodinámico del ala en 0.25 c_MGC, fuselaje y empuje sin momento de cabeceo, sustentación vertical, resistencia solo total; M12/M21 (P-4): MTOW de M21 = 700 kg en el ejemplo para que quepan OEW + carga + combustible. **Erratas añadidas**: 12. Tabla 17-6: C_Lmax 1.45 impreso frente a 1.4 implícito en V_S+ y en el Paso 10; 13. Fig. 17-21: n del punto A rotulado 4.22 (valor de la fórmula) frente a 4.18 de la línea de pérdida.
+
 ## (d) Cómo reproducir todo en Windows
 
 1. Instalación (una vez): `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-engines.ps1` (crea `.venv`, instala NumPy 1.26.4 y ADRpy y descarga flow5 7.57/XFOIL). Para M24: `.\.venv\Scripts\python.exe -m pip install --no-deps -r requirements-cad.txt`.
@@ -133,3 +152,11 @@ Comando: `.\.venv\Scripts\python.exe -m unittest tests.test_m16_stability -v`.
 
 ## Abrir el STEP en SolidWorks (M24, D-54)
 Abre `cad\<proyecto>\<proyecto>.step` (o `examples\cad\oml-c172-like\oml-c172-like.step`) con Archivo > Abrir; en el cuadro de diálogo, tipo de archivo «STEP AP203/214/242», y pulsa Opciones si te pregunta cómo importarlo (elige «Importar como sólido»). Comprueba: (1) el ala está horizontal, con la punta a la derecha y a la izquierda, y el fuselaje avanza a lo largo de X; (2) el perfil de la raíz está en el plano Frontal (el ala sale perpendicular a ese plano, hacia ±Z); (3) los bordes de ataque y las superficies superior e inferior se ven lisos (no facetados); (4) Evaluar > Propiedades físicas del ala: envergadura (caja envolvente) igual a la de `manifest.json`. Si quieres reconstruir el ala con operaciones nativas como en el tutorial, usa los archivos de `sections\*.txt` con Insertar > Curva > Curva por puntos XYZ (unidades: milímetros).
+
+## Abrir el STEP en SolidWorks y en Ansys (M24, D-54)
+**SolidWorks**: sigue el apartado anterior. **Ansys** (SpaceClaim o DesignModeler): Archivo > Abrir > `*.step`, o desde Workbench: Geometry > Import Geometry. Comprueba, en este orden:
+1. **Unidades**: al importar, el sistema de unidades del proyecto debe ser milímetros (si Workbench está en metros, el ala medirá 9 440 000 m: cámbialo a mm antes de importar). Mide la envergadura con la herramienta de medida: debe ser la de `manifest.json` de M24 (p. ej. 9 443.9 mm en el Cessna 162 del ejemplo).
+2. **Ejes**: X hacia atrás, Y hacia arriba, Z a lo largo de la envergadura (ala simétrica respecto de Z = 0). Es la misma convención de las columnas `cad_x_mm`, `cad_y_mm`, `cad_z_mm` de las cargas de M26.
+3. **Sólidos válidos**: cada pieza (ala, estabilizador horizontal, deriva, fuselaje) debe aparecer como un sólido (no como superficies abiertas); el ensamble tiene tantos sólidos como componentes (`assembly_solids` en `manifest.json`). Sin errores de «reparar geometría» al compartir topología.
+4. **Volúmenes**: el volumen del ala en Ansys debe coincidir con `validation.checks` de `manifest.json` (tolerancia 1 %).
+5. **Cargas**: para aplicar `cargas/stations.csv`, usa `force_up_n` en `+Y` como fuerza remota o puntual en `(cad_x_mm, cad_y_mm, cad_z_mm)`; la suma por condición debe ser la sustentación del ala. Estas cargas son solo aerodinámicas: la estructura y la inercia las aplicas tú en Ansys.

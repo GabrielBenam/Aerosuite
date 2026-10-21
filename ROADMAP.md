@@ -55,4 +55,7 @@ Diseñar la interfaz propia sobre los contratos JSON ya probados. No antes de ce
 - [x] P-3 contrastes M16 dinámica y M19 (D-53)
 - [x] M25 envolvente V-n (D-55)
 - [x] M26 cargas para Ansys (D-56)
-- [ ] P-4 · [ ] P-5 · [ ] T-1 · [ ] V-1
+- [x] P-4 acople de peso del ala (D-57)
+- [x] P-5 M23 con 23.2145 (D-58)
+- [x] T-1 paquete de traspaso
+- [x] V-1 VERIFICAR.md
