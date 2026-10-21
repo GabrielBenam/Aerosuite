@@ -194,13 +194,13 @@ def evaluate(project: dict) -> tuple[dict, list]:
         base.setdefault("v_h_mps", out["m21"]["result"]["performance"]["0"]["v_max_mps"] if "performance" in out["m21"]["result"] else None)
     cases = d.get("cases")
     if not cases:
-        for key in ("m13", "m12"):
-            if out.get(key):
-                depends.append(key)
-                cases = [{"name": "MTOW", "mass_kg": out[key]["result"].get("total_mass_kg")}]
-                break
+        if out.get("m12"):                                       # MTOW (w0) de M12; M13 da el peso vacio, no el de diseno
+            depends.append("m12")
+            cases = [{"name": "MTOW", "mass_kg": out["m12"]["result"]["w0_kg"]}]
+        elif project["inputs"].get("m01", {}).get("mtow_kg"):
+            cases = [{"name": "MTOW", "mass_kg": project["inputs"]["m01"]["mtow_kg"]}]
     if not cases:
-        raise SystemExit("inputs.m25.cases (list of {name, mass_kg, ...}) is missing and no outputs.m13/m12 total mass exists")
+        raise SystemExit("inputs.m25.cases (list of {name, mass_kg, ...}) is missing and no outputs.m12 w0_kg or inputs.m01.mtow_kg exists")
     miss = [k for k in ("s_m2", "c_mgc_m", "cl_alpha", "cl_max", "cl_min") if not any(k in {**base, **c} for c in cases)]
     if miss:
         raise SystemExit("inputs.m25 is missing: " + ", ".join(miss) + " (give them in inputs.m25.common or run m09b)")

@@ -120,3 +120,6 @@ P-3: polar de estabilidad tipo 7 y comparación (`aerosuite/m16_flow5_contrast.p
 
 ### M25 (F6)
 `aerosuite/m25_envelope.py`, comando `m25`, ejemplo `examples/projects/gud-example-17-4-vn.json` (Tabla 17-6). Validado con el Ejemplo 17.4.1 (D-55). Siguiente: M26 (cargas para Ansys) toma los puntos de esquina `corner_points` de `outputs.m25`.
+
+### M26 (F6)
+`aerosuite/m26_loads.py`, comando `m26` (escribe `loads/<proyecto>/` o `inputs.m26.out_dir`). Requiere m25, m09b, m10, m13 (y m20, m19, m08 si existen). Siguiente: P-4 (acople de peso del ala en M22).

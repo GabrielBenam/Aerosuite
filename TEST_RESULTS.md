@@ -198,3 +198,6 @@ Cambios: marco de salida de SolidWorks (X atrás, Y arriba, Z envergadura), perf
 
 ## 13. M25 envolvente V-n (2026-10-20, D-55)
 `tests/test_m25_envelope.py` (9 pruebas): Ejemplo 17.4.1 del libro (n+, n-, V_S±, V_Cmin, V_G, V_A, mu_g, K_g, n_g a V_C, V_A nueva 94.6 KEAS contra la cuadrática independiente), categorías acrobática y commuter (V_B), reducción de ráfaga con la altitud, CLI `m25`/`export`/`stale`. Suite completa: 363 pruebas, OK (1 omitida). Sin contraste con un motor externo (no hay V-n en flow5); la validación es contra el libro.
+
+## 14. M26 cargas aerodinámicas (2026-10-20, D-56)
+`tests/test_m26_loads.py` (10 pruebas): total n W, equilibrio de fuerzas y de cabeceo (cierre analítico y desde las estaciones), flector independiente, estaciones de la esquina A en C_lmax, C_m,ac de perfil delgado (NACA 0012 = 0; 2412 = -0.053), exportación (SHA-256, 252 filas, ejes CAD), contraste con el punto de operación real de flow5 7.55 (acepta C_L coincidente, rechaza el que no). Suite completa: 373 pruebas, OK (1 omitida).
