@@ -102,6 +102,7 @@ La corrida puede reiniciarse varias veces. Al empezar, lee esta sección y retom
 - 2026-10-16 19:30 | P-1 | TERMINADO | ver git log | cuerpo aceptado por flow5; incremento de fuselaje contrastado (TRILINEAR); hallazgo: la deriva del modelo era horizontal (D-52), contraste estático de M16 −1.2 %
 - 2026-10-16 20:10 | P-2 | TERMINADO | ver git log | LLT funciona si flow5 calcula antes las polares 2D del perfil (D-51); contraste con VLM2 y M19
 - 2026-10-16 22:00 | P-3 | TERMINADO | ver git log | tipo 7 con inercia de masas puntuales; M16 y M19 contrastados (D-53); lector con polares 2D
+- 2026-10-20 12:00 | M25 | TERMINADO | ver git log | Ejemplo 17.4.1 reproducido (V_A 94.6 KEAS); errata CL_max 1.45/1.4 (D-55)
 <!-- BITACORA -->
 
 ## 15. Cierre (dispara el correo)

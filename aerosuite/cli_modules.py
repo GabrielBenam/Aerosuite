@@ -27,6 +27,7 @@ MODULES = {
     "m21": ("m21", "m21_performance", "M21 performance: speeds, climb, ceilings, range/endurance, payload-range (step 21)"),
     "m23": ("m23", "m23_verification", "M23 requirements verification: cumple / no cumple / no evaluable with limits and references (step 23)"),
     "m24": ("m24", "m24_cad", "M24 STEP export of the M10 outer mold line with CadQuery, in mm (step 24)"),
+    "m25": ("m25", "m25_envelope", "M25 V-n envelope: maneuver and gust lines, corner points, limit and ultimate loads (step 25)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
