@@ -1,0 +1,47 @@
+{
+  "name": "M22 (conceptual): alargamiento del ala con peso de ala acoplado (P-4)",
+  "notes": [
+    "Alcance de Breguet con carga maxima (caso A de M21) frente a AR. El peso vacio es el de M12: el peso del ala (Ecs. 6-43 a 6-47) crece con AR y contrarresta la reduccion de la resistencia inducida, por lo que hay un optimo interior (D-57).",
+    "S y lambda tambien son variables validas (m09b.planform.area_m2 / taper_ratio); no se optimizan aqui porque el alcance es monotono en ambas (S pequena y lambda pequena); S queda limitada por la velocidad de perdida.",
+    "Nivel conceptual (modulos de GUD); no es optimizacion aerodinamica 3D."
+  ],
+  "level": "conceptual",
+  "engine": "project",
+  "base": "projects/m22-wing-weight-inputs.json",
+  "variables": [
+    {
+      "name": "m09b.planform.aspect_ratio",
+      "lower": 5.0,
+      "upper": 12.0
+    }
+  ],
+  "objective": {
+    "metric": "m21.payload_range.0.range_const_v_h_km",
+    "sense": "maximize"
+  },
+  "constraints": [
+    {
+      "metric": "m21.performance_at_mtow.0.0.v_stall_mps",
+      "type": "<=",
+      "value": 27.0
+    }
+  ],
+  "method": "differential_evolution",
+  "settings": {
+    "seed": 42,
+    "maxiter": 5,
+    "popsize": 4,
+    "tol": 1e-08,
+    "max_iter": 2,
+    "report_metrics": [
+      "m12.components.wing.kg",
+      "m12.empty_weight_kg",
+      "m21.aero.k",
+      "m21.aero.cdmin"
+    ],
+    "polish": false
+  },
+  "ranking": {
+    "top": 5
+  }
+}
