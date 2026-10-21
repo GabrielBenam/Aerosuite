@@ -1,0 +1,69 @@
+{
+  "name": "AeroSuite wing only",
+  "notes": [
+    "ILLUSTRATIVE geometry: wing area 11.15 m^2 (120 ft^2) and AR 8 from Gudmundsson Example 3-1; planform, tail and CG are AeroSuite assumptions, not Cessna 162 data.",
+    "Units: SI. Analysis is computed by the official flow5 executable."
+  ],
+  "wings": [
+    {
+      "name": "Main wing",
+      "type": "MAINWING",
+      "position_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tilt_deg": 1.0,
+      "sections": [
+        {
+          "y_m": 0.0,
+          "chord_m": 1.25,
+          "foil": "NACA 2412",
+          "nx": 13,
+          "ny": 15
+        },
+        {
+          "y_m": 4.72,
+          "chord_m": 1.11,
+          "xoffset_m": 0.035,
+          "dihedral_deg": 1.5,
+          "twist_deg": -1.5,
+          "foil": "NACA 2412",
+          "nx": 13,
+          "ny": 15
+        }
+      ]
+    }
+  ],
+  "analysis": {
+    "type": "FIXEDSPEEDPOLAR",
+    "method": "LLT",
+    "velocity_mps": 55.6,
+    "altitude_m": 2438.4,
+    "viscous": false,
+    "xfoil_on_the_fly": false,
+    "ncrit": 9,
+    "alpha_deg": [
+      0,
+      20,
+      2
+    ],
+    "stability_derivatives": false,
+    "oppoints": true,
+    "foil_polars": {
+      "reynolds": [
+        1000000.0,
+        2000000.0,
+        3000000.0,
+        4000000.0,
+        5000000.0
+      ],
+      "alpha_range": [
+        -8,
+        22,
+        0.5
+      ],
+      "ncrit": 9
+    }
+  }
+}

@@ -1,0 +1,37 @@
+Type 1: Fixed speed
+V∞ = 56m/s
+Quads/VLM2
+Wings as thin surfaces
+B.C. = Neumann
+Lift & drag: in the far field plane
+Inviscid analysis
+Ref. dimensions = Custom
+   Area  =   11.139 m²
+   Span  =    9.440 m
+   Chord =    1.181 m
+Fluid properties:
+   ρ =   0.96287 kg/m³
+   ν = 1.7779e-05 m²/s
+Inertia:
+   Using plane inertia
+   Mass =  598.740 kg
+   CoG = (0.400, 0.000, 0.000)m
+Flat panel wake:
+   Nb. of wake panels = 5
+   Length             = 30 x MAC
+   Progression factor =    1.10
+
+XNP = d(XCp.Cl)/dCl =     0.64 m
+Static margin       = 20.2602
+Nbr. of data points = 5
+AeroSuite C162-like wing-tail
+FIXEDSPEEDPOLAR-VLM2-55.6mps
+Freestream speed = 55.600 m/s
+
+
+ Ctrl        α (°)        β (°)        φ (°)        CL           CD           CD_viscous   CD_induced   CY           Cm           Cm_viscous   Cm_pressure  Cl           Cn           Cn_viscous   Cn_pressure  CL/CD        CL^(3/2)/CD  1/sqrt(CL)   Lift (N)     Drag (N)     Fx_FF (N)    Fy_FF (N)    Fz_FF (N)    Fx_sum (N)   Fy_sum (N)   Fz_sum (N)   Extra drag (N)  Fuse drag (N)  Cf_Fuse      Vx (m/s)     Vz (m/s)     V (m/s)      Gamma        L (N.m)      M (N.m)      N (N.m)      CPx (m)      CPy (m)      CPz (m)      BM (N.m)     m.g.Vz (W)   Drag x V (W)  Efficiency   XCp.Cl       XNP (m)      Phugoid Freq. (Hz)  Phugoid Damping  Short Period Freq. (Hz)  Short Period Damping Ratio  Dutch Roll Freq. (Hz)  Dutch Roll Damping  Roll Damping  Spiral Damping  Mass (kg)    CoG_x (m)    CoG_z (m)    
+          0           -2            0            0    -0.056603   0.00017319            0   0.00017319   6.5474e-17       0.2544            0       0.2544  -6.9254e-16   1.3025e-16            0   1.3025e-16      -326.83      -77.757            0      -938.39       2.8712       -29.88   1.0854e-12      -937.92       -32.73   4.5496e-12      -937.28            0            0            0         55.6     -0.42562         55.6     -0.17531  -1.0761e-10       4982.6   2.4154e-11       5.7149   1.1472e-13    -0.032557       230.25      -2499.9       159.64      0.73607     -0.32348      0.63241            0            0            0            0            0            0            0            0       598.74          0.4            0  
+          0            0            0            0      0.12195    0.0055763            0    0.0055763   9.2334e-17      0.21915            0      0.21915  -6.9508e-16  -8.6663e-18            0  -8.6663e-18       21.869        7.637       2.8636       2021.7       92.445       92.445   1.5307e-12       2021.7            0  -3.1892e-13       2020.5            0            0            0       55.542       4.3335         55.6       2.6181  -1.0878e-10         4292  -1.3563e-12      -1.7243  -5.3229e-14     0.025444       2936.1        25453         5140      0.10611     -0.21027       0.6349            0            0            0            0            0            0            0            0       598.74          0.4            0  
+          0            2            0            0      0.29991     0.013685            0     0.013685     1.17e-16      0.18328            0      0.18328  -6.7885e-16  -1.3935e-16            0  -1.3935e-16       21.915       12.002        1.826       4972.1       226.88       53.217   1.9396e-12         4977      -173.67  -4.8828e-12       4973.3            0            0            0       55.542       2.7575         55.6       2.6126  -1.0541e-10       3589.6  -2.5503e-11     -0.32227  -2.2363e-14     0.014513         5635        16197        12614      0.26152    -0.096654      0.63737            0            0            0            0            0            0            0            0       598.74          0.4            0  
+          0            4            0            0      0.47679     0.024429            0     0.024429   1.3933e-16      0.14698            0      0.14698  -7.5675e-16  -2.5131e-16            0  -2.5131e-16       19.517       13.477       1.4482       7904.4          405      -147.37   2.3099e-12       7913.4       -552.9  -9.1262e-12       7906.9            0            0            0       55.527       2.4557         55.6       2.9331   -1.154e-10       2878.6  -4.7496e-11     0.035113  -1.4295e-14     0.011727       8313.7        14424        22518      0.37026     0.016742       0.6398            0            0            0            0            0            0            0            0       598.74          0.4            0  
+          0            6            0            0       0.6521     0.037706            0     0.037706    1.599e-16      0.11042            0      0.11042  -7.2092e-16  -3.6692e-16            0  -3.6692e-16       17.294       13.966       1.2384        10811        625.1      -508.35   2.6509e-12        10817      -1135.8  -1.3008e-11        10807            0            0            0       55.507       2.3697         55.6       3.3093   -1.062e-10       2162.7  -6.8901e-11      0.19878  -9.4605e-15     0.010451        10959        13919        34756      0.44872      0.12963      0.64221            0            0            0            0            0            0            0            0       598.74          0.4            0  

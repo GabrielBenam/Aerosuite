@@ -197,5 +197,41 @@ class Flow5Real755Regression(unittest.TestCase):
         self.assertGreater(ref["area_m2"], 10.0)
 
 
+class Flow5Real755StabilityAndFoilPolars(unittest.TestCase):
+    """Regression with REAL flow5 7.55 output: a type 7 stability polar with its operating point (evidence/.../stability-t7/job) and the 2D XFoil
+    polars that flow5 writes for LLT (evidence/.../llt/c-con-polares-2d)."""
+
+    EVID = Path(__file__).resolve().parents[1] / "evidence" / "flow5-7.55-win"
+
+    @unittest.skipUnless((EVID / "stability-t7" / "job" / "output").is_dir(), "stability evidence not present")
+    def test_type7_operating_point(self):
+        data = collect(self.EVID / "stability-t7" / "job" / "output")
+        self.assertEqual(data["errors"], [])
+        self.assertEqual(len(data["polars"]), 1)
+        self.assertEqual(len(data["operating_points"]), 1)
+        sc = data["operating_points"][0]["scalars"]
+        dv = data["operating_points"][0]["derivatives"]
+        self.assertAlmostEqual(sc["V_mps"], 58.1267, places=3)
+        self.assertAlmostEqual(sc["Iyy_kgm2"], 758.189, places=2)
+        self.assertAlmostEqual(dv["Cma"], -0.530397, places=5)
+        self.assertAlmostEqual(dv["Cnb"], 0.116931, places=5)
+        row = data["polars"][0]["rows"][0]
+        self.assertAlmostEqual(row["short_period_freq_Hz"], 0.85206, places=4)
+        self.assertEqual(data["foil_polars"], [])
+
+    @unittest.skipUnless((EVID / "llt" / "c-con-polares-2d" / "output").is_dir(), "LLT evidence not present")
+    def test_foil_polars_are_not_operating_points(self):
+        data = collect(self.EVID / "llt" / "c-con-polares-2d" / "output")
+        self.assertEqual(data["errors"], [])
+        self.assertEqual(len(data["foil_polars"]), 5)
+        self.assertEqual(data["operating_points"], [])               # that run did not request operating points
+        fp = next(f for f in data["foil_polars"] if abs(f["reynolds"] - 3.0e6) < 1)
+        self.assertEqual(fp["foil"], "NACA 2412")
+        self.assertEqual(fp["ncrit"], 9.0)
+        clmax = max(r["CL"] for r in fp["rows"])
+        self.assertGreater(clmax, 1.3)
+        self.assertLess(clmax, 1.9)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -48,3 +48,14 @@ Diseñar la interfaz propia sobre los contratos JSON ya probados. No antes de ce
 - [x] M22 optimizador multinivel (motor `project`; 3D opt-in)
 - [x] M23 verificación de requisitos (14 CFR 23.2110/2120/2130 leídos; el resto `no evaluable`)
 - [x] L-1 lazo completo M01→M21 (`python -m aerosuite loop`)
+
+## Fase F6 (corrida autónoma, `auto/f6`)
+- [x] P-1 fuselaje en flow5 y contraste de M16 (D-50); corrección de la deriva horizontal (D-52)
+- [x] P-2 LLT (D-51)
+- [x] P-3 contrastes M16 dinámica y M19 (D-53)
+- [x] M25 envolvente V-n (D-55)
+- [x] M26 cargas para Ansys (D-56)
+- [x] P-4 acople de peso del ala (D-57)
+- [x] P-5 M23 con 23.2145 (D-58)
+- [x] T-1 paquete de traspaso
+- [x] V-1 VERIFICAR.md

@@ -49,6 +49,9 @@ class CadFreeTests(unittest.TestCase):
                 cad.require_cadquery()
         self.assertIn("requirements-cad.txt", str(cm.exception))
 
+    def test_frame_mapping_m10_to_solidworks(self):
+        self.assertEqual(cad.to_cad_xyz([1.0, 2.0, 3.0]), [1.0, 3.0, -2.0])    # (x, y, z) -> (x, z, -y)
+
     def test_polygon_area_and_frustum_volume(self):
         self.assertAlmostEqual(cad.polygon_area([(0, 0), (2, 0), (2, 1), (0, 1)]), 2.0)
         comp = {"type": "fuselage", "axis_z_m": 0.0, "max_radius_m": 1.0,
@@ -102,6 +105,9 @@ class StepExportTests(unittest.TestCase):
         man = json.loads((self.out / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(man["units_out"], "mm")
         self.assertIn("aft", man["axes"]["x"])
+        self.assertIn("up", man["axes"]["y"])
+        self.assertIn("span", man["axes"]["z"])
+        self.assertIn("aft", man["axes_m10"]["x"])
         self.assertEqual(len(man["source_project"]["sha256"]), 64)
         self.assertEqual(man["source_project"]["m10_result_sha256"], prj.digest(self.data["outputs"]["m10"]["result"]))
         self.assertIn("cadquery", man["versions"])
@@ -110,20 +116,47 @@ class StepExportTests(unittest.TestCase):
         v = self.r["validation"]
         self.assertTrue(v["all_ok"])
         by = {(c["component"], c["quantity"]): c for c in v["checks"]}
-        self.assertLess(by[("wing", "volume_m3")]["relative_difference"], 1e-6)
+        self.assertLess(by[("wing", "volume_m3")]["relative_difference"], 5e-3)       # spline profile vs polygon reference
         self.assertLess(by[("wing", "planform_area_m2")]["relative_difference"], 1e-3)       # vs M10 planform area
         self.assertAlmostEqual(by[("wing", "span_m")]["step"], 11.3719, delta=1e-3)
         self.assertAlmostEqual(by[("fuselage", "volume_m3")]["step"], by[("fuselage", "volume_m3")]["reference"], delta=1e-9)
         self.assertEqual(self.r["assembly_solids"], 4)
 
-    def test_bbox_in_mm_matches_m10_axes(self):
+    def test_bbox_in_solidworks_axes(self):
+        """Span along Z (normal to the Front plane), Y up, wing horizontal and symmetric about Z = 0."""
         oml = self.data["outputs"]["m10"]["result"]
-        box = self.r["assembly_bbox_mm"]
+        box = self.r["assembly_bbox_mm_cad_axes"]
         span_mm = 1000.0 * oml["reference"]["overall_span_m"]
-        self.assertAlmostEqual(box["y"][1] - box["y"][0], span_mm, delta=1.0)
-        self.assertAlmostEqual(box["y"][0], -box["y"][1], delta=1e-3)         # symmetric about y = 0
+        self.assertAlmostEqual(box["z"][1] - box["z"][0], span_mm, delta=1.0)
+        self.assertAlmostEqual(box["z"][0], -box["z"][1], delta=1e-3)         # symmetric about Z = 0
+        self.assertLess(box["y"][1] - box["y"][0], 0.5 * span_mm)             # height much smaller than the span: not vertical
         length_mm = 1000.0 * oml["reference"]["overall_length_m"]
         self.assertGreaterEqual(box["x"][1] - box["x"][0], length_mm - 1.0)
+
+    def test_orientation_checks_and_step_geometry(self):
+        names = {(c["component"], c["quantity"]) for c in self.r["validation"]["checks"]}
+        for q in (("wing", "cad_span_along_Z_m"), ("wing", "cad_midplane_at_Z0_m"), ("wing", "root_airfoil_in_front_plane"),
+                  ("vertical_tail", "cad_height_along_Y_m"), ("horizontal_tail", "cad_span_along_Z_m")):
+            self.assertIn(q, names)
+        import cadquery as cq
+        wing = cq.importers.importStep(str(self.out / "oml-wing.step")).val()
+        b = wing.BoundingBox()
+        self.assertGreater(b.zlen, 5 * b.ylen)                                 # horizontal wing
+        for e in wing.Edges():                                                 # smooth curves: splines, not a faceted polyline
+            pass
+        kinds = {e.geomType() for e in wing.Edges()}
+        self.assertTrue({"BSPLINE"} & kinds, kinds)
+
+    def test_section_xyz_files(self):
+        man = json.loads((self.out / "manifest.json").read_text(encoding="utf-8"))
+        files = man["section_files_xyz_mm"]["wing"]
+        self.assertEqual(len(files), 3)                                        # symmetric wing: root + tip, tip mirrored -> 3 stations
+        rows = [list(map(float, ln.split("\t"))) for ln in Path(files[1]).read_text(encoding="utf-8").splitlines()]
+        self.assertEqual(rows[0], rows[-1])                                    # closed contour (sharp TE)
+        self.assertTrue(all(abs(r[2]) < 1e-9 for r in rows))                   # root section lies in Z = 0
+        self.assertGreater(len(rows), 40)
+        xs = [r[0] for r in rows]
+        self.assertAlmostEqual(min(xs), 0.0, places=3)                         # leading edge at the origin
 
     def test_stale_after_m10_change_and_export(self):
         data = prj.load(self.path)

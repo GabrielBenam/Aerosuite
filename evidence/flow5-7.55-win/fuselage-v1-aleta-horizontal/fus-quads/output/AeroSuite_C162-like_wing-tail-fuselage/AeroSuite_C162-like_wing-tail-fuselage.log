@@ -1,0 +1,325 @@
+
+flow5 v7.55
+16.10.2026  18:49:36
+Reading foil .dat files
+   added foil: NACA 2412
+   added foil: NACA 0009
+
+Making foil analysis list
+No foil analysis requested
+
+
+Available foils:
+   NACA 0009
+   NACA 2412
+
+
+
+-----Starting plane analyses-----
+
+Adding planes from the .xml files
+   added the plane: AeroSuite C162-like wing-tail-fuselage from file AeroSuite_C162-like_wing-tail-fuselage.xml
+
+
+Adding the plane analyses from the xml files
+   the analysis FIXEDSPEEDPOLAR-QUADS-55.6mps has been added for AeroSuite C162-like wing-tail-fuselage
+
+Making the analysis pairs (plane, analysis)
+   added analysis for (AeroSuite C162-like wing-tail-fuselage, FIXEDSPEEDPOLAR-QUADS-55.6mps)
+   Made 1 valid analysis pairs (plane, polar) to run
+
+Launching plane analysis: AeroSuite C162-like wing-tail-fuselage / FIXEDSPEEDPOLAR-QUADS-55.6mps
+Initializing task
+
+AeroSuite C162-like wing-tail-fuselage
+FIXEDSPEEDPOLAR-QUADS-55.6mps
+
+Checking plane and polar data
+   ...done
+
+FIXEDSPEEDPOLAR-QUADS-55.6mps
+Type 1 - Fixed speed polar
+
+ρ =   0.96287 kg/m³
+ν = 1.7779e-05 m²/s
+
+RFF         = 10
+Core radius = 1e-06 m
+
+Running in multi-threaded mode
+
+Linear system calculations in floating point double precision
+
+Using S. Nintcheu-Fata's method for off-plane integrals
+
+Initializing the quad analysis
+Setting flap positions
+
+Connecting triangular panels...   done in 0.104 s
+Counted 908 elements
+Matrix size = 908
+
+Allocating result arrays
+
+Solving the problem... 
+
+   Making the unit RHS vectors...       done in 0.006 s
+   Making the influence matrix...       done in 0.028 s
+   Adding the wake's contribution...    done in 0.008 s
+   LAPACK - LU factorization...         done in 0.004 s
+   Back-substituting RHS...             done in 0.000 s
+   Making unit panel velocities...      done
+
+   Calculating 9 operating points
+     α=-4°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             Processing Elevator: 2 surfaces
+                 ...done surface 1
+                 ...done surface 0
+             Processing Fin: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =     -12.651         Cxu  =   -0.042429
+                Xw  =      332.97         Cxa  =      1.1167
+                Xq  =     -194.47         Cxq  =     -1.1042
+                Zu  =      74.596         Czu  =     0.95877
+                Zw  =     -1058.1         CZa  =     -3.5485
+                Zq  =      3.5086         CZq  =    0.019921
+                Mu  =     -3072.1         Cmu  =     -8.7212
+                Mw  =      -22045         Cma  =     -62.582
+                Mq  =      -29794         Cmq  =     -143.19
+                Neutral Point position = 21.2351 m
+
+             Lateral derivatives
+                Yv  =   -0.028287         CYb  = -9.4868e-05
+                Yp  =     -28.795         CYp  =    -0.02046
+                Yr  =     0.20749         CYr  =  0.00014743
+                Lv  =       18.52         Clb  =   0.0065797
+                Lp  =     -5391.2         Clp  =     -0.4058
+                Lr  =      475.09         Clr  =     0.03576
+                Nv  =     -134.79         Cnb  =   -0.047889
+                Np  =     -76.417         Cnp  =  -0.0057519
+                Nr  =     -325.05         Cnr  =   -0.024466
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+           -0.0211294           0.556119                  0              -9.81
+             0.124589           -1.76715            55.6059                  0
+                 -inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+         -4.72441e-05         -0.0480927           -55.5997               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=-2°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 1
+                 ...done surface 0
+             Processing Elevator: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             Processing Fin: 2 surfaces
+                 ...done surface 1
+                 ...done surface 0
+             ...done.
+          Calculating derivatives and eigenthings
+             Calculating stability derivatives
+             Longitudinal derivatives
+                Xu  =    -0.93596         Cxu  =   -0.003139
+                Xw  =     -35.139         Cxa  =    -0.11785
+                Xq  =      -108.2         Cxq  =    -0.61432
+                Zu  =      -1.009         Czu  =     0.70521
+                Zw  =     -1107.4         CZa  =     -3.7138
+                Zq  =     -37.568         CZq  =     -0.2133
+                Mu  =     -5156.2         Cmu  =     -14.638
+                Mw  =      -37637         Cma  =     -106.84
+                Mq  =      -59323         Cmq  =     -285.11
+                Neutral Point position = 34.3877 m
+
+             Lateral derivatives
+                Yv  =   -0.059858         CYb  = -0.00020075
+                Yp  =     -7.3131         CYp  =  -0.0051963
+                Yr  =     0.41384         CYr  =  0.00029405
+                Lv  =     -9.1944         Clb  =  -0.0032665
+                Lp  =       -7259         Clp  =    -0.54638
+                Lr  =      471.17         Clr  =    0.035465
+                Nv  =     -93.406         Cnb  =   -0.033185
+                Np  =     -446.38         Cnp  =   -0.033599
+                Nr  =     -365.05         Cnr  =   -0.027477
+
+          Calculating eigenthings
+      _____State matrices__________
+       Longitudinal state matrix
+          -0.00156321         -0.0586878                  0              -9.81
+          -0.00168519           -1.84948            55.5373                  0
+                 -inf               -inf               -inf                nan
+                    0                  0                  1                  0
+       Lateral state matrix
+          -9.9974e-05         -0.0122141           -55.5993               9.81
+                  nan                nan                nan                  0
+                  nan                nan                nan                  0
+                    0                  1                  0                  0
+
+             Unsuccessful attempt to compute eigenvalues
+          Done operating point
+
+     α=0°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 1
+                 ...done surface 0
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  1.70375, Re=2189119
+                 ...done surface 0 - OTF failures:
+                     span pos.    -0.700 m, Cl=  1.70376, Re=2189119
+
+          Error generating the operating point... discarding
+
+     α=2°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  2.11413, Re=2189119
+                     span pos.     0.900 m, Cl=  1.71271, Re=2099767
+                 ...done surface 0 - OTF failures:
+                     span pos.    -0.700 m, Cl=  2.11422, Re=2189119
+
+          Error generating the operating point... discarding
+
+     α=4°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 1
+                 ...done surface 0
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  2.51936, Re=2189119
+                     span pos.     0.900 m, Cl=  2.14703, Re=2099767
+                 ...done surface 0 - OTF failures:
+                     span pos.    -0.700 m, Cl=  2.51954, Re=2189119
+
+          Error generating the operating point... discarding
+
+     α=6°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 1
+                 ...done surface 0
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  2.91746, Re=2189119
+                     span pos.     0.900 m, Cl=  2.57506, Re=2099767
+                     span pos.     1.100 m, Cl=  1.56359, Re=2010416
+                     span pos.     1.300 m, Cl= -0.07067, Re=1921064
+                 ...done surface 0 - OTF failures:
+                     span pos.    -0.700 m, Cl=  2.91773, Re=2189119
+
+          Error generating the operating point... discarding
+
+     α=8°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  3.30650, Re=2189119
+                     span pos.     0.900 m, Cl=  2.99471, Re=2099767
+                     span pos.     1.100 m, Cl=  1.78933, Re=2010416
+                 ...done surface 0 - OTF failures:
+                     span pos.    -0.700 m, Cl=  3.30686, Re=2189119
+                     span pos.    -0.500 m, Cl=  1.89421, Re=2278471
+                     span pos.    -0.300 m, Cl=  1.48237, Re=2367823
+
+          Error generating the operating point... discarding
+
+     α=10°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  3.68459, Re=2189119
+                     span pos.     0.900 m, Cl=  3.40395, Re=2099767
+                     span pos.     1.100 m, Cl=  2.00903, Re=2010416
+                 ...done surface 0 - OTF failures:
+                     span pos.    -0.700 m, Cl=  3.68503, Re=2189119
+                     span pos.    -0.500 m, Cl=  2.40600, Re=2278471
+                     span pos.    -0.300 m, Cl=  1.72543, Re=2367823
+
+          Error generating the operating point... discarding
+
+     α=12°, β=0°, φ=0°, V∞=55.6 m/s
+       Creating source strengths...
+       Calculating doublet strengths...
+       Calculating far field forces...
+       Calculating on-body pressure coefficients...
+       Calculating plane
+          Calculating XFoil viscous drag on the fly...
+             Processing Main wing: 2 surfaces
+                 ...done surface 0
+                 ...done surface 1
+             Processing Elevator: 2 surfaces
+                 ...done surface 1 - OTF failures:
+                     span pos.     0.700 m, Cl=  4.04987, Re=2189119
+                     span pos.     0.900 m, Cl=  3.80078, Re=2099767
+                     span pos.     1.100 m, Cl=  2.22162, Re=2010416

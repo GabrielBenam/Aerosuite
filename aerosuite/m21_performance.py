@@ -158,7 +158,16 @@ def evaluate(project: dict) -> tuple[dict, list]:
     res = {"level": "conceptual", "units": "SI", "assumptions": [], "aero": {"cdmin": cdmin, "cdmin_source": src, "k": k, "clmax": clmax, "s_m2": s}}
     res["assumptions"].append("eta_p constant and C_D = C_Dmin + k C_L^2 (no compressibility, no wind, quasi-steady climb)")
     # --- masas ---
-    mtow, oew = wt["mtow_kg"], wt["oew_kg"]
+    mtow, oew = wt["mtow_kg"], wt.get("oew_kg")
+    if wt.get("oew_from_m12"):                      # P-4: the operating empty weight follows the component weights of M12 (wing weight depends on S, AR, lambda)
+        m12 = project["outputs"].get("m12")
+        if not m12:
+            raise SystemExit("inputs.m21.weights.oew_from_m12 is set but outputs.m12 is missing: run m12 first")
+        oew = m12["result"]["empty_weight_kg"] + wt.get("oew_offset_kg", 0.0)
+        depends.append("m12")
+        res["assumptions"].append("OEW = M12 empty weight + inputs.m21.weights.oew_offset_kg (items outside M12, e.g. unusable fuel, oil, crew); MTOW stays an input")
+    elif oew is None:
+        raise SystemExit("inputs.m21.weights.oew_kg is missing (or set oew_from_m12)")
     fuel_cap = wt.get("fuel_capacity_kg") or wt["fuel_capacity_gal"] * AVGAS_KG_PER_GAL
     pay_max = wt["max_payload_kg"]
     res["weights"] = {"mtow_kg": mtow, "oew_kg": oew, "fuel_capacity_kg": fuel_cap, "max_payload_kg": pay_max}

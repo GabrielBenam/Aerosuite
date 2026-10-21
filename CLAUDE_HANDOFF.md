@@ -92,7 +92,8 @@ Plan en `AUTONOMOUS_RUN_F5.md` (bitácora en su §12). C-1 terminado: `m16_stabi
 .\.venv\Scripts\python.exe -m aerosuite project-init --project results\c162-full\project.json --name c162-full --from-inputs examples\projects\c162-full-loop.json
 .\.venv\Scripts\python.exe -m aerosuite loop --project results\c162-full\project.json --max-iter 5
 ```
-Deja `results\c162-full\project.loopun-001\iter-001.json` y `loop.json`. Los módulos de `examples/projects/c162-full-loop.json` posteriores a M06 usan datos ILUSTRATIVOS (rotulados). D-46.
+Deja `results\c162-full\project.loop
+un-001\iter-001.json` y `loop.json`. Los módulos de `examples/projects/c162-full-loop.json` posteriores a M06 usan datos ILUSTRATIVOS (rotulados). D-46.
 
 ### M22 (F5)
 ```
@@ -107,7 +108,21 @@ Motor `project`: variables = entradas del proyecto, métricas = salidas de módu
 .\.venv\Scripts\python.exe -m aerosuite m24 --project results\c172\project.json   # lee inputs.m24 (out_dir, te, profile_points)
 .\.venv\Scripts\python.exe -m aerosuite export --project results\c172\project.json --module m24 --out results\c172\m24.json
 ```
-Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49.
+Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49. D-54 (2026-10-20): el STEP sale en ejes de SolidWorks (X atrás, Y arriba, Z envergadura; `(x,y,z)_M10 -> (x,z,-y)`), perfiles con splines y `sections/*.txt` para «Curva por puntos XYZ»; M10 no cambia.
 
 ### Guía de verificación (F5)
 `VERIFICAR.md` (raíz): estado de validación por módulo, comprobaciones por módulo con página impresa (±1), supuestos y erratas, pasos en Windows.
+
+## Corrida F6: estado
+Plan en `AUTONOMOUS_RUN_F6.md` (bitácora en su §14). P-1: `flow5_xml.py` exporta cuerpos (`fuselage` en la configuración; ejemplo `examples/flow5-c162-like-fuselage.json`); contraste del incremento del fuselaje con flow5 TRILINEAR hecho (D-50). Importante (D-52): la deriva de los modelos de flow5 de F4/F5 era horizontal; los ejemplos están corregidos (`rx_deg −90`, `two_sided false`) y el contraste estático de M16 pasó a −1.2 % en el punto neutro.
+P-2: LLT de flow5 7.55 funciona si el script incluye `analysis.foil_polars` (D-51, `evidence/flow5-7.55-win/llt/`).
+P-3: polar de estabilidad tipo 7 y comparación (`aerosuite/m16_flow5_contrast.py`, `evidence/flow5-7.55-win/stability-t7` y `m19-distribution`, D-53). Pendiente de M16 anotado en D-53 (volumen de cola desde el CG en el punto neutro).
+
+### M25 (F6)
+`aerosuite/m25_envelope.py`, comando `m25`, ejemplo `examples/projects/gud-example-17-4-vn.json` (Tabla 17-6). Validado con el Ejemplo 17.4.1 (D-55). Siguiente: M26 (cargas para Ansys) toma los puntos de esquina `corner_points` de `outputs.m25`.
+
+### M26 (F6)
+`aerosuite/m26_loads.py`, comando `m26` (escribe `loads/<proyecto>/` o `inputs.m26.out_dir`). Requiere m25, m09b, m10, m13 (y m20, m19, m08 si existen). Siguiente: P-4 (acople de peso del ala en M22).
+
+### P-4, P-5, T-1, V-1 (F6)
+M21 `weights.oew_from_m12` (D-57) y `examples/opt-project-wing-weight.json`; M23 con 23.2145 (D-58); `python -m aerosuite handoff --project p.json --out paquete/` (`aerosuite/handoff.py`); VERIFICAR.md con M25, M26, T-1, P-4, contrastes F6 y apertura del STEP en Ansys.

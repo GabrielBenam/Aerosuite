@@ -1,0 +1,65 @@
+
+flow5 v7.55
+16.10.2026  19:04:52
+Reading foil .dat files
+   added foil: NACA 2412
+
+Making foil analysis list
+   added analysis task for  (NACA 2412, T1-Re1.000-N9.0)
+   added analysis task for  (NACA 2412, T1-Re2.000-N9.0)
+   added analysis task for  (NACA 2412, T1-Re3.000-N9.0)
+   added analysis task for  (NACA 2412, T1-Re4.000-N9.0)
+   added analysis task for  (NACA 2412, T1-Re5.000-N9.0)
+
+
+_____Starting foil analysis_____
+
+Running with 4 thread(s)
+
+Found 5 (foil, polar) pairs to analyze.
+
+Starting NACA 2412 / T1-Re1.000-N9.0
+Starting NACA 2412 / T1-Re2.000-N9.0
+Starting NACA 2412 / T1-Re3.000-N9.0
+Starting NACA 2412 / T1-Re4.000-N9.0
+Starting NACA 2412 / T1-Re5.000-N9.0
+
+_____Foil analysis completed_____
+
+Available foils:
+   NACA 2412
+
+
+
+-----Starting plane analyses-----
+
+Adding planes from the .xml files
+   added the plane: AeroSuite LLT wing from file AeroSuite_LLT_wing.xml
+
+
+Adding the plane analyses from the xml files
+   the analysis FIXEDSPEEDPOLAR-LLT-55.6mps has been added for AeroSuite LLT wing
+
+Making the analysis pairs (plane, analysis)
+   added analysis for (AeroSuite LLT wing, FIXEDSPEEDPOLAR-LLT-55.6mps)
+   Made 1 valid analysis pairs (plane, polar) to run
+
+Launching plane analysis: AeroSuite LLT wing / FIXEDSPEEDPOLAR-LLT-55.6mps
+
+LLT analysis completed successfully
+
+_____Plane analyses completed_____
+
+
+
+-----Starting boat analyses-----
+
+No xml Boat files to load
+
+Making the analysis pairs (boat, analysis)
+
+Made 0 valid analysis pairs (boat, polar) to run
+
+_____ Boat analyses completed_____
+
+

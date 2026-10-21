@@ -1,0 +1,8 @@
+{
+  "m25": {
+    "category": "normal",
+    "common": {"s_m2": 12.0773, "c_mgc_m": 1.04242, "cl_alpha": 5.25, "cl_max": 1.4, "cl_min": 1.0,
+               "rho0_kgm3": 1.2255, "v_h_mps": 61.73, "v_c_mps": 55.04, "v_d_mps": 77.17},
+    "cases": [{"name": "Tabla 17-6 MTOW", "mass_kg": 598.74}]
+  }
+}

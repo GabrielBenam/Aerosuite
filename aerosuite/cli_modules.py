@@ -27,6 +27,8 @@ MODULES = {
     "m21": ("m21", "m21_performance", "M21 performance: speeds, climb, ceilings, range/endurance, payload-range (step 21)"),
     "m23": ("m23", "m23_verification", "M23 requirements verification: cumple / no cumple / no evaluable with limits and references (step 23)"),
     "m24": ("m24", "m24_cad", "M24 STEP export of the M10 outer mold line with CadQuery, in mm (step 24)"),
+    "m26": ("m26", "m26_loads", "M26 external aerodynamic loads at the M25 corner points for Ansys: spanwise table, CSV/JSON export (step 26)"),
+    "m25": ("m25", "m25_envelope", "M25 V-n envelope: maneuver and gust lines, corner points, limit and ultimate loads (step 25)"),
     "m06": ("m06", "m06_weight", "M06 initial weight: historical ratios, empty-weight fraction, mission, electric (step 6)"),
 }
 
@@ -42,6 +44,9 @@ def add_commands(sub) -> None:
     exp.add_argument("--project", type=Path, required=True)
     exp.add_argument("--module", required=True, help="module id, e.g. m08")
     exp.add_argument("--out", type=Path, required=True)
+    ho = sub.add_parser("handoff", help="T-1 package the preliminary design (STEP, loads, masses, V-n, M23 report, assumptions) with SHA-256 manifest")
+    ho.add_argument("--project", type=Path, required=True)
+    ho.add_argument("--out", type=Path, required=True, help="new or empty folder")
     lp = sub.add_parser("loop", help="L-1 full Gudmundsson algorithm loop (steps 1-23) over a project.json, recording each iteration")
     lp.add_argument("--project", type=Path, required=True)
     lp.add_argument("--max-iter", type=int, default=5)
@@ -85,6 +90,12 @@ def dispatch(args) -> bool:
         args.out.write_text(json.dumps(payload, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
         print(f"Exported {args.module} to {args.out}" + (" (WARNING: stale)" if stale else ""))
         return True
+    if args.command == "handoff":
+        from . import handoff
+        manifest = handoff.build(args.project, args.out)
+        print(json.dumps({k: manifest[k] for k in ("project", "stale_modules", "missing", "warnings")} | {"files": len(manifest["files_sha256"]) + 1,
+                                                                                                          "out": str(args.out)}, indent=2, ensure_ascii=False))
+        return True
     if args.command == "loop":
         from . import loop
         summary = loop.run_loop(args.project, args.max_iter, args.tol, args.out)
@@ -95,7 +106,7 @@ def dispatch(args) -> bool:
     if args.command in MODULES:
         module = importlib.import_module(f"aerosuite.{MODULES[args.command][1]}")
         data = prj.load(args.project)
-        result = module.run(data, args.project) if args.command == "m24" else module.run(data)
+        result = module.run(data, args.project) if args.command in ("m24", "m26") else module.run(data)
         prj.save(data, args.project)
         print(json.dumps(result, indent=2, ensure_ascii=False, default=float))
         return True
