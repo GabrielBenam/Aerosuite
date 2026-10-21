@@ -1,10 +1,15 @@
 """M24 Exportacion CAD a STEP de la geometria exterior (OML) (Gudmundsson Tabla 1-4 paso 24; Sobester & Forrester Caps. 2-4).
 
 Nivel conceptual. Solo la geometria exterior de M10 (`aerosuite-oml/1`): ala y colas por solevado recto (ruled) entre secciones con la
-cuerda, torsion, diedro y flecha que define M10; fuselaje como solido de revolucion de sus estaciones (equivale al solevado de circulos
-entre estaciones: troncos de cono, como la estimacion de area mojada de M10). Sin estructura y sin elementos que M10 no defina. Unidades de
-salida: milimetros (convencion de STEP); ejes los de M10 (x hacia atras, y a estribor, z arriba, origen en el borde de ataque de la raiz del
-ala). CadQuery (motor OCP/OpenCASCADE) se importa de forma diferida: el nucleo de AeroSuite no depende de el.
+cuerda, torsion, diedro y flecha que define M10; cada perfil es una curva suave (dos splines extradosal/intradosal unidos en el borde de
+ataque, mas un segmento si el borde de salida es romo), no un poligono; fuselaje como solido de revolucion de sus estaciones (equivale al
+solevado de circulos entre estaciones: troncos de cono, como la estimacion de area mojada de M10). Sin estructura y sin elementos que M10 no
+defina. Unidades de salida: milimetros (convencion de STEP).
+
+Ejes de salida (convencion de SolidWorks, D-54): X hacia atras (cuerda), Y hacia arriba (espesor), Z a lo largo de la envergadura; el perfil
+de la raiz queda en el plano Frontal (XY) en Z = 0, que es el plano de simetria de la aeronave, y el ala se extiende en horizontal a ambos
+lados. Transformacion desde M10 (x atras, y estribor, z arriba): (X, Y, Z) = (x, z, -y), un giro de -90 grados alrededor de X (determinante +1,
+sin espejo). CadQuery (motor OCP/OpenCASCADE) se importa de forma diferida: el nucleo de AeroSuite no depende de el.
 
 Salidas en `<out_dir>` (por defecto `cad/<proyecto>`): `<proyecto>.step` (ensamble con una pieza por superficie, con nombre), un STEP por
 componente y `manifest.json` (versiones, unidades, ejes, origen del proyecto y SHA-256, validacion). Validacion: se reimporta cada STEP
@@ -63,7 +68,7 @@ def foil_points(ident: str, d: dict) -> list[tuple[float, float]]:
     if key in files:
         pts = read_selig(files[key])
     elif len(code) == 4 and code.isdigit():
-        pts = naca4(code, int(d.get("profile_points", 41)), closed_te=(te == "closed"))
+        pts = naca4(code, int(d.get("profile_points", 61)), closed_te=(te == "closed"))
     else:
         raise SystemExit(f"airfoil {ident!r}: only NACA 4-digit sections are generated; give inputs.m24.airfoil_files {{id: path to a Selig .dat}}")
     if te == "closed":
@@ -96,27 +101,58 @@ def section_points(comp: dict, sec: dict, pts) -> list[list[float]]:
     return [[x0 + px * c * math.cos(a) + pz * c * math.sin(a), y, z0 - px * c * math.sin(a) + pz * c * math.cos(a)] for px, pz in pts]
 
 
-def surface_stations(comp: dict, d: dict) -> list[list[list[float]]]:
-    """Lista ordenada de contornos (m) de punta a punta: lado izquierdo reflejado, raiz, lado derecho (superficies simetricas)."""
-    contours = []
+def surface_stations(comp: dict, d: dict) -> list[dict]:
+    """Lista ordenada de secciones de punta a punta: lado izquierdo reflejado, raiz, lado derecho (superficies simetricas).
+    Cada elemento: {"pts": contorno 3D (m, ejes M10, sin punto repetido), "ile": indice del borde de ataque, "closed_te": bool}."""
+    stations = []
     for sec in comp["sections"]:
         ident = sec["airfoil"].split("->")[0].strip()
-        pts = _ring(foil_points(ident, d))
-        contours.append(section_points(comp, sec, pts))
+        foil = foil_points(ident, d)
+        closed = abs(foil[0][0] - foil[-1][0]) < 1e-12 and abs(foil[0][1] - foil[-1][1]) < 1e-12
+        ring = _ring(foil)
+        stations.append({"pts": section_points(comp, sec, ring), "ile": _le_index(ring), "closed_te": closed})
     if comp["symmetric"]:
-        left = [[[x, -y, z] for x, y, z in c] for c in contours[:0:-1]]
-        return left + contours
-    return contours
+        left = [{**s, "pts": [[x, -y, z] for x, y, z in s["pts"]]} for s in stations[:0:-1]]
+        return left + stations
+    return stations
 
 
-def _wire(cq, pts_m):
-    return cq.Wire.makePolygon([cq.Vector(x * MM, y * MM, z * MM) for x, y, z in pts_m], close=True)
+def section_files(comp: dict, d: dict) -> list[dict]:
+    """Contornos de cada seccion en ejes SolidWorks (mm), listos para `Insertar > Curva > Curva por puntos XYZ`: TE superior -> LE -> TE inferior."""
+    out = []
+    for i, st in enumerate(surface_stations(comp, d)):
+        pts = [[c * MM for c in to_cad_xyz(p)] for p in st["pts"]]
+        if st["closed_te"]:
+            pts = pts + [pts[0]]
+        out.append({"index": i, "points_mm": pts, "closed": st["closed_te"]})
+    return out
+
+
+def to_cad_xyz(p):
+    """Punto M10 (x atras, y estribor, z arriba) -> convencion SolidWorks (X atras, Y arriba, Z envergadura): (x, z, -y)."""
+    return [p[0], p[2], -p[1]]
+
+
+def _le_index(pts) -> int:
+    return min(range(len(pts)), key=lambda i: pts[i][0])
+
+
+def _wire(cq, pts_m, ile, closed_te):
+    """Perfil como curva suave: spline por el extrados (TE -> LE) y spline por el intrados (LE -> TE); si el borde de salida es romo,
+    un segmento recto lo cierra. `pts_m` es el anillo sin punto repetido (indice 0 = TE superior, `ile` = borde de ataque)."""
+    v = [cq.Vector(x * MM, y * MM, z * MM) for x, y, z in pts_m]
+    upper = v[:ile + 1]
+    lower = v[ile:] + ([v[0]] if closed_te else [])
+    edges = [cq.Edge.makeSpline(upper), cq.Edge.makeSpline(lower)]
+    if not closed_te:
+        edges.append(cq.Edge.makeLine(v[-1], v[0]))
+    return cq.Wire.assembleEdges(edges)
 
 
 def build_surface(cq, comp: dict, d: dict):
     stations = surface_stations(comp, d)
     try:
-        solid = cq.Solid.makeLoft([_wire(cq, c) for c in stations], True)
+        solid = cq.Solid.makeLoft([_wire(cq, st["pts"], st["ile"], st["closed_te"]) for st in stations], True)
     except Exception as exc:
         raise SystemExit(f"M24: the loft of component {comp['name']!r} failed: {type(exc).__name__}: {exc}") from exc
     _check_solid(cq, solid, comp["name"])
@@ -143,8 +179,8 @@ def build_fuselage(cq, comp: dict):
 
 
 def _check_solid(cq, solid, name):
-    if not solid.isValid() or solid.Volume() <= 0.0:
-        raise SystemExit(f"M24: component {name!r} did not produce a valid solid (valid={solid.isValid()}, volume={solid.Volume():.3f} mm3)")
+    if not solid.isValid() or volume_mm3(solid) <= 0.0:
+        raise SystemExit(f"M24: component {name!r} did not produce a valid solid (valid={solid.isValid()}, volume={volume_mm3(solid):.3f} mm3)")
 
 
 # --------------------------------------------------------------------------- invariantes sin CAD (m, m2, m3)
@@ -177,6 +213,16 @@ def reference_invariants(comp: dict, d: dict) -> dict:
     return out
 
 
+def volume_mm3(shape, eps: float = 1e-8) -> float:
+    """Volumen (mm3) con integracion adaptativa de OpenCASCADE hasta el error relativo `eps`. `Shape.Volume()` usa la precision por defecto y
+    para superficies B-spline puede errar ~1 % (comprobado en una cola prismatica de NACA 0009: 0.2635 frente a 0.2660 m3)."""
+    from OCP.BRepGProp import BRepGProp
+    from OCP.GProp import GProp_GProps
+    props = GProp_GProps()
+    BRepGProp.VolumeProperties_s(shape.wrapped, props, eps, False, False)
+    return props.Mass()
+
+
 def _bbox_m(shape):
     b = shape.BoundingBox()
     return {"x": [b.xmin / MM, b.xmax / MM], "y": [b.ymin / MM, b.ymax / MM], "z": [b.zmin / MM, b.zmax / MM]}
@@ -193,12 +239,25 @@ def measure_planform(cq, solid, comp: dict, n: int = 41) -> float:
     for t in xs:
         plane = (cq.Plane(origin=(0, 0, t), xDir=(1, 0, 0), normal=(0, 0, 1)) if vertical
                  else cq.Plane(origin=(0, t, 0), xDir=(1, 0, 0), normal=(0, 1, 0)))
-        cut = solid.intersect(cq.Solid.makeBox(big, big, 1e-3, pnt=cq.Vector(-big / 2, -big / 2, -5e-4), dir=cq.Vector(0, 0, 1)).transformShape(plane.rG)) \
-            if False else None
         face = cq.Face.makePlane(big, big, basePnt=plane.origin, dir=plane.zDir)
         section = solid.intersect(face)
         total += section.BoundingBox().xlen
     return total / n * (hi - lo) / MM ** 2
+
+
+def shape_to_cad(shape):
+    """Forma en ejes M10 -> ejes SolidWorks: giro de -90 grados alrededor de X, (x, y, z) -> (x, z, -y)."""
+    return shape.rotate((0, 0, 0), (1, 0, 0), -90)
+
+
+def shape_from_cad(shape):
+    return shape.rotate((0, 0, 0), (1, 0, 0), 90)
+
+
+AXES_CAD = {"x": "aft, along the chord (SolidWorks X)", "y": "up, airfoil thickness direction (SolidWorks Y)",
+            "z": "along the span, positive to the M10 port side (SolidWorks Z, normal to the Front plane)",
+            "origin": "leading edge of the wing root chord at the plane of symmetry; the root airfoil lies in the Front plane (XY) at Z = 0",
+            "transform_from_m10": "(X, Y, Z) = (x, z, -y), rotation of -90 degrees about X (determinant +1, no mirror)"}
 
 
 def _rel(a: float, b: float) -> float:
@@ -226,12 +285,23 @@ def evaluate(project: dict, project_path=None) -> tuple[dict, list]:
         solids[cname] = build_fuselage(cq, comp) if comp["type"] == "fuselage" else build_surface(cq, comp, d)
         refs[cname] = reference_invariants(comp, d)
     files = {}
-    for cname, solid in solids.items():
+    cad = {k: shape_to_cad(v) for k, v in solids.items()}                       # ejes SolidWorks
+    for cname, solid in cad.items():
         path = out_dir / f"{name}-{cname}.step"
         cq.exporters.export(cq.Workplane(obj=solid), str(path), exportType="STEP")
         files[cname] = path
+    section_txt = {}
+    sec_dir = out_dir / "sections"
+    sec_dir.mkdir(exist_ok=True)
+    for cname, comp in comps.items():
+        if comp["type"] == "fuselage":
+            continue
+        for sf in section_files(comp, d):
+            fp = sec_dir / f"{name}-{cname}-sec{sf['index']:02d}.txt"
+            fp.write_text("".join(f"{x:.6f}\t{y:.6f}\t{z:.6f}\n" for x, y, z in sf["points_mm"]), encoding="utf-8")
+            section_txt.setdefault(cname, []).append(str(fp))
     assy = cq.Assembly(name=name)
-    for cname, solid in solids.items():
+    for cname, solid in cad.items():
         assy.add(solid, name=cname)
     full = out_dir / f"{name}.step"
     assy.export(str(full), exportType="STEP")
@@ -246,11 +316,24 @@ def evaluate(project: dict, project_path=None) -> tuple[dict, list]:
                        "tolerance": tol, "ok": ok})
 
     for cname, comp in comps.items():
-        back = cq.importers.importStep(str(files[cname])).val()
-        if not back.isValid():
+        back_cad = cq.importers.importStep(str(files[cname])).val()
+        if not back_cad.isValid():
             raise SystemExit(f"M24: the reimported STEP of {cname!r} is not a valid shape")
+        bc = _bbox_m(back_cad)                                                  # ejes SolidWorks
+        back = shape_from_cad(back_cad)                                         # de vuelta a ejes M10 para comparar con M10
         ref, bb = refs[cname], _bbox_m(back)
-        cmp(cname, "volume_m3", back.Volume() / MM ** 3, ref["volume_m3"], TOL["volume"])
+        if comp["type"] == "fuselage":
+            cmp(cname, "cad_axis_Y_extent_m", bc["y"][1] - bc["y"][0], 2.0 * comp["max_radius_m"], TOL["bbox"])
+            cmp(cname, "cad_axis_Z_extent_m", bc["z"][1] - bc["z"][0], 2.0 * comp["max_radius_m"], TOL["bbox"])
+        elif comp["type"] == "vertical_tail":
+            cmp(cname, "cad_height_along_Y_m", bc["y"][1] - bc["y"][0], ref["height_m"], TOL["span"])
+        else:
+            cmp(cname, "cad_span_along_Z_m", bc["z"][1] - bc["z"][0], ref["span_m"], TOL["span"])
+            ok_sym = abs(bc["z"][1] + bc["z"][0]) < 1e-6 * max(1.0, ref["span_m"])
+            ok_all &= ok_sym
+            checks.append({"component": cname, "quantity": "cad_midplane_at_Z0_m", "step": 0.5 * (bc["z"][1] + bc["z"][0]),
+                           "reference": 0.0, "tolerance": "1e-6*span", "ok": bool(ok_sym)})
+        cmp(cname, "volume_m3", volume_mm3(back) / MM ** 3, ref["volume_m3"], TOL["volume"])
         if comp["type"] == "fuselage":
             cmp(cname, "length_m", bb["x"][1] - bb["x"][0], ref["length_m"], TOL["bbox"])
             cmp(cname, "max_diameter_m", bb["y"][1] - bb["y"][0], 2.0 * comp["max_radius_m"], TOL["bbox"])
@@ -264,15 +347,26 @@ def evaluate(project: dict, project_path=None) -> tuple[dict, list]:
     n_solids = len(whole.solids().vals())
     ok_all &= n_solids == len(comps)
     box = whole.val().BoundingBox()
+    wing = next((c for c in comps.values() if c["type"] == "wing"), None)
+    if wing is not None:                       # el perfil de la raiz debe quedar en el plano Frontal (XY) en Z = 0
+        wing_back = cq.importers.importStep(str(files["wing"])).val()
+        root = wing_back.intersect(cq.Face.makePlane(1e5, 1e5, basePnt=cq.Vector(0, 0, 0), dir=cq.Vector(0, 0, 1)))
+        rb = root.BoundingBox()
+        c_root = wing["sections"][0]["chord_m"] * MM
+        ok_root = abs(rb.xlen - c_root) < 1e-3 * c_root and rb.ylen < 0.3 * c_root and rb.ylen > 0
+        ok_all &= ok_root
+        checks.append({"component": "wing", "quantity": "root_airfoil_in_front_plane", "step": {"chord_mm": rb.xlen, "thickness_mm": rb.ylen},
+                       "reference": {"chord_mm": c_root}, "tolerance": "chord 1e-3 relative, thickness < 0.3 chord", "ok": bool(ok_root)})
     raw = Path(project_path).read_bytes() if project_path and Path(project_path).is_file() else None
     result = {
-        "level": "conceptual", "units_out": "mm", "units_internal": "SI (m)", "axes": oml["axes"], "origin_of_part": "M10 datum",
+        "level": "conceptual", "units_out": "mm", "units_internal": "SI (m)", "axes": AXES_CAD, "axes_m10": oml["axes"], "origin_of_part": "M10 datum",
+        "section_files_xyz_mm": section_txt, "airfoil_curve": "two splines (upper/lower) joined at the leading edge; straight closing segment if te = open",
         "oml_schema": oml["schema"], "out_dir": str(out_dir), "assembly_step": str(full), "component_steps": {k: str(v) for k, v in files.items()},
-        "te": d.get("te", "closed"), "profile_points": int(d.get("profile_points", 41)),
+        "te": d.get("te", "closed"), "profile_points": int(d.get("profile_points", 61)),
         "fuselage_note": "solid of revolution of the M10 stations (frusta, equal to a loft of circles between stations)",
-        "assembly_solids": n_solids, "assembly_bbox_mm": {"x": [box.xmin, box.xmax], "y": [box.ymin, box.ymax], "z": [box.zmin, box.zmax]},
+        "assembly_solids": n_solids, "assembly_bbox_mm_cad_axes": {"x": [box.xmin, box.xmax], "y": [box.ymin, box.ymax], "z": [box.zmin, box.zmax]},
         "validation": {"all_ok": bool(ok_all), "tolerances": TOL, "checks": checks,
-                       "method": "STEP re-imported with CadQuery; volumes from OpenCASCADE, planform area by 41 slices, bounding boxes; "
+                       "method": "STEP re-imported with CadQuery; volumes from OpenCASCADE (adaptive integration, eps 1e-8), planform area by 41 slices, bounding boxes; "
                                  "references computed from M10 without CAD"},
         "versions": {"cadquery": cq.__version__, "numpy": numpy.__version__,
                      "ocp": _ocp_version()},

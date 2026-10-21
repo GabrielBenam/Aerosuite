@@ -107,7 +107,7 @@ Motor `project`: variables = entradas del proyecto, métricas = salidas de módu
 .\.venv\Scripts\python.exe -m aerosuite m24 --project results\c172\project.json   # lee inputs.m24 (out_dir, te, profile_points)
 .\.venv\Scripts\python.exe -m aerosuite export --project results\c172\project.json --module m24 --out results\c172\m24.json
 ```
-Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49.
+Salida `cad/<proyecto>/` (ensamble, un STEP por componente, `manifest.json`). Ejemplo guardado: `examples/cad/oml-c172-like/`. D-49. D-54 (2026-10-20): el STEP sale en ejes de SolidWorks (X atrás, Y arriba, Z envergadura; `(x,y,z)_M10 -> (x,z,-y)`), perfiles con splines y `sections/*.txt` para «Curva por puntos XYZ»; M10 no cambia.
 
 ### Guía de verificación (F5)
 `VERIFICAR.md` (raíz): estado de validación por módulo, comprobaciones por módulo con página impresa (±1), supuestos y erratas, pasos en Windows.
