@@ -79,11 +79,38 @@ class ThresholdTests(unittest.TestCase):
     def test_overall_rule_and_unverified_criteria(self):
         r = v.evaluate(fake_project())[0]
         self.assertEqual(r["overall"], "cumple")
-        for rid in ("controllability_23_2135", "stability_23_2145", "stall_characteristics_23_2150", "balked_landing_23_2120c"):
+        for rid in ("controllability_23_2135", "stability_23_2145a", "stall_characteristics_23_2150", "balked_landing_23_2120c"):
             self.assertEqual(item(r, rid)["status"], "no evaluable")
             self.assertIn("reason", item(r, rid))
         self.assertEqual(sum(r["counts"].values()), len(r["items"]))
         self.assertTrue(all("reference" in i and "basis" in i for i in r["items"]))
+
+    def stable_project(self, **kw):
+        p = fake_project(**kw)
+        r = p["outputs"]["m16"]["result"]
+        r["lateral_static"]["laterally_stable"] = True
+        r["longitudinal_dynamics"] = {"short_period": {"stable": True, "eigenvalue": [-4.0, 8.0]}, "phugoid": {"stable": True, "eigenvalue": [-0.02, 0.2]}}
+        r["lateral_dynamics"] = {"modes": {"dutch_roll": {"stable": True, "eigenvalue": [-1.0, 4.0]}}}
+        return p
+
+    def test_stability_23_2145_sign_thresholds(self):
+        """14 CFR 23.2145(a)/(b), text read 2026-10-20: qualitative; only the sign of the stability criteria is checked."""
+        self.assertEqual(item(v.evaluate(self.stable_project())[0], "stability_23_2145a")["status"], "cumple")
+        self.assertEqual(item(v.evaluate(self.stable_project())[0], "longitudinal_divergence_23_2145b")["status"], "cumple")
+        self.assertEqual(item(v.evaluate(self.stable_project(cm_a=0.01))[0], "stability_23_2145a")["status"], "no cumple")      # just above 0
+        self.assertEqual(item(v.evaluate(self.stable_project(cm_a=-0.01))[0], "stability_23_2145a")["status"], "cumple")        # just below 0
+        self.assertEqual(item(v.evaluate(self.stable_project(cn_b=-0.001))[0], "stability_23_2145a")["status"], "no cumple")
+        p = self.stable_project()
+        p["outputs"]["m16"]["result"]["lateral_dynamics"]["modes"]["dutch_roll"]["stable"] = False
+        it = item(v.evaluate(p)[0], "stability_23_2145a")
+        self.assertEqual(it["status"], "no cumple")
+        self.assertIn("balanceo holandes estable", it["failed"])
+        p = self.stable_project()
+        p["outputs"]["m16"]["result"]["longitudinal_dynamics"]["phugoid"]["stable"] = False
+        self.assertEqual(item(v.evaluate(p)[0], "longitudinal_divergence_23_2145b")["status"], "no evaluable")
+        p = self.stable_project()
+        p["inputs"]["m01"]["category"] = "aerobatic"
+        self.assertEqual(item(v.evaluate(p)[0], "stability_23_2145a")["status"], "no evaluable")
 
     def test_missing_modules_are_not_evaluable_not_errors(self):
         p = prj.new_project("x")

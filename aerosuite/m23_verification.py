@@ -179,9 +179,59 @@ def evaluate(project: dict) -> tuple[dict, list]:
     else:
         items.append(_na("cg_envelope", "CG dentro de la envolvente", "falta outputs.m13 o la envolvente", "GUD Sec. 6.7.2", "requisito del proyecto"))
     # --- criterios sin texto leido ---
-    for rid, text in (("controllability_23_2135", "Controlabilidad y maniobrabilidad (23.2135)"),
-                      ("stability_23_2145", "Estabilidad (23.2145)"), ("stall_characteristics_23_2150", "Caracteristicas de perdida (23.2150)")):
-        items.append(_na(rid, text, "texto normativo no leido ni citado en esta corrida; no se inventan umbrales", "14 CFR Part 23, Subparte B", "norma"))
+    items.append(_na("controllability_23_2135", "Controlabilidad y maniobrabilidad (23.2135)",
+                     "texto leido (eCFR, 2026-10-20; Amdt. 23-64 y 23-65): requisito cualitativo (sin habilidad excepcional, todas las cargas y fases, aterrizaje con el "
+                     "gradiente de aproximacion mas pronunciado, V_MC en multimotor, maniobras acrobaticas) sin umbral numerico; el modelo conceptual no lo evalua",
+                     "14 CFR 23.2135", "norma"))
+    items.append(_na("stall_characteristics_23_2150", "Caracteristicas de perdida (23.2150)", "texto normativo no leido ni citado; no se inventan umbrales",
+                     "14 CFR 23.2150", "norma"))
+    # 23.2145 (texto leido el 2026-10-20): (a) aviones no acrobaticos: estabilidad estatica en los tres ejes, estabilidad dinamica de corto periodo y balanceo holandes,
+    # fuerzas de mando estables; (b) sin caracteristica longitudinal divergente tan severa que aumente la carga de trabajo. Solo se evalua el signo.
+    if m16:
+        cat = project["inputs"].get("m01", {}).get("category", "normal")
+        ls, lat = m16["longitudinal_static"], m16["lateral_static"]
+        dyn = m16.get("longitudinal_dynamics", {})
+        latd = m16.get("lateral_dynamics", {})
+        lat_modes = latd.get("modes", latd) if isinstance(latd, dict) else {}
+        parts = {"estatica longitudinal (C_M_alpha < 0)": ls["cm_alpha_per_rad"] < 0.0, "estatica direccional (C_N_beta > 0)": lat["cn_beta_total_per_rad"] > 0.0}
+        missing = []
+        if "short_period" in dyn:
+            parts["corto periodo estable"] = dyn["short_period"]["stable"]
+        else:
+            missing.append("corto periodo")
+        dr = lat_modes.get("dutch_roll") if isinstance(lat_modes, dict) else None
+        if dr:
+            parts["balanceo holandes estable"] = dr["stable"]
+        else:
+            missing.append("balanceo holandes")
+        if "laterally_stable" in lat:
+            parts["estatica lateral (C_L_beta < 0)"] = lat["laterally_stable"]
+        else:
+            missing.append("estatica lateral (falta C_L_beta)")
+        if cat == "aerobatic":
+            items.append(_na("stability_23_2145a", "Estabilidad (23.2145(a))", "el apartado (a) no se aplica a aviones certificados para acrobacia", "14 CFR 23.2145(a)", "norma"))
+        else:
+            failed = [k for k, v in parts.items() if not v]
+            if failed:
+                items.append({"id": "stability_23_2145a", "requirement": "Estabilidad estatica y dinamica (23.2145(a)), solo signos", "status": "no cumple",
+                              "value": len(parts) - len(failed), "limit": len(parts), "unit": "criterios", "failed": failed,
+                              "reference": "14 CFR 23.2145(a)", "basis": "norma"})
+            elif missing:
+                items.append(_na("stability_23_2145a", "Estabilidad (23.2145(a)), solo signos", "criterios evaluados cumplen, pero faltan: " + ", ".join(missing) +
+                                 " (y la fuerza de mando estable no se modela)", "14 CFR 23.2145(a)", "norma", len(parts), len(parts) + len(missing), "criterios"))
+            else:
+                items.append({"id": "stability_23_2145a", "requirement": "Estabilidad estatica y dinamica (23.2145(a)), solo signos", "status": "cumple",
+                              "value": len(parts), "limit": len(parts), "unit": "criterios", "reference": "14 CFR 23.2145(a)", "basis": "norma",
+                              "note": "no se evalua la fuerza de mando estable ni la operacion normal en toda la envolvente"})
+        if "phugoid" in dyn:
+            if dyn["phugoid"]["stable"]:
+                items.append(_check("longitudinal_divergence_23_2145b", "Sin divergencia longitudinal (fugoide estable) (23.2145(b))", dyn["phugoid"]["eigenvalue"][0], 0.0, "<=", "1/s",
+                                    "14 CFR 23.2145(b)", "norma", "un fugoide estable implica que no hay divergencia; si fuera inestable, la severidad que exige la norma no se evalua"))
+            else:
+                items.append(_na("longitudinal_divergence_23_2145b", "Divergencia longitudinal (23.2145(b))",
+                                 "fugoide inestable: la norma solo prohibe la divergencia 'tan severa' que aumente la carga de trabajo; la severidad no se cuantifica", "14 CFR 23.2145(b)", "norma"))
+    else:
+        items.append(_na("stability_23_2145a", "Estabilidad (23.2145)", "falta outputs.m16", "14 CFR 23.2145", "norma"))
     counts = {s: sum(1 for i in items if i["status"] == s) for s in ("cumple", "no cumple", "no evaluable")}
     overall = "no cumple" if counts["no cumple"] else ("cumple" if counts["cumple"] else "no evaluable")
     result = {"level": "conceptual", "units": "SI salvo donde la unidad se indica", "items": items, "counts": counts, "overall": overall,
