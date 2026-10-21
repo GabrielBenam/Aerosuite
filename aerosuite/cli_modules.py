@@ -44,6 +44,9 @@ def add_commands(sub) -> None:
     exp.add_argument("--project", type=Path, required=True)
     exp.add_argument("--module", required=True, help="module id, e.g. m08")
     exp.add_argument("--out", type=Path, required=True)
+    ho = sub.add_parser("handoff", help="T-1 package the preliminary design (STEP, loads, masses, V-n, M23 report, assumptions) with SHA-256 manifest")
+    ho.add_argument("--project", type=Path, required=True)
+    ho.add_argument("--out", type=Path, required=True, help="new or empty folder")
     lp = sub.add_parser("loop", help="L-1 full Gudmundsson algorithm loop (steps 1-23) over a project.json, recording each iteration")
     lp.add_argument("--project", type=Path, required=True)
     lp.add_argument("--max-iter", type=int, default=5)
@@ -86,6 +89,12 @@ def dispatch(args) -> bool:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(json.dumps(payload, indent=2, ensure_ascii=False, default=float), encoding="utf-8")
         print(f"Exported {args.module} to {args.out}" + (" (WARNING: stale)" if stale else ""))
+        return True
+    if args.command == "handoff":
+        from . import handoff
+        manifest = handoff.build(args.project, args.out)
+        print(json.dumps({k: manifest[k] for k in ("project", "stale_modules", "missing", "warnings")} | {"files": len(manifest["files_sha256"]) + 1,
+                                                                                                          "out": str(args.out)}, indent=2, ensure_ascii=False))
         return True
     if args.command == "loop":
         from . import loop
